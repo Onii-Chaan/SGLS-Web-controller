@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SGLS</title>
+    <link rel= stylesheet href= styles.css type= text/css  >
+</head>
+<body onload = "createLampButtons();">
+    <header  class = "titleDiv">
+        <a href = "main.html" class = "linkBlock">
+            <div class = "SGLSTitleDiv"><!--SGLS nosaukums-->
+                <h1 class = "mainText" id = "SGLSmainName"><b>SGLS</b></h1>
+            </div>
+        </a>
+            <div class = "outputDiv">
+                <p id="outputText"></p>
+                <p id="outputState"></p>
+            </div>
+            <div class = "headerButton"><!--Options poga-->
+                <img src = "pics/settingsButtonPic.png" id = "settingsButtonPic"/><!--Jāpievieno arī hrefs-->
+            </div>
+        
+    </header>
+    <main class = "main"><!--Visa satura bloks-->
+        <div class = "allLampsMainDiv"><!--Visu lampu opcijas-->
+            <div class = "allLampsMainDivPart"><!--On/Off paziņojums-->
+                <div class = "allLampsMainDivPartTextDiv"><!--On/Off teksts-->
+                    <p class = "mainPageText" id = "onOffText">On/Off:</p>
+                </div>
+                <label class="switch" id = "onOffSwitch"><!--On/Off poga-->
+                    <input type="checkbox" onClick = "onOffTextChange()" ><!--On off poga ievade-->
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class = "allLampsMainDivPart"><!--Lock-->
+                <div class = "allLampsMainDivPartTextDiv"><!--Lock teksta gabals-->
+                    <p class = "mainPageText">Lock: </p>
+                </div>
+                <label class="switch"><!--On/Off poga-->
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class = "allLampsMainDivPart"><!--Brightness-->
+                <div class = "allLampsMainDivPartTextDiv"><!--Brightness text-->
+                    <p class = "mainPageText">Brightness: </p>
+                </div>
+                <div class = "allLampsMainDivPartTextDiv" id = "sliderValueTextDiv"><!--Brightness vērtības slīdera teksta bloks--> 
+                    <p class = "mainPageText" id = "sliderValueText"></p>
+                </div>
+                <div class="slidecontainer"><!--Brightness slīdera bloks-->
+                    <input type="range" min="0" max="100" value="100" class="slideValue" id="myRange"><!--Brightness slīderis, ievade-->
+                </div>
+            </div>
+        </div>
+        <button class = "collapsible" onclick="rotateCollapseImg();"><!--Expand poga-->
+            <img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
+        </button>
+        <div class = "content"><!--Daļa, kas tiek apslēpta, collapsed-->
+            <div class = "expandedColorSetButtons">
+                <div class="expandedOneColorSetButtonDiv">
+                    <p>Color:&nbsp;&nbsp;&nbsp;</p>
+                    <div>
+                        <input type="color" id = "colorIn" onchange = "setColor();">
+                    </div>
+                </div>
+                <div class="expandedOneColorSetButtonDiv">
+                    <p>White center:&nbsp;&nbsp;&nbsp;</p>
+                    <div class = "expandedColorSetButtonBack" onclick="whiteCenter();" id = "whiteCenterBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
+                </div>
+                <div class="expandedOneColorSetButtonDiv">
+                    <p>Random color:&nbsp;&nbsp;&nbsp;</p>
+                    <div class = "expandedColorSetButtonBack" onclick="randomColor();" id = "randomColorBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
+                </div>
+                <div class="expandedOneColorSetButtonDiv">
+                    <p>Ultra white:&nbsp;&nbsp;&nbsp;</p>
+                    <div class = "expandedColorSetButtonBack" onclick="ultraWhite();" id = "ultraWhiteBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
+                </div>
+            </div>
+
+            <div class="expandedColorSetButtons"><!--Te atrodas nākamā pogu rinda pēc krāsu pogām, tiek izmantota tā pati klase, jo tai jau ir iestatīti nepieciešamie parametri-->
+                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
+                        <button class = "colorFuncButton" onclick="rainbowFunc();" id = "rainbowFuncButton">
+                            Rainbow
+                        </button>
+                    </div>
+                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
+                        <button class = "colorFuncButton" onclick="fadeFunc();" id = "fadeFuncButton">
+                            Fade
+                        </button>
+                    </div>
+                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
+                        <button class = "colorFuncButton" onclick="blinkFunc();" id="blinkFuncButton">
+                            Blink
+                        </button>
+                    </div>
+                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
+                        <button class = "colorFuncButton" onclick="lmFunc();" id = "lmFuncButton">
+                            Light Music
+                        </button>
+                    </div>
+            </div>
+        </div>
+
+        <div class = "dynamicButtonSpace"><!--Katras lampas pogas parādīšanās vieta-->
+
+        </div>
+    </main>
+    
+    <script src = jsFiles\SGLSscripts.js></script>
+</body>
+</html>
+

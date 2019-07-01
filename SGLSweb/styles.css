@@ -1,0 +1,319 @@
+/*Galvenā daļa, te atrodas daļas, kas atbild par visiem elementiem kopumā*/
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 12;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+
+body{
+    background: orange;
+    color: black;
+}
+
+.main {/*šajā daļā atrodas viss tas, kas atrodas zem headera*/
+    position: relative;
+    top: 50px;
+    background: orange;
+}
+
+/*Header, jeb augšējā lapas daļa*/
+/*Te atrodas settings poga un SGLS nosaukums*/
+
+.linkBlock{/*<a>, kas padara SGLS bloku un nosaukumu par linku*/
+    text-decoration: none;
+    color: black;
+}
+
+.titleDiv{
+    height: 50px;
+    width: 100%;
+    background: greenyellow;
+    position: fixed;
+    display: flex;/*Nepieciešams, lai iekšējos div blokus varētu vadīt izmantojot left right top un bottom*/
+    justify-content: space-between;/*Nepieciešams, lai pa vidu paliktu tukšums*/
+    z-index:10;
+}
+
+.SGLSTitleDiv{
+    position: relative;
+    height: 100%;
+    width: 100px;
+    background: blue;
+    left: 50px;
+    right: auto;
+    text-align: center;
+    line-height: 50px;/*nepieciešams, lai SGLS nosaukuma teksts tiktu horizontāli centrēts. Tā line-height uzstādīts uz tik pat lielu vērtību kā div blokam kurā tā atrodas*/
+}
+
+.headerButton{/*settings poga*/
+    position: relative;
+    height: 100%;
+    width: 50px;
+    background: red;
+    left: auto;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+#settingsButtonPic{
+    height: 50px;
+}
+
+.outputDiv{/*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
+  height: 100%;
+  width: 300px;
+  background: lightcoral;
+}
+
+/*Mājaslapas vidējā daļa, te atrodas viss līdz izplešanās uz leju pogai*/
+
+.allLampsMainDiv{
+    top: 10px;
+    position: relative;
+}
+
+.allLampsMainDivPart{
+    width: 100%;
+    height: 60px;
+    background: purple;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.allLampsMainDivPartTextDiv{
+    width: 170px;
+    height: 100%;
+    background: cyan;
+    left: 10px;
+    position: relative;
+    text-align: center;
+    line-height: 60px;
+}
+
+.mainPageText{
+    font-size: 30px;
+}
+
+#sliderValueTextDiv{
+    text-align: left !important;
+    width: 50px !important;
+}
+
+/*Paplašināšanas poga*/
+
+
+#expandTrianglePic{
+    position: relative;
+    height: 25px;
+    margin-left:auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/*Augšējo daļa*/
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: auto;
+    margin-right: 40px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+  /*Slider with value*/
+
+  .slidecontainer {
+    width: 35%;
+    margin-right: 40px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .slideValue {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #ccc;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slideValue::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+  }
+  
+  .slideValue::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+  }
+
+  /*Collapsed daļa*/
+
+  .collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin-top: 25px;
+    height: 35px;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #555;
+  }
+  
+  .content {
+    margin-right: auto;
+    margin-left: auto;
+    max-height: 0;
+    width: 95%;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+  }
+
+  /*Expanded lietas*/
+
+  .expandedColorSetButtons {
+    display: flex;
+    font-size: 25px;
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 20px;
+  }
+
+  .expandedOneColorSetButtonDiv{
+    width: 25%;
+    display: flex;
+  }
+
+  .expandedColorSetButton{
+    background: brown;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .expandedColorSetButtonBack{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  /*Lampu funkciju pogu daļa*/
+
+  .colorFuncButton{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 50px;
+    border: none;
+    border-radius: 5%;
+    background: lightsalmon;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /*Katras lampas pogas parādīšanās*/
+.dynamicButtonSpace{
+  width: 95%;
+  margin-top: 30px;
+  background: crimson;
+  margin-left: auto;
+  margin-right: auto;
+}
+
