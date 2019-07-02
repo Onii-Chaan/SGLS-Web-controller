@@ -1,7 +1,16 @@
 //var totalLamps = Number(prompt("Ievadi lampu daudzumu: "));
+var dataType;//izsūtāmo vērtību tips, vai tā ir saskaitīšanās, funkcija vai krāsa
+var sendRGBString = "";//nosūtāmā 3 krāsu rgb string vērtība
+var rgbw = [0,0,0,0];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
+var turnOff = true;//No paša sākuma lampa ir izslēgtā  stāvoklī, tāpēc šis mainīgais arī no sākuma ir true
+var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
+var buttonOn = false;
+var lampNum = "00";//lampu numura String vērtība
+var white = "000";//baltās krāsas string vērtība 
+var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
+
 
 //ieslēgšanas/izslēgšanas poga
-var turnOff = true;//No paša sākuma lampa ir izslēgtā  stāvoklī, tāpēc šis mainīgais arī no sākuma ir true
 function onOffTextChange(){//nospiežot onOff vai lock pogu, izpildās šī funkcija
     if(turnOff == true){
         turnOff = false;
@@ -23,9 +32,8 @@ slider.oninput = function() {//izvada vērtību slīderim
 
 //colapsed poga
 var coll = document.getElementsByClassName("collapsible");
-var i;
 
-for (i = 0; i < coll.length; i++) {
+for (var i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
@@ -38,7 +46,6 @@ for (i = 0; i < coll.length; i++) {
 }
 
 //uzspiežot collapsed pogu attēls uz tās tiek rotēts
-var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
 function rotateCollapseImg(){
     if(picPosition == true){
         picPosition = false;
@@ -52,11 +59,6 @@ function rotateCollapseImg(){
 	
 }
 
-//Color Picker, te tiek apstrādātas lietotāja ievadītās krāsu vērtības un tiek sagatavotas izsūtīšanai
-
-
-
-//Krāsu iestatīšanu pogām tiek parādīti backgroundi un pārējām pogām backgroundi tiek noņemti, kā arī te iestatās gatavās, izsūtamās krāsu vērtības
 function whiteCenter(){
     document.getElementById("whiteCenterBg").style.background = "pink";
     document.getElementById("randomColorBg").style.background = "none";
@@ -67,6 +69,12 @@ function randomColor(){
     document.getElementById("whiteCenterBg").style.background = "none";
     document.getElementById("randomColorBg").style.background = "pink";
     document.getElementById("ultraWhiteBg").style.background = "none";
+
+    for(var i = 0; i<4; i++){
+      if(whiteAllowed == true && i == 3 || i<3){//izlaiž white vērtību, ja nebija nospiesta white poga
+        rgbw[i] = Math.floor(Math.random()*255);
+      }
+    }
 }
 
 function ultraWhite(){
@@ -96,9 +104,6 @@ function lmFunc(){
 function blinkFunc(){
   turnOffBg();
 }
-
-
-///////////////////////////////////////////////////////////////////////////////Pirms vēl tika izveidots savienojums ar esp32, lampu skaits ir manuāli jāievada te
 
 function createLampButtons(){
   var lampCount = 12;//////////////////////////////////////////////////////////////////vieta kur ievadīt pogu daudzumu lampām
@@ -133,7 +138,7 @@ function createLampButtons(){
   }
 }
 
-var lampNum = "00";//lampu numura String vērtība
+
 function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtība
   var oldLampNum = parseInt(lampNum);
   var buttonChars = ["a", "a"]//tiek definēts char saraksts, kur glabāsies lampu vērtības
@@ -151,32 +156,34 @@ function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtī
   for (var i = 0; i<2; i++){//izveido izsūtāmo String vērtību
     buttonValueString = buttonValueString + buttonChars[i];
   }
+  lampNum = buttonValueString;//lampas kārtas numurs
 
-  lampNum = buttonValueString;
-
-  if (oldLampNum == parseInt(lampNum)){////////////////////////////////////////////////////jāsalabo, lai iesldzot vienu pogu nestrādātu pārējās pogas un gaida kamēr izslēdz vienu konkrētu pogu
-    buttonElement.style.backgroundColor = "lightGray";
-  } else{
-    buttonElement.style.backgroundColor = "red";
+  if(buttonOn == true && oldLampNum == parseInt(lampNum)){//iekrāso pogas pelēkas vai sarkanas atkarībā no tā, kura tiek nospiesta
+    buttonElement.style.background = "lightGray";//ja poga bija iepriekš nospiesta un tā tika nospiesta vēlreiz, tad mainās atpakaļ tās krāsa un tiek uzlikta nultā lampa
+    buttonOn = false;
+    lampNum = "00";
+  } else if (buttonOn == false && oldLampNum == parseInt(lampNum)){//ja ir tā pati poga, bet tā iepriekš nebija ieslēgta
+    buttonElement.style.background = "red";
+    buttonOn = true;
+  } else if (oldLampNum != parseInt(lampNum)){//ja tiek nospiesta poga, kura iepriekš nebija nospieta
+    if(oldLampNum!=0){
+      document.getElementsByClassName("lampButton")[oldLampNum-1].style.background = "lightGray";
+    }
+    buttonElement.style.background = "red";
+    buttonOn = true;
   }
 }
 
 function sendValue(sendValueOutput){//parāda nosūtamos datus
   var sendPar = document.getElementById("outputText");//izvada vērtību uz ekrāna
   if(dataType == 1){
-    sendPar.innerText = "<" + dataType + lampNum + sendValueOutput + ">";
+    sendPar.innerText = "<" + dataType + lampNum + sendValueOutput + white +">";
   }
 }
 
 function valueState(valueStateOutput){//parāda vai dati tiek saņemti vai nosūtīti kā arī citus paziņojumus
   document.getElementById("outputState").innerText = valueStateOutput;
 }
-
-
-
-var dataType;//izsūtāmo vērtību tips, vai tā ir saskaitīšanās, funkcija vai krāsa
-var sendRGBString = "";//nosūtāmā 3 krāsu rgb string vērtība
-var rgbw = [0,0,0,0];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
 
 function setColor(){//izveido krāsu nosūtamo string vērtību
   dataType = 1;
@@ -222,14 +229,37 @@ function setColor(){//izveido krāsu nosūtamo string vērtību
   sendValue(sendRGBString);
 }
 
+//izveidot random funkciju līdz galam!!!!
+//random izveidos int skaitļus, tāpēc ir jāizveido atsevišķa funkcija, kas izveidotu pareizu, izsūtāmu String vērtību ar visām nepieciešamajām nullēm.
+//izsūtāmai String vērtības funkcijai ir jābūt atsvišķai, lai to varētu izmantot arī citas funkcijas. Paraugs: function stringColorSet(r, g, b, w){}
+
+//PĒC RANDOM IZVEIDES UZREIZ IZVEIDOT BALTĀS KRĀSAS IEVADI UN APSTRĀDI. BALTĀ KRĀSA ŠAJĀ SKRIPTĀ IR ĻOTI SVARĪGA!
+
+//Uzspiežot uz baltās krāsas pogas parādās lodziņš , kas prasa norādīt baltās krāsas daudzumu ar slīderi procentos 0-100
 //Balto krāsu nosaka atsevišķi. Nospiežot uz baltās krāsas pogas un tad regulējot tās spožumu
 //Baltā krāsa arī tiks salikta ciparu sarakstā no kura tiks izveidots String un tas tiks izsūtīts
+//Baltās krāsas pogas apkārtesošais aplis pazūd tikai ja tas tiek nospiests vēlreiz vai arī tiek nospiesta gaismas mūzika vai rainbow. Pārējos gadījumos apkārtesošais aplis paliek
 
-//uzspiežot uz kādām no lampu pogām parādās, ka tā ir uzspiesta, kamēr tā ir uzspiesta tikmēr nedarbojas funkcijas, bet tikai vienas lampas ietvaros pieejamās lietas, visas lampas kopā strādā tad, kad neviena no lampu pogām nav nospiesta
-//izveidot datu tipa nosūtīšanu
-//izpildot divus augstāk minētos punktus krāsu nosūtīšana būs jau gatava 
-
+//kamēr lampu poga ir uzspiesta tikmēr nedarbojas funkcijas, bet tikai vienas lampas ietvaros pieejamās lietas
+//izveidot datu tipa nosūtīšanu funkcijām un atsevišķi arī gaismas mūzikai 
 
 //lai darbotos ar datiem neizmantojot WiFi, ir jāizveido input lodzinš, kur tiks iekšā rakstītas vērtības
 
-//publiskos mainīgos salikt kopā atsevišķi šī visa koda sākumā
+//Uzspiežot uz kādas no lampu pogām uzreiz izpildās krāsu nosūtīšana. Ja iepriekš krāsu vērtības netika ievadītas, tad nosūta nulles. Izveidot krāsu vērtības kā publisko String mainīgo
+
+//Brightness vienmēr proporcionāli maina krāsu vērtību, kas nozīmē, ka ja vienu reizi brightness tika uzlikts uz 20%, tad visas tālāk iestatītās krāsas iet caur šo spožuma "filru" katru reizi iestatot krāsu spožumu uz 20%. Tas attiecās uz visām 4 krāsām
+
+//Visas 4 krāsas ir jāievieto String masīvā, arī balto krāsu. To vērtības iegūst izmantojot parseInt()
+//Ja baltās krāsas poga netika iestatīta, tad tās vērtība masīvā ir nulle
+
+//Settingos var mainīt paroli
+
+//Ieejot iekšā tiek pieprasīta tikai parole. Ja ievada 3 reizes nepareizi, tad nobloķējas uz 1min (optional)
+
+//random funkcija izvēlās random krāsu vērtības no 0 - 256. 
+
+//izveidot lampu pārskaitīšanās nosūtīšanu
+
+//izveidot funkciju, kas sadalītu lampu skaita vērtību no iekavām un izmantotu to turpmākajā skriptā
+
+//izveidot tā, lai funkcijas darbotos tikai tad, ja on off būls būtu true
