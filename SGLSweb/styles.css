@@ -317,3 +317,57 @@ body{
   margin-right: auto;
 }
 
+/*Dinamiski genereta baltas krasas izvelne*/
+
+.whiteCenterDivGen{
+  width: 40%;
+  height: 30%;
+  /*background: rgb(13, 129, 175);*/
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  top:100px;
+}
+
+.whiteCenterDivGenTop {
+  height: 20%;
+  width: 100%;
+  background: ivory;
+}
+
+.whiteCenterDivGenMiddle{
+  height: 40%;
+  width: 100%;
+  background: orchid;
+}
+
+.whiteCenterDivGenBottom{
+  height: 40%;
+  width: 100%;
+  background: papayawhip;
+  border-top: 2px black solid;
+}
+
+.whiteCenterDivGenOk {
+  height: 100%;
+  width: 50%;
+  background: silver;
+  border-right: 1px black solid;
+}
+
+.whiteCenterDivGenCancel {
+  height: 100%;
+  width: 50%;
+  background: papayawhip;
+  border-left: 2px solid black;
+}
+
+.whiteCenterDivGenOk:hover{
+  background: rgb(140, 140, 140);
+}
+
+.whiteCenterDivGenCancel:hover{
+  background: rgb(220, 220, 220);
+}

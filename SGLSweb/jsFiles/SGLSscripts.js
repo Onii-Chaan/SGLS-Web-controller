@@ -63,6 +63,47 @@ function whiteCenter(){
     document.getElementById("whiteCenterBg").style.background = "pink";
     document.getElementById("randomColorBg").style.background = "none";
     document.getElementById("ultraWhiteBg").style.background = "none";
+
+    var whiteCenterDivGen = document.createElement("div");//dinamiski uzgenere lodzinu baltas krasas ievadei
+    whiteCenterDivGen.className = "whiteCenterDivGen";
+    document.getElementsByClassName("main")[0].appendChild(whiteCenterDivGen);
+
+    var whiteCenterDivGenTop = document.createElement("div");
+    whiteCenterDivGenTop.className = "whiteCenterDivGenTop";
+    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenTop);
+
+    var whiteCenterDivGenMiddle = document.createElement("div");
+    whiteCenterDivGenMiddle.className = "whiteCenterDivGenMiddle";
+    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenMiddle);
+
+    var whiteCenterDivGenBottom = document.createElement("div");
+    whiteCenterDivGenBottom.className = "whiteCenterDivGenBottom";
+    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenBottom);
+
+    var whiteCenterDivGenOk = document.createElement("button");
+    whiteCenterDivGenOk.className = "whiteCenterDivGenOk";
+    document.getElementsByClassName("whiteCenterDivGenBottom")[0].appendChild(whiteCenterDivGenOk);
+
+    var whiteCenterDivGenCancel = document.createElement("button");
+    whiteCenterDivGenCancel.className = "whiteCenterDivGenCancel";
+    document.getElementsByClassName("whiteCenterDivGenBottom")[0].appendChild(whiteCenterDivGenCancel);
+    //blokveida elementu generesana pabeigta
+
+    var whiteCenterDivGenText = document.createElement("p");//Tekstveida elementa generesana. Japieliek CSS lai stradatu (?)
+    whiteCenterDivGenOkText.className = "whiteCenterDivGenText";
+    var whiteCenterDivGenTextNode = document.createTextNode("White center:");
+    document.getElementsByClassName("whiteCenterDivGenText")[0].appendChild(whiteCenterDivGenTextNode);
+    document.getElementsByClassName("whiteCenterDivGenTop")[0].appendChild(whiteCenterDivGenText);
+
+    var whiteCenterDivGenValue
+    var whiteCenterDivGenValueNode
+
+    var whiteCenterDivGenOkText
+    var whiteCenterDivGenOkTextNode
+
+    var whiteCenterDivGenCancelText
+    var whiteCenterDivGenCancelTextNode
+    //Tekstveida elementu generesena pabeigta
 }
 
 function randomColor(){
@@ -75,6 +116,7 @@ function randomColor(){
         rgbw[i] = Math.floor(Math.random()*255);
       }
     }
+    stringColorSet();
 }
 
 function ultraWhite(){
@@ -138,7 +180,6 @@ function createLampButtons(){
   }
 }
 
-
 function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtība
   var oldLampNum = parseInt(lampNum);
   var buttonChars = ["a", "a"]//tiek definēts char saraksts, kur glabāsies lampu vērtības
@@ -177,7 +218,7 @@ function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtī
 function sendValue(sendValueOutput){//parāda nosūtamos datus
   var sendPar = document.getElementById("outputText");//izvada vērtību uz ekrāna
   if(dataType == 1){
-    sendPar.innerText = "<" + dataType + lampNum + sendValueOutput + white +">";
+    sendPar.innerText = "<" + dataType + lampNum + sendValueOutput +">";
   }
 }
 
@@ -188,9 +229,8 @@ function valueState(valueStateOutput){//parāda vai dati tiek saņemti vai nosū
 function setColor(){//izveido krāsu nosūtamo string vērtību
   dataType = 1;
   var hexToRgb = document.getElementById("colorIn").value.match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) }).join(",");//pārveido ievadītās krāsu vērtības no HEX uz RGB
-  sendRGBString = "";
   var colorNum = 0;//katru reizi mainās par 1 , lai ieliktu rgbw sarakstā 3 krāsu vērtības
-  var colorCount;//nepieciešams, lai izvietotu krāsu ciparu sarakstā vērtības
+  var colorCount = 0;//nepieciešams, lai izvietotu krāsu ciparu sarakstā vērtības
   var colorChars = [0, 0, 0];//krāsu ciparu saraksts
   var countStr = "";//saglabā krāsu cipara saraksta vērtības, tādējādi izveidojot String skaitli
   
@@ -215,10 +255,9 @@ function setColor(){//izveido krāsu nosūtamo string vērtību
           colorChars[0] = 0;
         break;
       }
-      for (var x = 0; x<3; x++){//saliek krāsu ciparus no sarakasta vienā rindiņā izxveidojot String skaitli
+      for (var x = 0; x<3; x++){//saliek krāsu ciparus no saraksta vienā rindiņā izveidojot String skaitli
         countStr = countStr + colorChars[x].toString();
       }
-      sendRGBString = sendRGBString + countStr;//saliek string skaitļus vienā rindiņā izveidojot izsūtāmo vērtību
       rgbw[colorCount] = parseInt(countStr);
       countStr = "";
       colorNum = 0;
@@ -226,15 +265,29 @@ function setColor(){//izveido krāsu nosūtamo string vērtību
       colorCount++;
     }
   }
-  sendValue(sendRGBString);
+  stringColorSet();
 }
 
-//izveidot random funkciju līdz galam!!!!
-//random izveidos int skaitļus, tāpēc ir jāizveido atsevišķa funkcija, kas izveidotu pareizu, izsūtāmu String vērtību ar visām nepieciešamajām nullēm.
-//izsūtāmai String vērtības funkcijai ir jābūt atsvišķai, lai to varētu izmantot arī citas funkcijas. Paraugs: function stringColorSet(r, g, b, w){}
-
+function stringColorSet(){//Si funkcija parveido rgbw krasu vertibas String rindina. Gatavu izsutisanai
+  var countString = "";
+  for(var i=0; i<4; i++){//Nosaka vai saraksta skaitli ir divcipara vai viencipara vai trisciparu skaitlis un atbilstosi pieliek nulles
+    if(rgbw[i]>=100){
+      countString = rgbw[i];
+    }else if (rgbw[i]<100 && rgbw[i]>=10){
+      countString = "0" + rgbw[i];
+    }else{ 
+      countString = "00" + rgbw[i];
+    }
+    sendRGBString = sendRGBString + countString;
+    countString = "";
+  }
+  sendValue(sendRGBString);
+  sendRGBString = "";
+}
 //PĒC RANDOM IZVEIDES UZREIZ IZVEIDOT BALTĀS KRĀSAS IEVADI UN APSTRĀDI. BALTĀ KRĀSA ŠAJĀ SKRIPTĀ IR ĻOTI SVARĪGA!
 
+//Baltas krasas lodyinu var paslept whiteCenterDivGen piebliezot display: block
+//Baltas krasas lodzinam izveidot bulu kas generes lodzinu tikai tad kad tas netika jau ieprieks uzgenerets
 //Uzspiežot uz baltās krāsas pogas parādās lodziņš , kas prasa norādīt baltās krāsas daudzumu ar slīderi procentos 0-100
 //Balto krāsu nosaka atsevišķi. Nospiežot uz baltās krāsas pogas un tad regulējot tās spožumu
 //Baltā krāsa arī tiks salikta ciparu sarakstā no kura tiks izveidots String un tas tiks izsūtīts
