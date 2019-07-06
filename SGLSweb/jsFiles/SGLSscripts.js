@@ -4,30 +4,35 @@ var sendRGBString = "";//nosūtāmā 3 krāsu rgb string vērtība
 var rgbw = [0,0,0,0];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
 var turnOff = true;//No paša sākuma lampa ir izslēgtā  stāvoklī, tāpēc šis mainīgais arī no sākuma ir true
 var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
-var buttonOn = false;
+var buttonOn = false;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
 var lampNum = "00";//lampu numura String vērtība
-var white = "000";//baltās krāsas string vērtība 
 var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
-
+var funcNum = 0;//lampu funkcijas numurs
+var brightness = 100; //
+//document.getElementsByClassName("hidable")[0].style.display = "none"; BOOKMARK1
 
 //ieslēgšanas/izslēgšanas poga
 function onOffTextChange(){//nospiežot onOff vai lock pogu, izpildās šī funkcija
     if(turnOff == true){
         turnOff = false;
+        //document.getElementsByClassName("hidable")[0].style.display = "block"; BOOKMARK1
+        dataType = 0;
     } else {
         turnOff = true;
+        //document.getElementsByClassName("hidable")[0].style.display = "none"; BOOKMARK1
     }
-    valueState(turnOff);
+    dataType = 2;
+    funcNum = 0;
+    sendValue(funcNumBuilder(funcNum))
 }
 
 //slīderis priekš brightness
 var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
 var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
-
 output.innerHTML = slider.value;
-
 slider.oninput = function() {//izvada vērtību slīderim
   output.innerHTML = this.value;
+  brightness = this.value;
 }
 
 //colapsed poga
@@ -60,58 +65,45 @@ function rotateCollapseImg(){
 }
 
 function whiteCenter(){
-    document.getElementById("whiteCenterBg").style.background = "pink";
-    document.getElementById("randomColorBg").style.background = "none";
-    document.getElementById("ultraWhiteBg").style.background = "none";
-
-    var whiteCenterDivGen = document.createElement("div");//dinamiski uzgenere lodzinu baltas krasas ievadei
-    whiteCenterDivGen.className = "whiteCenterDivGen";
-    document.getElementsByClassName("main")[0].appendChild(whiteCenterDivGen);
-
-    var whiteCenterDivGenTop = document.createElement("div");
-    whiteCenterDivGenTop.className = "whiteCenterDivGenTop";
-    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenTop);
-
-    var whiteCenterDivGenMiddle = document.createElement("div");
-    whiteCenterDivGenMiddle.className = "whiteCenterDivGenMiddle";
-    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenMiddle);
-
-    var whiteCenterDivGenBottom = document.createElement("div");
-    whiteCenterDivGenBottom.className = "whiteCenterDivGenBottom";
-    document.getElementsByClassName("whiteCenterDivGen")[0].appendChild(whiteCenterDivGenBottom);
-
-    var whiteCenterDivGenOk = document.createElement("button");
-    whiteCenterDivGenOk.className = "whiteCenterDivGenOk";
-    document.getElementsByClassName("whiteCenterDivGenBottom")[0].appendChild(whiteCenterDivGenOk);
-
-    var whiteCenterDivGenCancel = document.createElement("button");
-    whiteCenterDivGenCancel.className = "whiteCenterDivGenCancel";
-    document.getElementsByClassName("whiteCenterDivGenBottom")[0].appendChild(whiteCenterDivGenCancel);
-    //blokveida elementu generesana pabeigta
-
-    var whiteCenterDivGenText = document.createElement("p");//Tekstveida elementa generesana. Japieliek CSS lai stradatu (?)
-    whiteCenterDivGenOkText.className = "whiteCenterDivGenText";
-    var whiteCenterDivGenTextNode = document.createTextNode("White center:");
-    document.getElementsByClassName("whiteCenterDivGenText")[0].appendChild(whiteCenterDivGenTextNode);
-    document.getElementsByClassName("whiteCenterDivGenTop")[0].appendChild(whiteCenterDivGenText);
-
-    var whiteCenterDivGenValue
-    var whiteCenterDivGenValueNode
-
-    var whiteCenterDivGenOkText
-    var whiteCenterDivGenOkTextNode
-
-    var whiteCenterDivGenCancelText
-    var whiteCenterDivGenCancelTextNode
-    //Tekstveida elementu generesena pabeigta
+    document.getElementsByClassName("whiteCenterDiv")[0].style.display = "block";
 }
 
-function randomColor(){
-    document.getElementById("whiteCenterBg").style.background = "none";
-    document.getElementById("randomColorBg").style.background = "pink";
-    document.getElementById("ultraWhiteBg").style.background = "none";
+//slideris prieks white brightness
+var newWhite = 100;//saglaba sevi baltas krasas vertibu, pasa sakuma vertiba ir uzlikta uz maksimumu
 
-    for(var i = 0; i<4; i++){
+var whiteSlider = document.getElementById("whiteRange");//saņem vērtību no balta līdera 0 - 100
+var whiteSliderOutput = document.getElementById("whiteBrightnessSliderTextValue");//mainīgais baltajai slīdera vērtībai, ko izvadīt
+output.innerHTML = whiteSlider.value;
+whiteSlider.oninput = function() {//izvada vērtību slīderim
+  whiteSliderOutput.innerHTML = this.value;
+  if(isNaN(this.value)==false){
+    newWhite = this.value;//Tiek iestatita baltas krasas vertiba
+  }
+}
+
+function okWhite(){//aprekina un iestata baltas krasas vertibu
+    document.getElementsByClassName("whiteCenterDiv")[0].style.display = "none";
+    rgbw[3] = scaleToRange(newWhite, 0, 100, 0, 255);//Parveido procentus par viena baita vertibu
+    if(rgbw[3]>0){//Nosaka vai balta krasa ir ieslegta vai ari nav
+      whiteAllowed = true;
+    } else {
+      whiteAllowed = false;
+    }
+    dataType = 1;
+    stringColorSet();//iestata parejas krasas un izvada vertibas
+}
+
+function cancelWhite(){//iziet ara no baltas krasas iestatisanas lodzina nemainot nekadas vertibas
+  document.getElementsByClassName("whiteCenterDiv")[0].style.display = "none";
+}
+
+function scaleToRange(number, fromMin, fromHigh, toMin, toHigh){//Si funkcija parveido skaitli no vienas kopas uz citu
+  return Math.round(((number-fromMin)/(fromHigh-fromMin))*(toHigh-toMin)+toMin);
+}
+
+function randomColor(){//Iestata random krasu
+    dataType = 1;
+    for(var i = 0; i<4; i++){//sastada random krasas vertibas kuras saliek ieksa saraksta
       if(whiteAllowed == true && i == 3 || i<3){//izlaiž white vērtību, ja nebija nospiesta white poga
         rgbw[i] = Math.floor(Math.random()*255);
       }
@@ -119,32 +111,43 @@ function randomColor(){
     stringColorSet();
 }
 
-function ultraWhite(){
-    document.getElementById("whiteCenterBg").style.background = "none";
-    document.getElementById("randomColorBg").style.background = "none";
-    document.getElementById("ultraWhiteBg").style.background = "pink";
-}
-
-function turnOffBg(){
-    document.getElementById("whiteCenterBg").style.background = "none";
-    document.getElementById("randomColorBg").style.background = "none";
-    document.getElementById("ultraWhiteBg").style.background = "none";
+function ultraWhite(){//Iestata visas krasas uz maksimumu
+    rgbw = [255,255,255,255]; 
+    dataType = 1;
+    stringColorSet();
 }
 
 function rainbowFunc(){
-  turnOffBg();
+  dataType = 2;
+  funcNum = 1;
+  sendValue(funcNumBuilder(funcNum));
 }
 
 function fadeFunc(){
-  turnOffBg();
-}
-
-function lmFunc(){
-  turnOffBg();
+  dataType = 2;
+  funcNum =2;
+  sendValue(funcNumBuilder(funcNum));
 }
 
 function blinkFunc(){
-  turnOffBg();
+  dataType = 2;
+  funcNum = 3;
+  sendValue(funcNumBuilder(funcNum));
+}
+
+function lmFunc(){
+  dataType = 3;
+  sendValue();
+}
+
+function funcNumBuilder(num){
+  if(num>=100){
+    return num;
+  }else if(num>=10&&num<100){
+    return "0" + num;
+  }else{
+    return "00" + num;
+  }
 }
 
 function createLampButtons(){
@@ -217,8 +220,14 @@ function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtī
 
 function sendValue(sendValueOutput){//parāda nosūtamos datus
   var sendPar = document.getElementById("outputText");//izvada vērtību uz ekrāna
-  if(dataType == 1){
+  if(dataType == 1){//parasta krasas iestatisana
     sendPar.innerText = "<" + dataType + lampNum + sendValueOutput +">";
+  }else if(dataType == 2){//funkciju nosutisana
+    sendPar.innerText = "<" + dataType + "00" + sendValueOutput + "000" + ">";//pedejas tris nulles ir prieks parametru iestatisanas. pagaidam netiek izmantots
+  }else if(dataType == 3){//gaismas muzikas nosutisana
+    sendPar.innerText = "<3>";
+  }else if(dataType == 0){//saskaitisanas nosutisana
+    sendPar.innerText = "<000>";
   }
 }
 
@@ -284,35 +293,27 @@ function stringColorSet(){//Si funkcija parveido rgbw krasu vertibas String rind
   sendValue(sendRGBString);
   sendRGBString = "";
 }
-//PĒC RANDOM IZVEIDES UZREIZ IZVEIDOT BALTĀS KRĀSAS IEVADI UN APSTRĀDI. BALTĀ KRĀSA ŠAJĀ SKRIPTĀ IR ĻOTI SVARĪGA!
 
-//Baltas krasas lodyinu var paslept whiteCenterDivGen piebliezot display: block
-//Baltas krasas lodzinam izveidot bulu kas generes lodzinu tikai tad kad tas netika jau ieprieks uzgenerets
-//Uzspiežot uz baltās krāsas pogas parādās lodziņš , kas prasa norādīt baltās krāsas daudzumu ar slīderi procentos 0-100
-//Balto krāsu nosaka atsevišķi. Nospiežot uz baltās krāsas pogas un tad regulējot tās spožumu
-//Baltā krāsa arī tiks salikta ciparu sarakstā no kura tiks izveidots String un tas tiks izsūtīts
-//Baltās krāsas pogas apkārtesošais aplis pazūd tikai ja tas tiek nospiests vēlreiz vai arī tiek nospiesta gaismas mūzika vai rainbow. Pārējos gadījumos apkārtesošais aplis paliek
-
-//kamēr lampu poga ir uzspiesta tikmēr nedarbojas funkcijas, bet tikai vienas lampas ietvaros pieejamās lietas
-//izveidot datu tipa nosūtīšanu funkcijām un atsevišķi arī gaismas mūzikai 
+//iestatit baltas krasas ievades slidera default uz 100% lai nerastos nesakritibas ar brightness ievadi
 
 //lai darbotos ar datiem neizmantojot WiFi, ir jāizveido input lodzinš, kur tiks iekšā rakstītas vērtības
 
-//Uzspiežot uz kādas no lampu pogām uzreiz izpildās krāsu nosūtīšana. Ja iepriekš krāsu vērtības netika ievadītas, tad nosūta nulles. Izveidot krāsu vērtības kā publisko String mainīgo
-
 //Brightness vienmēr proporcionāli maina krāsu vērtību, kas nozīmē, ka ja vienu reizi brightness tika uzlikts uz 20%, tad visas tālāk iestatītās krāsas iet caur šo spožuma "filru" katru reizi iestatot krāsu spožumu uz 20%. Tas attiecās uz visām 4 krāsām
 
-//Visas 4 krāsas ir jāievieto String masīvā, arī balto krāsu. To vērtības iegūst izmantojot parseInt()
-//Ja baltās krāsas poga netika iestatīta, tad tās vērtība masīvā ir nulle
-
 //Settingos var mainīt paroli
+//Settingos atrodas lampu parskaitisanas
 
 //Ieejot iekšā tiek pieprasīta tikai parole. Ja ievada 3 reizes nepareizi, tad nobloķējas uz 1min (optional)
-
-//random funkcija izvēlās random krāsu vērtības no 0 - 256. 
 
 //izveidot lampu pārskaitīšanās nosūtīšanu
 
 //izveidot funkciju, kas sadalītu lampu skaita vērtību no iekavām un izmantotu to turpmākajā skriptā
 
+//<200[001]000> funkciju nosutisanas paraugs
+//<000> lampu parskaitisanas nosutisanas paraugs
+//<3> gaismas muzikas nosutisanas paraugs
+//funkciju numuri nav zinami tapec tie tika izteikti sada veida: rainbow=1, fade=2, blink=3, onOff=0
+//slideru vertibu parveidosana no 0-100 uz 0-255. Skaitliska veida tiks paradits viss procentos izmantojot map funkciju
+
 //izveidot tā, lai funkcijas darbotos tikai tad, ja on off būls būtu true
+//BOOKMARK1 ir iespeja pie ieslegsanas un izslegsanas noslept funkcionalo lapas dalu tadejadi tai lietotajam uz to bridi tai nebus piekluves. Sis ir atrais variants kuru butu velams uzlabot ar sarezgitaku un izskatigaku variantu

@@ -21,8 +21,8 @@
             </div>
         
     </header>
-    <main class = "main"><!--Visa satura bloks-->
-        <div class = "allLampsMainDiv"><!--Visu lampu opcijas-->
+    <main class = "main">
+        <div class = "allLampsMainDiv">
             <div class = "allLampsMainDivPart"><!--On/Off paziņojums-->
                 <div class = "allLampsMainDivPartTextDiv"><!--On/Off teksts-->
                     <p class = "mainPageText" id = "onOffText">On/Off:</p>
@@ -32,6 +32,11 @@
                     <span class="slider round"></span>
                 </label>
             </div>
+        </div>
+    </main>
+    <main class = "main hidable"><!--Visa satura bloks-->
+        <div class = "allLampsMainDiv"><!--Visu lampu opcijas-->
+            
             <div class = "allLampsMainDivPart"><!--Lock-->
                 <div class = "allLampsMainDivPartTextDiv"><!--Lock teksta gabals-->
                     <p class = "mainPageText">Lock: </p>
@@ -102,8 +107,32 @@
             </div>
         </div>
 
-        <div class = "dynamicButtonSpace"><!--Katras lampas pogas parādīšanās vieta-->
+        <div class = "dynamicButtonSpace"><!--Katras lampas pogas parādīšanās vieta--></div>
 
+        <div class = "whiteCenterDiv">
+            <div class="whiteCenterDivTop">
+                <p class="whiteCenterDivOptionsText">
+                    White center value:&nbsp;
+                </p>
+                <p class="whiteCenterDivOptionsText" id = "whiteBrightnessSliderTextValue">
+                    100
+                </p>
+            </div>
+            <div class="whiteCenterDivMiddle">
+                <input type="range" min="0" max="100" value="100" class="slideValue" id="whiteRange"><!--white brightness slīderis, ievade-->
+            </div>
+            <div class="whiteCenterDivBottom">
+                <button class="whiteCenterDivOk" onclick="okWhite();">
+                    <p class="whiteCenterDivOptionsText" >
+                        Ok
+                    </p>
+                </button>
+                <button class="whiteCenterDivCancel" onclick="cancelWhite();">
+                    <p class="whiteCenterDivOptionsText">
+                        Cancel
+                    </p>
+                </button>
+            </div>
         </div>
     </main>
     

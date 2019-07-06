@@ -275,13 +275,17 @@ body{
 
   .expandedColorSetButton{
     background: brown;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
+    height: 35px;
+    width: 60px;
+    border-radius: 8%;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .expandedColorSetButton:hover{
+    background: darkorange;
   }
 
   .expandedColorSetButtonBack{
@@ -307,7 +311,9 @@ body{
     font-size: 20px;
     cursor: pointer;
   }
-
+  .colorFuncButton:hover{
+    background: salmon;
+  }
   /*Katras lampas pogas parādīšanās*/
 .dynamicButtonSpace{
   width: 95%;
@@ -319,7 +325,7 @@ body{
 
 /*Dinamiski genereta baltas krasas izvelne*/
 
-.whiteCenterDivGen{
+.whiteCenterDiv{
   width: 40%;
   height: 30%;
   /*background: rgb(13, 129, 175);*/
@@ -329,45 +335,64 @@ body{
   margin-right: auto;
   margin-left: auto;
   top:100px;
+  display: none;/*default stavoklis baltas krasas ievades lodzinam ir paslepts*/
 }
 
-.whiteCenterDivGenTop {
+.whiteCenterDivTop {
   height: 20%;
   width: 100%;
   background: ivory;
+  display: flex;
 }
 
-.whiteCenterDivGenMiddle{
+.whiteCenterDivMiddle{
   height: 40%;
   width: 100%;
   background: orchid;
+  display: flex;
 }
 
-.whiteCenterDivGenBottom{
+#whiteRange{/*Baltas krasas slideris*/
+  width: 90%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.whiteCenterDivBottom{
   height: 40%;
   width: 100%;
   background: papayawhip;
   border-top: 2px black solid;
+  display: flex;
 }
 
-.whiteCenterDivGenOk {
+.whiteCenterDivOk {
   height: 100%;
   width: 50%;
   background: silver;
   border-right: 1px black solid;
 }
 
-.whiteCenterDivGenCancel {
+.whiteCenterDivCancel {
   height: 100%;
   width: 50%;
   background: papayawhip;
   border-left: 2px solid black;
 }
 
-.whiteCenterDivGenOk:hover{
+.whiteCenterDivOk:hover{
   background: rgb(140, 140, 140);
 }
 
-.whiteCenterDivGenCancel:hover{
+.whiteCenterDivCancel:hover{
   background: rgb(220, 220, 220);
+}
+
+.whiteCenterDivOptionsText{
+  font-size: 30px;
+}
+button {
+  cursor: pointer;
 }
