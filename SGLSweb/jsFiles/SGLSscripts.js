@@ -8,7 +8,6 @@ var buttonOn = false;//norada vai lietotajs darbojas ap vienu lampu vai ap visam
 var lampNum = "00";//lampu numura String vērtība
 var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
 var funcNum = 0;//lampu funkcijas numurs
-var brightness = 100; //
 //document.getElementsByClassName("hidable")[0].style.display = "none"; BOOKMARK1
 
 //ieslēgšanas/izslēgšanas poga
@@ -32,7 +31,7 @@ var output = document.getElementById("sliderValueText");//mainīgais slīdera v�
 output.innerHTML = slider.value;
 slider.oninput = function() {//izvada vērtību slīderim
   output.innerHTML = this.value;
-  brightness = this.value;
+  setBrightness(this.value);
 }
 
 //colapsed poga
@@ -114,6 +113,7 @@ function randomColor(){//Iestata random krasu
 function ultraWhite(){//Iestata visas krasas uz maksimumu
     rgbw = [255,255,255,255]; 
     dataType = 1;
+    whiteAllowed = true;
     stringColorSet();
 }
 
@@ -273,6 +273,13 @@ function setColor(){//izveido krāsu nosūtamo string vērtību
       colorChars = [0, 0, 0];
       colorCount++;
     }
+  }
+  stringColorSet();
+}
+
+function setBrightness(brightness){ 
+  for(var i = 0; i<4; i++){
+    rgbw[i] = Math.round(scaleToRange(brightness, 0, 100, 0, rgbw[i]));
   }
   stringColorSet();
 }
