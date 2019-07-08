@@ -5,7 +5,7 @@
     <title>SGLS</title>
     <link rel= stylesheet href= styles.css type= text/css  >
 </head>
-<body onload = "createLampButtons();">
+<body onload = "createLampButtons();"><!--Te notiks lampu saskaitisana un pogu yveide atbilstosi tam. No sakuma tiek nosutita lampu saskaitisanas vertiba un tad gaidits lidz ta vertiba ir sanemta. Kad vertiba ir sanemta tad to apstrada un izvada pogu veida-->
     <header  class = "titleDiv">
         <a href = "main.html" class = "linkBlock">
             <div class = "SGLSTitleDiv"><!--SGLS nosaukums-->
@@ -14,12 +14,52 @@
         </a>
             <div class = "outputDiv">
                 <p id="outputText"></p>
-                <p id="outputState"></p>
+                <p id="outputState"></p> 
             </div>
-            <div class = "headerButton"><!--Options poga-->
+
+            <div class = "headerButton" onclick="openSettings();"><!--Options poga-->
                 <img src = "pics/settingsButtonPic.png" id = "settingsButtonPic"/><!--Jāpievieno arī hrefs-->
             </div>
-        
+            <div class="optionsDiv"><!--Opciju logs-->
+                <button type="button" onclick="setNewPass();" class="optionsDivButton collapsible">
+                    Set new password
+                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                </button>
+                <div class="content optionsContent">
+                    <p>Enter your previous password:</p>
+                    <input type = "password" id = "oldPassInput"><br><br>
+                    <p>Confirm your previous password:</p>
+                    <input type="password" id = "oldPassConfInput"><br><br>
+                    <p>Enter your new password:</p>
+                    <input type="password" id = "newPass"><br><br>
+                    <p id="passwordChangeState"></p>
+                </div>
+                <button type="button" onclick="lampCount();" class="optionsDivButton collapsible">
+                    Lamp count
+                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                </button>
+                <div class="content optionsContent">
+                    <br>
+                    <input type="text" id = "lampCountInput">
+                    <br>
+                    <p id="lampNumStats">-</p>
+                    <br>
+                </div>
+                <button type="button" onclick="showDevInfo();" class="optionsDivButton collapsible">
+                    Developer info
+                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                </button>
+                <div class="content optionsContent">
+                    <h3>SGLS</h3>
+                    <br>
+                    <p>This app was created by:</p>
+                    <p>App was designed by:</p>
+                    <br>
+                    <p>App version: </p>
+                    <br>
+                </div>
+            </div>
+
     </header>
     <main class = "main">
         <div class = "allLampsMainDiv">
@@ -28,7 +68,7 @@
                     <p class = "mainPageText" id = "onOffText">On/Off:</p>
                 </div>
                 <label class="switch" id = "onOffSwitch"><!--On/Off poga-->
-                    <input type="checkbox" onClick = "onOffTextChange()" ><!--On off poga ievade-->
+                    <input type="checkbox" onClick = "onOffTextChange()" id="onOffButton"><!--On off poga ievade-->
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -58,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <button class = "collapsible" onclick="rotateCollapseImg();"><!--Expand poga-->
+        <button class = "collapsible expandButton" onclick="rotateCollapseImg(this.children);"><!--Expand poga-->
             <img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
         </button>
         <div class = "content"><!--Daļa, kas tiek apslēpta, collapsed-->
@@ -134,6 +174,7 @@
                 </button>
             </div>
         </div>
+
     </main>
     
     <script src = jsFiles\SGLSscripts.js></script>

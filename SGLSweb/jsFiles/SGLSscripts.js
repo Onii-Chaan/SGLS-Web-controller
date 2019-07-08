@@ -3,7 +3,6 @@ var dataType;//izsūtāmo vērtību tips, vai tā ir saskaitīšanās, funkcija 
 var sendRGBString = "";//nosūtāmā 3 krāsu rgb string vērtība
 var rgbw = [0,0,0,0];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
 var turnOff = true;//No paša sākuma lampa ir izslēgtā  stāvoklī, tāpēc šis mainīgais arī no sākuma ir true
-var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
 var buttonOn = false;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
 var lampNum = "00";//lampu numura String vērtība
 var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
@@ -12,7 +11,7 @@ var funcNum = 0;//lampu funkcijas numurs
 
 //ieslēgšanas/izslēgšanas poga
 function onOffTextChange(){//nospiežot onOff vai lock pogu, izpildās šī funkcija
-    if(turnOff == true){
+    if(turnOff == true && whiteSetOn == false){
         turnOff = false;
         //document.getElementsByClassName("hidable")[0].style.display = "block"; BOOKMARK1
         dataType = 0;
@@ -23,15 +22,26 @@ function onOffTextChange(){//nospiežot onOff vai lock pogu, izpildās šī funk
     dataType = 2;
     funcNum = 0;
     sendValue(funcNumBuilder(funcNum))
+    valueState(turnOff);
 }
 
 //slīderis priekš brightness
 var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
 var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
 output.innerHTML = slider.value;
+
 slider.oninput = function() {//izvada vērtību slīderim
-  output.innerHTML = this.value;
-  setBrightness(this.value);
+  if(turnOff==false){
+    output.innerHTML = this.value;
+  }
+}
+
+slider.onmouseup = function(){//uzstada slideri atpakal uz 100% kad tas tiek atlaists
+  if(turnOff==false){
+    setBrightness(this.value);
+    slider.value = 100;
+    output.innerHTML = 100;
+  }
 }
 
 //colapsed poga
@@ -39,32 +49,40 @@ var coll = document.getElementsByClassName("collapsible");
 
 for (var i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    } 
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.maxHeight){
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+ 
+      var picRotate = document.getElementsByClassName("rotatePic")[i].style;
+      valueState(picRotate);
+
   });
 }
 
+
+var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
 //uzspiežot collapsed pogu attēls uz tās tiek rotēts
-function rotateCollapseImg(){
+function rotateCollapseImg(image){
     if(picPosition == true){
         picPosition = false;
-        var img=document.getElementById('expandTrianglePic');
-        img.setAttribute('style','transform:rotate(180deg)');
+        image[0].setAttribute('style','transform:rotate(180deg)');
     } else {
         picPosition = true;
-        var img=document.getElementById('expandTrianglePic');
-        img.setAttribute('style','transform:rotate(0deg)');
+        image[0].setAttribute('style','transform:rotate(0deg)');
     }
-	
 }
 
-function whiteCenter(){
+var whiteSetOn = false; //norada vai ap baltas krasas ievadi var darboties kad pareja lapa nedarbojas
+function whiteCenter(){//Parada baltas krasas ievades logu
+  if(turnOff==false){
     document.getElementsByClassName("whiteCenterDiv")[0].style.display = "block";
+    turnOff = true;
+    whiteSetOn = true;
+  }
 }
 
 //slideris prieks white brightness
@@ -74,13 +92,16 @@ var whiteSlider = document.getElementById("whiteRange");//saņem vērtību no ba
 var whiteSliderOutput = document.getElementById("whiteBrightnessSliderTextValue");//mainīgais baltajai slīdera vērtībai, ko izvadīt
 output.innerHTML = whiteSlider.value;
 whiteSlider.oninput = function() {//izvada vērtību slīderim
-  whiteSliderOutput.innerHTML = this.value;
-  if(isNaN(this.value)==false){
-    newWhite = this.value;//Tiek iestatita baltas krasas vertiba
-  }
+  if(whiteSetOn == true){
+      whiteSliderOutput.innerHTML = this.value;
+      if(isNaN(this.value)==false){
+        newWhite = this.value;//Tiek iestatita baltas krasas vertiba
+      }
+    }
 }
 
 function okWhite(){//aprekina un iestata baltas krasas vertibu
+  if(whiteSetOn == true){
     document.getElementsByClassName("whiteCenterDiv")[0].style.display = "none";
     rgbw[3] = scaleToRange(newWhite, 0, 100, 0, 255);//Parveido procentus par viena baita vertibu
     if(rgbw[3]>0){//Nosaka vai balta krasa ir ieslegta vai ari nav
@@ -90,10 +111,17 @@ function okWhite(){//aprekina un iestata baltas krasas vertibu
     }
     dataType = 1;
     stringColorSet();//iestata parejas krasas un izvada vertibas
+    whiteSetOn = false;
+    turnOff = false;
+  }
 }
 
 function cancelWhite(){//iziet ara no baltas krasas iestatisanas lodzina nemainot nekadas vertibas
-  document.getElementsByClassName("whiteCenterDiv")[0].style.display = "none";
+  if(whiteSetOn == true){
+    document.getElementsByClassName("whiteCenterDiv")[0].style.display = "none";
+    whiteSetOn = false;
+    turnOff = false;
+  }
 }
 
 function scaleToRange(number, fromMin, fromHigh, toMin, toHigh){//Si funkcija parveido skaitli no vienas kopas uz citu
@@ -101,6 +129,7 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh){//Si funkcija pa
 }
 
 function randomColor(){//Iestata random krasu
+  if(turnOff==false){
     dataType = 1;
     for(var i = 0; i<4; i++){//sastada random krasas vertibas kuras saliek ieksa saraksta
       if(whiteAllowed == true && i == 3 || i<3){//izlaiž white vērtību, ja nebija nospiesta white poga
@@ -108,36 +137,47 @@ function randomColor(){//Iestata random krasu
       }
     }
     stringColorSet();
+  }
 }
 
 function ultraWhite(){//Iestata visas krasas uz maksimumu
+  if(turnOff==false){
     rgbw = [255,255,255,255]; 
     dataType = 1;
     whiteAllowed = true;
     stringColorSet();
+  }
 }
 
 function rainbowFunc(){
-  dataType = 2;
-  funcNum = 1;
-  sendValue(funcNumBuilder(funcNum));
+  if(turnOff==false){
+    dataType = 2;
+    funcNum = 1;
+    sendValue(funcNumBuilder(funcNum));
+  }
 }
 
 function fadeFunc(){
-  dataType = 2;
-  funcNum =2;
-  sendValue(funcNumBuilder(funcNum));
+  if(turnOff==false){
+    dataType = 2;
+    funcNum =2;
+    sendValue(funcNumBuilder(funcNum));
+  }
 }
 
 function blinkFunc(){
-  dataType = 2;
-  funcNum = 3;
-  sendValue(funcNumBuilder(funcNum));
+  if(turnOff==false){
+    dataType = 2;
+    funcNum = 3;
+    sendValue(funcNumBuilder(funcNum));
+  }
 }
 
 function lmFunc(){
-  dataType = 3;
-  sendValue();
+  if(turnOff==false){
+    dataType = 3;
+    sendValue();
+  }
 }
 
 function funcNumBuilder(num){
@@ -184,37 +224,39 @@ function createLampButtons(){
 }
 
 function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtība
-  var oldLampNum = parseInt(lampNum);
-  var buttonChars = ["a", "a"]//tiek definēts char saraksts, kur glabāsies lampu vērtības
-  var buttonValueString = "";//saglabā sevī String vērtību par nospiestās pogas numuru
-  var buttonText = buttonElement.firstChild.innerHTML;//saņem pogas child elementa vērtību, tekstu, kas ir pogā
+  if(turnOff==false){
+    var oldLampNum = parseInt(lampNum);
+    var buttonChars = ["a", "a"]//tiek definēts char saraksts, kur glabāsies lampu vērtības
+    var buttonValueString = "";//saglabā sevī String vērtību par nospiestās pogas numuru
+    var buttonText = buttonElement.firstChild.innerHTML;//saņem pogas child elementa vērtību, tekstu, kas ir pogā
 
-  for (var i = 1; i<3;i++){//sadala pogas teksta datus un saliek to masīvā
-    var char = buttonText.charAt(i);
-    buttonChars[i-1] = char;
-  }
-  if (buttonChars[1] == ""){//ja skaitlis ir viencipara, tad to pabīda pa labi
-    buttonChars[1] = buttonChars[0];
-    buttonChars[0] = "0";
-  }
-  for (var i = 0; i<2; i++){//izveido izsūtāmo String vērtību
-    buttonValueString = buttonValueString + buttonChars[i];
-  }
-  lampNum = buttonValueString;//lampas kārtas numurs
-
-  if(buttonOn == true && oldLampNum == parseInt(lampNum)){//iekrāso pogas pelēkas vai sarkanas atkarībā no tā, kura tiek nospiesta
-    buttonElement.style.background = "lightGray";//ja poga bija iepriekš nospiesta un tā tika nospiesta vēlreiz, tad mainās atpakaļ tās krāsa un tiek uzlikta nultā lampa
-    buttonOn = false;
-    lampNum = "00";
-  } else if (buttonOn == false && oldLampNum == parseInt(lampNum)){//ja ir tā pati poga, bet tā iepriekš nebija ieslēgta
-    buttonElement.style.background = "red";
-    buttonOn = true;
-  } else if (oldLampNum != parseInt(lampNum)){//ja tiek nospiesta poga, kura iepriekš nebija nospieta
-    if(oldLampNum!=0){
-      document.getElementsByClassName("lampButton")[oldLampNum-1].style.background = "lightGray";
+    for (var i = 1; i<3;i++){//sadala pogas teksta datus un saliek to masīvā
+      var char = buttonText.charAt(i);
+      buttonChars[i-1] = char;
     }
-    buttonElement.style.background = "red";
-    buttonOn = true;
+    if (buttonChars[1] == ""){//ja skaitlis ir viencipara, tad to pabīda pa labi
+      buttonChars[1] = buttonChars[0];
+      buttonChars[0] = "0";
+    }
+    for (var i = 0; i<2; i++){//izveido izsūtāmo String vērtību
+      buttonValueString = buttonValueString + buttonChars[i];
+    }
+    lampNum = buttonValueString;//lampas kārtas numurs
+
+    if(buttonOn == true && oldLampNum == parseInt(lampNum)){//iekrāso pogas pelēkas vai sarkanas atkarībā no tā, kura tiek nospiesta
+      buttonElement.style.background = "lightGray";//ja poga bija iepriekš nospiesta un tā tika nospiesta vēlreiz, tad mainās atpakaļ tās krāsa un tiek uzlikta nultā lampa
+      buttonOn = false;
+      lampNum = "00";
+    } else if (buttonOn == false && oldLampNum == parseInt(lampNum)){//ja ir tā pati poga, bet tā iepriekš nebija ieslēgta
+      buttonElement.style.background = "red";
+      buttonOn = true;
+    } else if (oldLampNum != parseInt(lampNum)){//ja tiek nospiesta poga, kura iepriekš nebija nospieta
+      if(oldLampNum!=0){
+        document.getElementsByClassName("lampButton")[oldLampNum-1].style.background = "lightGray";
+      }
+      buttonElement.style.background = "red";
+      buttonOn = true;
+    }
   }
 }
 
@@ -236,52 +278,58 @@ function valueState(valueStateOutput){//parāda vai dati tiek saņemti vai nosū
 }
 
 function setColor(){//izveido krāsu nosūtamo string vērtību
-  dataType = 1;
-  var hexToRgb = document.getElementById("colorIn").value.match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) }).join(",");//pārveido ievadītās krāsu vērtības no HEX uz RGB
-  var colorNum = 0;//katru reizi mainās par 1 , lai ieliktu rgbw sarakstā 3 krāsu vērtības
-  var colorCount = 0;//nepieciešams, lai izvietotu krāsu ciparu sarakstā vērtības
-  var colorChars = [0, 0, 0];//krāsu ciparu saraksts
-  var countStr = "";//saglabā krāsu cipara saraksta vērtības, tādējādi izveidojot String skaitli
-  
-  for(var i = 0; hexToRgb.length>i; i++){//sadala iegūtos rgb datus pa chariem un tad izveido krāsu
-    var char = hexToRgb.charAt(i);//sadala rgb krāsu vērtības
-    if(char != "," ){
-      colorChars[colorNum] = char;//ja programma nesastop komatu string rindiņā, tad pa vienam simbolam tiek pievienots sarakstā
-      colorNum++;
-    }  
-    if(char == "," || i == hexToRgb.length-1){
-      switch(colorNum-1){//colorNum-1, jo colorNum vienmēr ir lielāks par 1, jo notiek pirms šī operatora
-        case 0://ja skaitlis bija vienciparu
-          //"pabīda" ciparus par divām vienībām pa labi
-          colorChars[2] = colorChars[0];
-          colorChars[0] = 0;
-          colorChars[1] = 0;
-        break;
-        case 1://ja skaitlis bija divciparu
-          //"pabīda" ciparus par vienu vienību pa labi
-          colorChars[2] = colorChars[1];
-          colorChars[1] = colorChars[0];
-          colorChars[0] = 0;
-        break;
+  if(turnOff==false){
+    dataType = 1;
+    var hexToRgb = document.getElementById("colorIn").value.match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) }).join(",");//pārveido ievadītās krāsu vērtības no HEX uz RGB
+    var colorNum = 0;//katru reizi mainās par 1 , lai ieliktu rgbw sarakstā 3 krāsu vērtības
+    var colorCount = 0;//nepieciešams, lai izvietotu krāsu ciparu sarakstā vērtības
+    var colorChars = [0, 0, 0];//krāsu ciparu saraksts
+    var countStr = "";//saglabā krāsu cipara saraksta vērtības, tādējādi izveidojot String skaitli
+    
+    for(var i = 0; hexToRgb.length>i; i++){//sadala iegūtos rgb datus pa chariem un tad izveido krāsu
+      var char = hexToRgb.charAt(i);//sadala rgb krāsu vērtības
+      if(char != "," ){
+        colorChars[colorNum] = char;//ja programma nesastop komatu string rindiņā, tad pa vienam simbolam tiek pievienots sarakstā
+        colorNum++;
+      }  
+      if(char == "," || i == hexToRgb.length-1){
+        switch(colorNum-1){//colorNum-1, jo colorNum vienmēr ir lielāks par 1, jo notiek pirms šī operatora
+          case 0://ja skaitlis bija vienciparu
+            //"pabīda" ciparus par divām vienībām pa labi
+            colorChars[2] = colorChars[0];
+            colorChars[0] = 0;
+            colorChars[1] = 0;
+          break;
+          case 1://ja skaitlis bija divciparu
+            //"pabīda" ciparus par vienu vienību pa labi
+            colorChars[2] = colorChars[1];
+            colorChars[1] = colorChars[0];
+            colorChars[0] = 0;
+          break;
+        }
+        for (var x = 0; x<3; x++){//saliek krāsu ciparus no saraksta vienā rindiņā izveidojot String skaitli
+          countStr = countStr + colorChars[x].toString();
+        }
+        rgbw[colorCount] = parseInt(countStr);
+        countStr = "";
+        colorNum = 0;
+        colorChars = [0, 0, 0];
+        colorCount++;
       }
-      for (var x = 0; x<3; x++){//saliek krāsu ciparus no saraksta vienā rindiņā izveidojot String skaitli
-        countStr = countStr + colorChars[x].toString();
-      }
-      rgbw[colorCount] = parseInt(countStr);
-      countStr = "";
-      colorNum = 0;
-      colorChars = [0, 0, 0];
-      colorCount++;
     }
+    stringColorSet();
   }
-  stringColorSet();
 }
 
-function setBrightness(brightness){ 
-  for(var i = 0; i<4; i++){
-    rgbw[i] = Math.round(scaleToRange(brightness, 0, 100, 0, rgbw[i]));
+function setBrightness(brightness){
+  if(turnOff==false){
+    if(dataType == 1){
+      for(var i = 0; i<4; i++){
+        rgbw[i] = Math.round(scaleToRange(brightness, 0, 100, 0, rgbw[i]));
+      }
+      stringColorSet();
+    }
   }
-  stringColorSet();
 }
 
 function stringColorSet(){//Si funkcija parveido rgbw krasu vertibas String rindina. Gatavu izsutisanai
@@ -301,16 +349,46 @@ function stringColorSet(){//Si funkcija parveido rgbw krasu vertibas String rind
   sendRGBString = "";
 }
 
-//iestatit baltas krasas ievades slidera default uz 100% lai nerastos nesakritibas ar brightness ievadi
+//Paroles ievades dala
+function submitPassword(){
+  var password = "test";
+  var passwordCheck = document.getElementById("passwordInput").value;
+  if(passwordCheck == password){
+    window.location.href = "main.html";
+  }
+}
+//Paroles ievades dala beidzas
 
+//Settings logs
+document.getElementsByClassName("optionsDiv")[0].style.display = "none";
+var openSettingsVar = false
+function openSettings(){
+  if(openSettingsVar == false){
+    turnOff = true;
+    openSettingsVar = true;
+    document.getElementsByClassName("optionsDiv")[0].style.display = "block";
+  } else {
+    turnOff = false;
+    openSettingsVar = false;
+    document.getElementsByClassName("optionsDiv")[0].style.display = "none";
+  }
+}
+
+function setNewPass(){
+
+}
+
+function lampCount(){
+
+}
+
+function showDevInfo(){
+
+}
 //lai darbotos ar datiem neizmantojot WiFi, ir jāizveido input lodzinš, kur tiks iekšā rakstītas vērtības
-
-//Brightness vienmēr proporcionāli maina krāsu vērtību, kas nozīmē, ka ja vienu reizi brightness tika uzlikts uz 20%, tad visas tālāk iestatītās krāsas iet caur šo spožuma "filru" katru reizi iestatot krāsu spožumu uz 20%. Tas attiecās uz visām 4 krāsām
 
 //Settingos var mainīt paroli
 //Settingos atrodas lampu parskaitisanas
-
-//Ieejot iekšā tiek pieprasīta tikai parole. Ja ievada 3 reizes nepareizi, tad nobloķējas uz 1min (optional)
 
 //izveidot lampu pārskaitīšanās nosūtīšanu
 
@@ -324,3 +402,5 @@ function stringColorSet(){//Si funkcija parveido rgbw krasu vertibas String rind
 
 //izveidot tā, lai funkcijas darbotos tikai tad, ja on off būls būtu true
 //BOOKMARK1 ir iespeja pie ieslegsanas un izslegsanas noslept funkcionalo lapas dalu tadejadi tai lietotajam uz to bridi tai nebus piekluves. Sis ir atrais variants kuru butu velams uzlabot ar sarezgitaku un izskatigaku variantu
+
+//Izveidot labu un parskatamu dizainu atbilstosi dazadiem ekranu izmeriem

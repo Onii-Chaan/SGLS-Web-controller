@@ -230,13 +230,7 @@ body{
 
   .collapsible {
     background-color: #777;
-    color: white;
     cursor: pointer;
-    border: none;
-    outline: none;
-    margin-top: 25px;
-    height: 35px;
-    width: 95%;
     margin-right: auto;
     margin-left: auto;
     display: flex;
@@ -244,6 +238,15 @@ body{
   
   .active, .collapsible:hover {
     background-color: #555;
+  }
+
+  .expandButton {
+    height: 35px;
+    width: 95%;
+    margin-top: 25px;
+    border: none;
+    color: white;
+    outline: none;
   }
   
   .content {
@@ -395,4 +398,61 @@ body{
 }
 button {
   cursor: pointer;
+}
+
+/*Paroles ievadisanas dizains*/
+
+.inputForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: red;
+  text-align: center;
+}
+
+.submitButton {
+  background: gray;
+  width: 50px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.submitButton:hover{
+  background: darkgray;
+}
+
+/*Settings lodzins*/
+
+.optionsDiv {
+  position: fixed;
+  right: 60px;
+  background: rgb(35, 121, 142);
+  width: 300px;
+  height: 600px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.optionsDivButton {
+  display: flex;
+  background: khaki;
+  width: 100%;
+  height: 70px;
+  border-bottom: black 1px solid;
+  padding-left: 5px;
+}
+
+.optionsDivButton:hover{
+  background: darkkhaki;
+}
+
+.rotateOptionsPic{
+  height: 15px;
+  margin-right: 20px;
+  margin-left: auto;
+}
+
+.optionsContent {
+  width: 100%;
 }
