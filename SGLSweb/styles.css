@@ -7,17 +7,30 @@
     font-family: Arial, Helvetica, sans-serif;
     }
 
-
+:root {
+  --testColor: red;
+  --colorPrimary: #261c15;
+  --colorPrimaryPressed: #523c2e;
+  --colorSecondary: #9ab8a0;
+  --colorTertiary: #52796f;
+  --colorTertiaryTwo: #b3dec1;
+  --colorBorder: #333333;
+  --colorButtons: #9ab8a0;
+  --colorButtonPressed: #6c8270;
+  --colorBackground: #f0f0f0;
+  --colorBackgroundSecondary: #e0e0e0;
+  /*var(--colorBackgroundSecondary)*/
+}
 
 body{
-    background: orange;
+    background: var(--colorBackground);
     color: black;
 }
 
 .main {/*šajā daļā atrodas viss tas, kas atrodas zem headera*/
     position: relative;
     top: 50px;
-    background: orange;
+    background: var(--colorBackground);
 }
 
 /*Header, jeb augšējā lapas daļa*/
@@ -31,7 +44,7 @@ body{
 .titleDiv{
     height: 50px;
     width: 100%;
-    background: greenyellow;
+    background: var(--colorPrimary);
     position: fixed;
     display: flex;/*Nepieciešams, lai iekšējos div blokus varētu vadīt izmantojot left right top un bottom*/
     justify-content: space-between;/*Nepieciešams, lai pa vidu paliktu tukšums*/
@@ -42,7 +55,6 @@ body{
     position: relative;
     height: 100%;
     width: 100px;
-    background: blue;
     left: 50px;
     right: auto;
     text-align: center;
@@ -53,12 +65,14 @@ body{
     position: relative;
     height: 100%;
     width: 50px;
-    background: red;
     left: auto;
     right: 10px;
     cursor: pointer;
 }
 
+.headerButton:hover{
+  background: var(--colorPrimaryPressed);
+}
 
 #settingsButtonPic{
     height: 50px;
@@ -78,26 +92,23 @@ body{
 }
 
 .allLampsMainDivPart{
-    width: 100%;
-    height: 60px;
-    background: purple;
+    width: 98%;
+    height: 40px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid var(--colorBorder);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .allLampsMainDivPartTextDiv{
     width: 170px;
     height: 100%;
-    background: cyan;
     left: 10px;
     position: relative;
     text-align: center;
-    line-height: 60px;
-}
-
-.mainPageText{
-    font-size: 30px;
+    line-height: 40px;
 }
 
 #sliderValueTextDiv{
@@ -144,7 +155,7 @@ body{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--colorTertiary);
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -162,11 +173,11 @@ body{
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: var(--colorTertiaryTwo);
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px var(--colorTertiaryTwo);
   }
   
   input:checked + .slider:before {
@@ -202,7 +213,7 @@ body{
     width: 100%;
     height: 15px;
     border-radius: 5px;
-    background: #ccc;
+    background: var(--colorTertiary);
     outline: none;
     -webkit-transition: .2s;
     transition: opacity .2s;
@@ -214,7 +225,7 @@ body{
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #2196F3;
+    background: var(--colorTertiaryTwo);
     cursor: pointer;
   }
   
@@ -222,14 +233,14 @@ body{
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #2196F3;
+    background: var(--colorTertiaryTwo);
     cursor: pointer;
   }
 
   /*Collapsed daļa*/
 
   .collapsible {
-    background-color: #777;
+    background-color: var(--colorPrimary);
     cursor: pointer;
     margin-right: auto;
     margin-left: auto;
@@ -237,11 +248,11 @@ body{
   }
   
   .active, .collapsible:hover {
-    background-color: #555;
+    background-color: var(--colorPrimaryPressed);
   }
 
   .expandButton {
-    height: 35px;
+    height: 30px;
     width: 95%;
     margin-top: 25px;
     border: none;
@@ -256,7 +267,7 @@ body{
     width: 95%;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
+    background-color: var(--colorBackgroundSecondary);
   }
 
   /*Expanded lietas*/
@@ -277,7 +288,7 @@ body{
   }
 
   .expandedColorSetButton{
-    background: brown;
+    background: var(--colorButtonPressed);
     height: 35px;
     width: 60px;
     border-radius: 8%;
@@ -288,7 +299,7 @@ body{
   }
 
   .expandedColorSetButton:hover{
-    background: darkorange;
+    background: var(--colorButtons);
   }
 
   .expandedColorSetButtonBack{
@@ -310,22 +321,24 @@ body{
     height: 50px;
     border: none;
     border-radius: 5%;
-    background: lightsalmon;
+    background: var(--colorButtons);
     font-size: 20px;
     cursor: pointer;
   }
   .colorFuncButton:hover{
-    background: salmon;
+    background: var(--colorButtonPressed);
   }
   /*Katras lampas pogas parādīšanās*/
 .dynamicButtonSpace{
   width: 95%;
   margin-top: 30px;
-  background: crimson;
   margin-left: auto;
   margin-right: auto;
 }
 
+.lampButton {
+  background: var(--colorButtonPressed);
+}
 /*Dinamiski genereta baltas krasas izvelne*/
 
 .whiteCenterDiv{
@@ -339,19 +352,22 @@ body{
   margin-left: auto;
   top:100px;
   display: none;/*default stavoklis baltas krasas ievades lodzinam ir paslepts*/
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .whiteCenterDivTop {
   height: 20%;
   width: 100%;
-  background: ivory;
+  background: var(--colorTertiary);
   display: flex;
+  line-height: 18px;
 }
 
 .whiteCenterDivMiddle{
   height: 40%;
   width: 100%;
-  background: orchid;
+  background: var(--colorBackgroundSecondary);
   display: flex;
 }
 
@@ -366,35 +382,35 @@ body{
 .whiteCenterDivBottom{
   height: 40%;
   width: 100%;
-  background: papayawhip;
-  border-top: 2px black solid;
+  border-bottom: 3px var(--colorBorder) solid;
   display: flex;
 }
 
 .whiteCenterDivOk {
   height: 100%;
   width: 50%;
-  background: silver;
-  border-right: 1px black solid;
+  background: var(--colorButtons);
+  border-right: 1px var(--colorBorder) solid;
 }
 
 .whiteCenterDivCancel {
   height: 100%;
   width: 50%;
-  background: papayawhip;
-  border-left: 2px solid black;
+  background: var(--colorTertiary);
+  border-left: 2px solid var(--colorBorder);
 }
 
 .whiteCenterDivOk:hover{
-  background: rgb(140, 140, 140);
+  background: var(--colorButtonPressed);
 }
 
 .whiteCenterDivCancel:hover{
-  background: rgb(220, 220, 220);
+  background: var(--colorButtonPressed);
 }
 
 .whiteCenterDivOptionsText{
-  font-size: 30px;
+  font-size: 18px;
+  margin-left: 5px;
 }
 button {
   cursor: pointer;
@@ -407,14 +423,19 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: red;
+  background: var(--colorSecondary);
   text-align: center;
+  width: 400px;
+  height: 100px;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .submitButton {
   background: gray;
-  width: 50px;
-  height: 20px;
+  width: 70px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -422,34 +443,40 @@ button {
   background: darkgray;
 }
 
+.textInput {
+  font-size: 20px;
+}
+
 /*Settings lodzins*/
 
 .optionsDiv {
   position: fixed;
   right: 60px;
-  background: rgb(35, 121, 142);
+  background: var(--colorBackgroundSecondary);
   width: 300px;
   height: 600px;
   overflow: scroll;
   overflow-x: hidden;
+  border-left: 2px dashed var(--colorBorder);
+  border-bottom: 2px dashed var(--colorBorder);
 }
 
 .optionsDivButton {
   display: flex;
-  background: khaki;
+  background: var(--colorSecondary);
   width: 100%;
   height: 70px;
-  border-bottom: black 1px solid;
+  border-bottom: var(--colorBorder) 1px solid;
   padding-left: 5px;
 }
 
 .optionsDivButton:hover{
-  background: darkkhaki;
+  background: var(--colorTertiary);
 }
 
 .rotateOptionsPic{
   height: 15px;
-  margin-right: 20px;
+  margin-right: 18px;
   margin-left: auto;
 }
 
@@ -457,4 +484,14 @@ button {
   width: 100%;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+/*Parametri kas ir kopigi vairakam klasem*/
+
+.mainPageText, .optionsDivButton{
+  font-size: 18px;
+}
+
+.text, .submitButton, .expandedOneColorSetButtonDiv, .colorFuncButton {
+  font-size:16px;
 }

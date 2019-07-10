@@ -20,46 +20,53 @@
             <div class = "headerButton" onclick="openSettings();"><!--Options poga-->
                 <img src = "pics/settingsButtonPic.png" id = "settingsButtonPic"/><!--Jāpievieno arī hrefs-->
             </div>
-            <div class="optionsDiv"><!--Opciju logs-->
-                <button type="button" onclick="setNewPass();" class="optionsDivButton collapsible">
-                    Set new password
-                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
-                </button>
-                <div class="content optionsContent">
-                    <p>Enter your previous password:</p>
-                    <input type = "password" id = "oldPassInput"><br><br>
-                    <p>Confirm your previous password:</p>
-                    <input type="password" id = "oldPassConfInput"><br><br>
-                    <p>Enter your new password:</p>
-                    <input type="password" id = "newPass"><br><br>
-                    <p id="passwordChangeState"></p>
+            
+                <div class="optionsDiv"><!--Opciju logs-->
+                    <button type="button" onclick="setNewPass();" class="optionsDivButton collapsible">
+                        Set new password
+                        <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                    </button>
+                    <div class="content optionsContent">
+                        <form>
+                            <p class = "text">Enter your previous password:</p>
+                            <input type = "password" id = "oldPassInput" class="textInput"><br><br>
+                            <p class = "text">Confirm your previous password:</p>
+                            <input type="password" id = "oldPassConfInput" class="textInput"><br><br>
+                            <p class = "text">Enter your new password:</p>
+                            <input type="password" id = "newPass" class="textInput"><br><br>
+                            <p id="passwordChangeState" class = "text"></p>
+                            <button type="submit" class="submitButton">Submit</button><br><br>
+                        </form>
+                    </div>
+                    <button type="button" onclick="lampCount();" class="optionsDivButton collapsible">
+                        Lamp count
+                        <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                    </button>
+                    <div class="content optionsContent">
+                        <br>
+                        <input type="text" id = "lampCountInput" class="textInput">
+                        <br>
+                        <p id="lampNumStats" class = "text">-</p>
+                        <br>
+                        <button type="submit" class="submitButton">Submit</button><br><br>
+                    </div>
+                    <button type="button" onclick="showDevInfo();" class="optionsDivButton collapsible">
+                        Developer info
+                        <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
+                    </button>
+                    <div class="content optionsContent">
+                        <h3>SGLS</h3>
+                        <br>
+                        <p class = "text">This app was created by:</p>
+                        <p class = "text">App was designed by:</p>
+                        <br>
+                        <p class = "text">App version: </p>
+                        <br>
+                        <p class = "text">Contacts: </p>
+                        <br>
+                    </div>
                 </div>
-                <button type="button" onclick="lampCount();" class="optionsDivButton collapsible">
-                    Lamp count
-                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
-                </button>
-                <div class="content optionsContent">
-                    <br>
-                    <input type="text" id = "lampCountInput">
-                    <br>
-                    <p id="lampNumStats">-</p>
-                    <br>
-                </div>
-                <button type="button" onclick="showDevInfo();" class="optionsDivButton collapsible">
-                    Developer info
-                    <img src = "pics/expandTrianglePic.png" class = "rotateOptionsPic rotatePic"/>
-                </button>
-                <div class="content optionsContent">
-                    <h3>SGLS</h3>
-                    <br>
-                    <p>This app was created by:</p>
-                    <p>App was designed by:</p>
-                    <br>
-                    <p>App version: </p>
-                    <br>
-                </div>
-            </div>
-
+        
     </header>
     <main class = "main">
         <div class = "allLampsMainDiv">

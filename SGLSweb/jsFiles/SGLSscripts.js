@@ -1,4 +1,7 @@
 //var totalLamps = Number(prompt("Ievadi lampu daudzumu: "));
+var lampButtonPressed = "#9ab8a0";//dinamisko pogu krasa kad ta tika nospiesta
+var lampButtonDefault = "#6c8270";//dinamisko pogu krasa kad ta nav nospiesta
+
 var dataType;//izsūtāmo vērtību tips, vai tā ir saskaitīšanās, funkcija vai krāsa
 var sendRGBString = "";//nosūtāmā 3 krāsu rgb string vērtība
 var rgbw = [0,0,0,0];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
@@ -216,8 +219,8 @@ function createLampButtons(){
     setButtonStyle[i-1].style.marginBottom = "10px";
     setButtonStyle[i-1].style.borderRadius = "7%";
     setButtonStyle[i-1].style.cursor = "pointer";
-    setButtonStyle[i-1].style.background = "lightGray";
     setButtonStyle[i-1].style.fontFamily = "Arial, Helvetica, sans-serif";
+    setButtonStyle[i-1].style.fontSize = "16px";
 
     document.getElementById("lampButton"+i).addEventListener('click', function lampButton(){lampButtonClick(this);});//katrai no lampu pogām pievieno funkciju kura nosūta pašas pogas vērtību tālāk uz citu funkciju
   }
@@ -244,17 +247,17 @@ function lampButtonClick(buttonElement){//buttonElement ir veselas pogas vērtī
     lampNum = buttonValueString;//lampas kārtas numurs
 
     if(buttonOn == true && oldLampNum == parseInt(lampNum)){//iekrāso pogas pelēkas vai sarkanas atkarībā no tā, kura tiek nospiesta
-      buttonElement.style.background = "lightGray";//ja poga bija iepriekš nospiesta un tā tika nospiesta vēlreiz, tad mainās atpakaļ tās krāsa un tiek uzlikta nultā lampa
+      buttonElement.style.background = lampButtonDefault;//ja poga bija iepriekš nospiesta un tā tika nospiesta vēlreiz, tad mainās atpakaļ tās krāsa un tiek uzlikta nultā lampa
       buttonOn = false;
       lampNum = "00";
     } else if (buttonOn == false && oldLampNum == parseInt(lampNum)){//ja ir tā pati poga, bet tā iepriekš nebija ieslēgta
-      buttonElement.style.background = "red";
+      buttonElement.style.background = lampButtonPressed;
       buttonOn = true;
     } else if (oldLampNum != parseInt(lampNum)){//ja tiek nospiesta poga, kura iepriekš nebija nospieta
       if(oldLampNum!=0){
-        document.getElementsByClassName("lampButton")[oldLampNum-1].style.background = "lightGray";
+        document.getElementsByClassName("lampButton")[oldLampNum-1].style.background = lampButtonDefault;
       }
-      buttonElement.style.background = "red";
+      buttonElement.style.background = lampButtonPressed;
       buttonOn = true;
     }
   }
@@ -364,11 +367,11 @@ document.getElementsByClassName("optionsDiv")[0].style.display = "none";
 var openSettingsVar = false
 function openSettings(){
   if(openSettingsVar == false){
-    turnOff = true;
+    turnOff = false;
     openSettingsVar = true;
     document.getElementsByClassName("optionsDiv")[0].style.display = "block";
   } else {
-    turnOff = false;
+    turnOff = true;
     openSettingsVar = false;
     document.getElementsByClassName("optionsDiv")[0].style.display = "none";
   }
@@ -382,9 +385,6 @@ function lampCount(){
 
 }
 
-function showDevInfo(){
-
-}
 //lai darbotos ar datiem neizmantojot WiFi, ir jāizveido input lodzinš, kur tiks iekšā rakstītas vērtības
 
 //Settingos var mainīt paroli
