@@ -5,8 +5,8 @@
     <title>SGLS</title>
     <link rel= stylesheet href= styles.css type= text/css  >
 </head>
-<body onload = "createLampButtons();"><!--Te notiks lampu saskaitisana un pogu yveide atbilstosi tam. No sakuma tiek nosutita lampu saskaitisanas vertiba un tad gaidits lidz ta vertiba ir sanemta. Kad vertiba ir sanemta tad to apstrada un izvada pogu veida-->
-    <header  class = "titleDiv">
+<body onload="createColl(document.getElementById('testDiv'), document.getElementById('testDiv').children);">
+        <header  class = "titleDiv">
         <a href = "main.html" class = "linkBlock">
             <div class = "SGLSTitleDiv"><!--SGLS nosaukums-->
                 <h1 class = "mainText" id = "SGLSmainName"><b>SGLS</b></h1>
@@ -83,16 +83,6 @@
     </main>
     <main class = "main hidable"><!--Visa satura bloks-->
         <div class = "allLampsMainDiv"><!--Visu lampu opcijas-->
-            
-            <div class = "allLampsMainDivPart"><!--Lock-->
-                <div class = "allLampsMainDivPartTextDiv"><!--Lock teksta gabals-->
-                    <p class = "mainPageText">Lock: </p>
-                </div>
-                <label class="switch"><!--On/Off poga-->
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-            </div>
             <div class = "allLampsMainDivPart"><!--Brightness-->
                 <div class = "allLampsMainDivPartTextDiv"><!--Brightness text-->
                     <p class = "mainPageText">Brightness: </p>
@@ -105,53 +95,22 @@
                 </div>
             </div>
         </div>
+
+        <section id="s_color_picker_id">
+            <!--Krāsu aplis-->
+            <canvas id="color_picker" width="200" height="200"></canvas>
+        </section>
+
         <button class = "collapsible expandButton" onclick="rotateCollapseImg(this.children);"><!--Expand poga-->
-            <img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
+            Explore<img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
         </button>
         <div class = "content"><!--Daļa, kas tiek apslēpta, collapsed-->
-            <div class = "expandedColorSetButtons">
-                <div class="expandedOneColorSetButtonDiv">
-                    <p>Color:&nbsp;&nbsp;&nbsp;</p>
-                    <div>
-                        <input type="color" id = "colorIn" onchange = "setColor();">
-                    </div>
-                </div>
-                <div class="expandedOneColorSetButtonDiv">
-                    <p>White center:&nbsp;&nbsp;&nbsp;</p>
-                    <div class = "expandedColorSetButtonBack" onclick="whiteCenter();" id = "whiteCenterBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
-                </div>
-                <div class="expandedOneColorSetButtonDiv">
-                    <p>Random color:&nbsp;&nbsp;&nbsp;</p>
-                    <div class = "expandedColorSetButtonBack" onclick="randomColor();" id = "randomColorBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
-                </div>
-                <div class="expandedOneColorSetButtonDiv">
-                    <p>Ultra white:&nbsp;&nbsp;&nbsp;</p>
-                    <div class = "expandedColorSetButtonBack" onclick="ultraWhite();" id = "ultraWhiteBg" class = "buttonBackground"><div class = "expandedColorSetButton"></div></div>
-                </div>
-            </div>
-
-            <div class="expandedColorSetButtons"><!--Te atrodas nākamā pogu rinda pēc krāsu pogām, tiek izmantota tā pati klase, jo tai jau ir iestatīti nepieciešamie parametri-->
-                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
-                        <button class = "colorFuncButton" onclick="rainbowFunc();" id = "rainbowFuncButton">
-                            Rainbow
-                        </button>
-                    </div>
-                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
-                        <button class = "colorFuncButton" onclick="fadeFunc();" id = "fadeFuncButton">
-                            Fade
-                        </button>
-                    </div>
-                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
-                        <button class = "colorFuncButton" onclick="blinkFunc();" id="blinkFuncButton">
-                            Blink
-                        </button>
-                    </div>
-                    <div class="expandedOneColorSetButtonDiv"><!--Bloks priekš vienas pogas, tiek izmantots tāda tāda klase, jo tai jau ir iestatīti nepieciešamie parametri-->
-                        <button class = "colorFuncButton" onclick="lmFunc();" id = "lmFuncButton">
-                            Light Music
-                        </button>
-                    </div>
-            </div>
+            <button class = "collapsible expandButton" onclick="rotateCollapseImg(this.children);"><!--Expand poga-->
+                Colors<img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
+            </button>
+            <button class = "collapsible expandButton" onclick="rotateCollapseImg(this.children);"><!--Expand poga-->
+                Animations<img src = "pics/expandTrianglePic.png" id = "expandTrianglePic"/>
+            </button>
         </div>
 
         <div class = "dynamicButtonSpace"><!--Katras lampas pogas parādīšanās vieta--></div>
@@ -181,9 +140,10 @@
                 </button>
             </div>
         </div>
-
+        
     </main>
     
+    <div id="testDiv"><div></div></div>
     <script src = jsFiles\SGLSscripts.js></script>
 </body>
 </html>

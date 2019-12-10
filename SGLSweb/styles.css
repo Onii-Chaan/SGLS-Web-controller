@@ -9,8 +9,8 @@
 
 :root {
   --testColor: red;
-  --colorPrimary: #261c15;
-  --colorPrimaryPressed: #523c2e;
+  --colorPrimary: blue;
+  --colorPrimaryPressed: lightBlue;
   --colorSecondary: #9ab8a0;
   --colorTertiary: #52796f;
   --colorTertiaryTwo: #b3dec1;
@@ -22,15 +22,15 @@
   /*var(--colorBackgroundSecondary)*/
 }
 
+
 body{
     background: var(--colorBackground);
     color: black;
 }
 
 .main {/*šajā daļā atrodas viss tas, kas atrodas zem headera*/
-    position: relative;
-    top: 50px;
     background: var(--colorBackground);
+    padding-top: 50px;
 }
 
 /*Header, jeb augšējā lapas daļa*/
@@ -69,6 +69,7 @@ body{
     right: 10px;
     cursor: pointer;
 }
+
 
 .headerButton:hover{
   background: var(--colorPrimaryPressed);
@@ -495,3 +496,64 @@ button {
 .text, .submitButton, .expandedOneColorSetButtonDiv, .colorFuncButton {
   font-size:16px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*JAUNAIS KODS*/
+/*Krāsu aplis*/
+
+#s_color_picker_id {
+  text-align: center;
+}
+
+
+
+/*Bultiņa*/
+
+div.arrow {
+	width: 6vmin;
+	height: 6vmin;
+	box-sizing: border-box;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: rotate(-45deg);
+}
+	div.arrow::before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		border-width: .8vmin .8vmin 0 0;
+		border-style: solid;
+		border-color: black;
+		transition: .2s ease;
+		display: block;
+		transform-origin: 100% 0;
+	}
+
+	
+	div.arrow:after {
+		content: '';
+		float: left;
+		position: relative;
+		top: -100%;
+		width: 100%;
+		height: 100%;
+		border-width: 0 .8vmin 0 0;
+		border-style: solid;
+		border-color: black;
+		transform-origin: 100% 0;
+		transition:.2s ease;
+	}
+	
+
