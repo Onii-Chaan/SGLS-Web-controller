@@ -66,11 +66,19 @@ function rotateCollapseImg(image) {
 class Arrow {
   constructor() {
     this.arrowElem;
+    this.arrHoldDiv;
   }
 
-  buildArrow() {//Izveido bultiņa div elementu
+  buildArrow(){
+    this.arrHoldDiv = document.createElement('DIV');
+    this.arrHoldDiv.classList.add("medIcon");
+    this.arrHoldDiv.appendChild(this.divToStoreArrow());
+  }
+
+  divToStoreArrow() {//Izveido bultiņas div elementu
     this.arrowElem = document.createElement('DIV');
     this.arrowElem.classList.add('arrow');
+    return this.arrowElem;
   }
 
   rotateArrow(position) {//Aprgriež otrādi bultiņu
@@ -83,49 +91,67 @@ class Arrow {
 }
 
 
-//Sarakstīt komentārus
 
 class CollapsibleButton {
-  constructor(arrow, text, elementToCollapse) {
-    this.collArrow = arrow;
-    this.collText = text;
-    this.collElementToCollapse = elementToCollapse;
+  constructor(iconObj, textToAppend, elementHolder, elemNumToCreate) {
+    
+    this.iconObj = iconObj;//ikonas objekts, kas tiks parādīts pogas sānā
+    this.textToAppend = textToAppend;//Teksts, kas parādīsies uz pogas
+    this.elementHolder = elementHolder;//Elements, kurā atradīsies poga
+    this.elemNumToCreate = elemNumToCreate;//Elementu skaits, ko izveidot atverot pogu
+
+
+
     this.collButton;
     this.rotateState = false;
   }
 
-  buildCollapseButton(elementToAppend) {//Izveido pogas elementu un tajā esošo kontentu
-    this.collButton = document.createElement('BUTTON');
-    this.collButton.classList.add('collapsible');
-    var textToAdd = document.createTextNode(this.collText);
-    this.collButton.appendChild(textToAdd);
 
-    this.collArrow.buildArrow();
+  buildCollapseButton() {//Izveido pogas elementu un tajā esošo kontentu
+
+    this.collButton = document.createElement('BUTTON');//izveido pogas elementu, kas arī būs pati poga
     
-    this.collButton.appendChild(this.collArrow.arrowElem);
+    this.collButton.classList.add('collapsible');//pievieno klasi pogai
+    this.collButton.classList.add('expandButton');//pievieno klasi pogai
+
+    var textToAdd = document.createTextNode(this.textToAppend);//Izveido tekstu pogai
+    this.collButton.appendChild(textToAdd);//pievieno tekstu pogai
+
+    this.iconObj.buildArrow();//tiek izveidota ikona, caur ikonas objektu, ko parādīt pogas sānā
+    this.collButton.appendChild(this.iconObj);//ikona tiek pievienota pogas objektam
     
 
-
-    this.collButton.addEventListener("click", function () {
-      if (this.collElementToCollapse.style.maxHeight) {
-        this.collElementToCollapse.style.maxHeight = null;
-      } else {
-        this.collElementToCollapse.style.maxHeight = this.collElementToCollapse.scrollHeight + "px";
-      }
-      if(this.rotateState){
-        this.rotateState = false;
-      } else{
-        this.rotateState = true;
-      }
-    });
-    elementToAppend.appendChild(this.collButton);
+  
+    this.collButton.addEventListener("click", this.collOnClickEvent());//pievieno pogas uzspiešanas opciju pogai
+    this.elementHolder.appendChild(this.collButton);//pievieno izveidoto pogu un tās elementus elementam, kur atrodas poga
   }
+
+
+
+
+
+
+
+  /*collOnClickEvent(){
+    if (this.collElementToCollapse.style.maxHeight) {
+      this.collElementToCollapse.style.maxHeight = null;
+    } else {
+      this.collElementToCollapse.style.maxHeight = this.collElementToCollapse.scrollHeight + "px";
+    }
+    if(this.rotateState){
+      this.rotateState = false;
+    } else{
+      this.rotateState = true;
+    }
+}*/
+
+
 }
 
-function createColl(buttonHolder, collArea/*Masīvs ar div elementiem*/){//Izveido collapsible div objektu
-  var collapsibleObj = new CollapsibleButton(new Arrow, "Animations", collArea[0]);
+function createColl(placeHolder){//Izveido collapsible div objektu
+  var collapsibleObj = new CollapsibleButton(new Arrow, "Animations", placeHolder, 2);
   console.log(collapsibleObj);
-  collapsibleObj.buildCollapseButton(buttonHolder);
+  collapsibleObj.buildCollapseButton();
 }
 
 

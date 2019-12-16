@@ -9,7 +9,7 @@
 
 :root {
   --testColor: red;
-  --colorPrimary: blue;
+  --colorPrimary: darkgray;
   --colorPrimaryPressed: lightBlue;
   --colorSecondary: #9ab8a0;
   --colorTertiary: #52796f;
@@ -557,3 +557,7 @@ div.arrow {
 	}
 	
 
+.medIcon{
+  height: 20px;
+  width: 20px;
+}
