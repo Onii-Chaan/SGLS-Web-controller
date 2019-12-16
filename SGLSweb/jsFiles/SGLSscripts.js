@@ -82,6 +82,9 @@ class Arrow {
   }
 }
 
+
+//Sarakstīt komentārus
+
 class CollapsibleButton {
   constructor(arrow, text, elementToCollapse) {
     this.collArrow = arrow;
@@ -119,8 +122,8 @@ class CollapsibleButton {
   }
 }
 
-function createColl(buttonHolder, collArea){
-  var collapsibleObj = new CollapsibleButton(new Arrow, "Animations", collArea);
+function createColl(buttonHolder, collArea/*Masīvs ar div elementiem*/){//Izveido collapsible div objektu
+  var collapsibleObj = new CollapsibleButton(new Arrow, "Animations", collArea[0]);
   console.log(collapsibleObj);
   collapsibleObj.buildCollapseButton(buttonHolder);
 }
