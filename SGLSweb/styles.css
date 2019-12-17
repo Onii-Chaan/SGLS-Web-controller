@@ -253,12 +253,14 @@ body{
   }
 
   .expandButton {
-    height: 30px;
+    height: 100%;
     width: 95%;
-    margin-top: 25px;
+    top: 25px;
     border: none;
     color: white;
     outline: none;
+    position: relative;
+    text-align: center
   }
   
   .content {
@@ -521,8 +523,6 @@ button {
 /*Bultiņa*/
 
 div.arrow {
-	width: 6vmin;
-	height: 6vmin;
 	box-sizing: border-box;
 	position: absolute;
 	left: 50%;
@@ -560,4 +560,14 @@ div.arrow {
 .medIcon{
   height: 20px;
   width: 20px;
+}
+
+#collHolder{
+  height: 30px;
+}
+
+.elemPlaceHolder{
+  background: red;
+  height: 200px;
+  width: 100%;
 }
