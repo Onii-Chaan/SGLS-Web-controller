@@ -255,7 +255,6 @@ body{
   .expandButton {
     height: 100%;
     width: 95%;
-    top: 25px;
     border: none;
     color: white;
     outline: none;
@@ -568,6 +567,37 @@ div.arrow {
 
 .elemPlaceHolder{
   background: red;
-  height: 200px;
-  width: 100%;
+
+  width: 95%;
+}
+
+
+
+
+/*BOOKMARK ICON*/
+.bookmark-solid.icon {
+  color: #000;
+  position: absolute;
+  margin-left: 5px;
+  margin-top: 3px;
+  width: 10px;
+  height: 15px;
+  border-radius: 1px 1px 0 0;
+  border-top: solid 1px currentColor;
+  border-left: solid 1px currentColor;
+  border-right: solid 1px currentColor;
+  background-color: currentColor;
+}
+.bookmark-solid.icon:before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 1px;
+  width: 7px;
+  height: 7px;
+  border-top: solid 1px currentColor;
+  border-left: solid 1px currentColor;
+  background-color: white;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
 }

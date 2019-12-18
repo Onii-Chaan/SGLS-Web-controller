@@ -28,64 +28,60 @@ slider.oninput = function () {//izvada vērtību slīderim
 
 
 
-/*
-
-//colapsed poga
-var coll = document.getElementsByClassName("collapsible");
-
-for (var i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function () {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-
-    var picRotate = document.getElementsByClassName("rotatePic")[i].style;
-    valueState(picRotate);
-
-  });
-}
 
 
-var picPosition = true; //kad picPosition == true, tad attēls stāv savā sākuma stāvoklī
-//uzspiežot collapsed pogu attēls uz tās tiek rotēts
-function rotateCollapseImg(image) {
-  if (picPosition == true) {
-    picPosition = false;
-    image[0].setAttribute('style', 'transform:rotate(180deg)');
-  } else {
-    picPosition = true;
-    image[0].setAttribute('style', 'transform:rotate(0deg)');
-  }
-}
-*/
 
-class Arrow {
-  constructor() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Icon {
+  constructor(classType, iconSize) {
+    this.classType = classType;
+    this.iconSize = iconSize;
+
     this.arrowElem;
     this.arrHoldDiv;
   }
 
   buildArrow(){
     this.arrHoldDiv = document.createElement('DIV');
-    this.arrHoldDiv.classList.add("medIcon");
-    this.arrHoldDiv.classList.add("arrow");
+    this.arrHoldDiv.classList.add(this.iconSize );
+    this.arrHoldDiv.classList.add(this.classType);
     return this.arrHoldDiv;
   }
+}
 
 
 
+class Bookmark extends Icon{
+
+}
+
+
+class Arrow extends Icon{
   rotateArrow(position) {//Aprgriež otrādi bultiņu
     if (position) {
-      this.arrowElem.setAttribute('style', 'transform:rotate(180deg)');
+      this.arrHoldDiv.setAttribute('style', 'transform:rotate(-45deg)');
     } else {
-      this.arrowElem.setAttribute('style', 'transform:rotate(0deg)');
+      this.arrHoldDiv.setAttribute('style', 'transform:rotate(225deg)');
     }
   }
 }
+
 
 
 
@@ -102,13 +98,20 @@ class CollapsibleButton {
     this.collButton;//galvenā poga, kas tiek izveidota
     this.rotateState = false;
     this.smHolder;
+
+    this.objectHolder;
   }
 
 
   buildCollapseButton() {//Izveido pogas elementu un tajā esošo kontentu
+    this.objectHolder = document.createElement('DIV');
+    
 
     this.collButton = document.createElement('BUTTON');//izveido pogas elementu, kas arī būs pati poga
-    
+    this.collButton .style.height = '30px';
+
+
+    this.collButton.classList.add('collapsibleObj');
     this.collButton.classList.add('collapsible');//pievieno klasi pogai
     this.collButton.classList.add('expandButton');//pievieno klasi pogai
 
@@ -121,46 +124,92 @@ class CollapsibleButton {
 
     this.smHolder = document.createElement("DIV");
     this.smHolder.classList.add('elemPlaceHolder');
+    this.smHolder.classList.add('content');
+    textToAdd = document.createTextNode(this.textToAppend);//Izveido tekstu pogai
+    this.smHolder.appendChild(textToAdd);
     
 
-    this.collButton.addEventListener("click", this.collOnClickEvent(this.smHolder));//pievieno pogas uzspiešanas opciju pogai
-    this.elementHolder.appendChild(this.collButton);//pievieno izveidoto pogu un tās elementus elementam, kur atrodas poga
-
-    this.elementHolder.appendChild(this.smHolder);
     
+    this.objectHolder.appendChild(this.collButton);//pievieno izveidoto pogu un tās elementus elementam, kur atrodas poga
+    this.objectHolder.appendChild(this.smHolder);
 
-
+    this.elementHolder.appendChild(this.objectHolder);
   }
-
-
-
-
-
-
-
-  collOnClickEvent(elementToCollapse){
-    console.log("aaa");
-    elementToCollapse.classList.toggle("active");
-    if (elementToCollapse.style.maxHeight) {
-      elementToCollapse.style.maxHeight = null;
-    } else {
-      elementToCollapse.style.maxHeight = elementToCollapse.scrollHeight + "px";
-    }
-    if(this.rotateState){
-      this.rotateState = false;
-    } else{
-      this.rotateState = true;
-    }
-}
-
-
 }
 
 function createColl(placeHolder){//Izveido collapsible div objektu
-  var collapsibleObj = new CollapsibleButton(new Arrow, "Animations", placeHolder, 2);
-  console.log(collapsibleObj);
+  var collapsibleObj = new CollapsibleButton(new Arrow("arrow", "medIcon"), "Saved", placeHolder, 2);
   collapsibleObj.buildCollapseButton();
+
+  collObjArr[collObjArrCount] = collapsibleObj;
+  collObjArrCount+=1;
+  
+  createSubColl();
+
+
+  var coll = document.getElementsByClassName("collapsibleObj");
+
+
+  for (i = 0; i < coll.length; i++) {
+    globalAddEventListener = i;
+    
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      
+      if (content.style.maxHeight){
+        collObjArr[globalAddEventListener].iconObj.rotateArrow(false);
+        content.style.maxHeight = null;
+      } else {
+
+        collObjArr[globalAddEventListener].iconObj.rotateArrow(true);
+        
+        content.style.maxHeight = content.scrollHeight + "px";
+        if(content.parentElement.parentElement != null){//Nodrošina, ka kontents nekur nepazudīs izplešoties
+          content.parentElement.parentElement.style.maxHeight = content.parentElement.parentElement.scrollHeight  + content.scrollHeight + "px";
+        }
+      }
+    });
+  }
 }
+
+var globalAddEventListener;
+
+var collObjArr = [0,0,0];//Masīvs, kurā atrodas visi collapsible objekti
+var collObjArrCount = 0;//skaita uz priekšu jauno objektu pozīcijas masīvā
+
+function createSubColl(){
+  for(i = collObjArrCount; i<collObjArrCount+2; i++){
+    collObjArr[i] = new CollapsibleButton(new Arrow("arrow", "medIcon"), "Colors", document.getElementsByClassName("elemPlaceHolder")[0], 2);
+    collObjArr[i].buildCollapseButton();
+  }
+  collObjArrCount+=2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
