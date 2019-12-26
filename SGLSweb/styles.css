@@ -1,11 +1,11 @@
 /*Galvenā daļa, te atrodas daļas, kas atbild par visiem elementiem kopumā*/
-* {
-    margin: 0;
-    padding: 0;
 
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 :root {
   --testColor: red;
@@ -22,66 +22,71 @@
   /*var(--colorBackgroundSecondary)*/
 }
 
-
-body{
-    background: var(--colorBackground);
-    color: black;
-    overflow-y: scroll;
-
+body {
+  background: var(--colorBackground);
+  color: black;
+  overflow-y: scroll;
 }
 
-.main {/*šajā daļā atrodas viss tas, kas atrodas zem headera*/
-    background: var(--colorBackground);
-    padding-top: 50px;
+.main {
+  /*šajā daļā atrodas viss tas, kas atrodas zem headera*/
+  background: var(--colorBackground);
+  padding-top: 50px;
 }
 
 /*Header, jeb augšējā lapas daļa*/
+
 /*Te atrodas settings poga un SGLS nosaukums*/
 
-.linkBlock{/*<a>, kas padara SGLS bloku un nosaukumu par linku*/
-    text-decoration: none;
-    color: black;
+.linkBlock {
+  /*<a>, kas padara SGLS bloku un nosaukumu par linku*/
+  text-decoration: none;
+  color: black;
 }
 
-.titleDiv{
-    height: 50px;
-    width: 100%;
-    background: var(--colorPrimary);
-    position: fixed;
-    display: flex;/*Nepieciešams, lai iekšējos div blokus varētu vadīt izmantojot left right top un bottom*/
-    justify-content: space-between;/*Nepieciešams, lai pa vidu paliktu tukšums*/
-    z-index:10;
+.titleDiv {
+  height: 50px;
+  width: 100%;
+  background: var(--colorPrimary);
+  position: fixed;
+  display: flex;
+  /*Nepieciešams, lai iekšējos div blokus varētu vadīt izmantojot left right top un bottom*/
+  justify-content: space-between;
+  /*Nepieciešams, lai pa vidu paliktu tukšums*/
+  z-index: 10;
 }
 
-.SGLSTitleDiv{
-    position: relative;
-    height: 100%;
-    width: 100px;
-    left: 50px;
-    right: auto;
-    text-align: center;
-    line-height: 50px;/*nepieciešams, lai SGLS nosaukuma teksts tiktu horizontāli centrēts. Tā line-height uzstādīts uz tik pat lielu vērtību kā div blokam kurā tā atrodas*/
+.SGLSTitleDiv {
+  position: relative;
+  height: 100%;
+  width: 100px;
+  left: 50px;
+  right: auto;
+  text-align: center;
+  line-height: 50px;
+  /*nepieciešams, lai SGLS nosaukuma teksts tiktu horizontāli centrēts. Tā line-height uzstādīts uz tik pat lielu vērtību kā div blokam kurā tā atrodas*/
 }
 
-.headerButton{/*settings poga*/
-    position: relative;
-    height: 100%;
-    width: 50px;
-    left: auto;
-    right: 10px;
-    cursor: pointer;
+.headerButton {
+  /*settings poga*/
+  position: relative;
+  height: 100%;
+  width: 50px;
+  left: auto;
+  right: 10px;
+  cursor: pointer;
 }
 
-
-.headerButton:hover{
+.headerButton:hover {
   background: var(--colorPrimaryPressed);
 }
 
-#settingsButtonPic{
-    height: 50px;
+#settingsButtonPic {
+  height: 50px;
 }
 
-.outputDiv{/*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
+.outputDiv {
+  /*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
   height: 100%;
   width: 300px;
   background: lightcoral;
@@ -89,257 +94,255 @@ body{
 
 /*Mājaslapas vidējā daļa, te atrodas viss līdz izplešanās uz leju pogai*/
 
-.allLampsMainDiv{
-    top: 10px;
-    position: relative;
+.allLampsMainDiv {
+  top: 10px;
+  position: relative;
 }
 
-.allLampsMainDivPart{
-    width: 98%;
-    height: 40px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--colorBorder);
-    margin-left: auto;
-    margin-right: auto;
+.allLampsMainDivPart {
+  width: 98%;
+  height: 40px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--colorBorder);
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.allLampsMainDivPartTextDiv{
-    width: 170px;
-    height: 100%;
-    left: 10px;
-    position: relative;
-    text-align: center;
-    line-height: 40px;
+.allLampsMainDivPartTextDiv {
+  width: 170px;
+  height: 100%;
+  left: 10px;
+  position: relative;
+  text-align: center;
+  line-height: 40px;
 }
 
-#sliderValueTextDiv{
-    text-align: left !important;
-    width: 50px !important;
+#sliderValueTextDiv {
+  text-align: left !important;
+  width: 50px !important;
 }
 
 /*Paplašināšanas poga*/
 
-
-#expandTrianglePic{
-    position: relative;
-    height: 25px;
-    margin-left:auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+#expandTrianglePic {
+  position: relative;
+  height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
-
 
 /*Augšējo daļa*/
 
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-left: auto;
-    margin-right: 40px;
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--colorTertiary);
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: var(--colorTertiaryTwo);
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px var(--colorTertiaryTwo);
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-left: auto;
+  margin-right: 40px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  /*Slider with value*/
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--colorTertiary);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
-  .slidecontainer {
-    width: 35%;
-    margin-right: 40px;
-    margin-left: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    position: relative;
-    display: inline-block;
-  }
-  
-  .slideValue {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 15px;
-    border-radius: 5px;
-    background: var(--colorTertiary);
-    outline: none;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  
-  .slideValue::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: var(--colorTertiaryTwo);
-    cursor: pointer;
-  }
-  
-  .slideValue::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: var(--colorTertiaryTwo);
-    cursor: pointer;
-  }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
-  /*Collapsed daļa*/
+input:checked+.slider {
+  background-color: var(--colorTertiaryTwo);
+}
 
-  .collapsible {
-    background-color: var(--colorPrimary);
-    cursor: pointer;
-    margin-right: auto;
-    margin-left: auto;
-    display: flex;
-  }
-  
-  .active, .collapsible:hover, .collapsible:hover .bookmark:before, .active .bookmark:before {
-    background-color: var(--colorPrimaryPressed);
-  }
-  
+input:focus+.slider {
+  box-shadow: 0 0 1px var(--colorTertiaryTwo);
+}
 
-  
-  .expandButton {
-    height: 100%;
-    width: 95%;
-    border: none;
-    color: white;
-    outline: none;
-    position: relative;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  
-  .content {
-    margin-right: auto;
-    margin-left: auto;
-    max-height: 0;
-    width: 95%;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: var(--colorBackgroundSecondary);
-    padding-top: 5px;
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
 
-  }
+/* Rounded sliders */
 
-  /*Expanded lietas*/
+.slider.round {
+  border-radius: 34px;
+}
 
-  .expandedColorSetButtons {
-    display: flex;
-    font-size: 25px;
-    margin-top: 10px;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    margin-bottom: 20px;
-  }
+.slider.round:before {
+  border-radius: 50%;
+}
 
-  .expandedOneColorSetButtonDiv{
-    width: 25%;
-    display: flex;
-  }
+/*Slider with value*/
 
-  .expandedColorSetButton{
-    background: var(--colorButtonPressed);
-    height: 35px;
-    width: 60px;
-    border-radius: 8%;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.slidecontainer {
+  width: 35%;
+  margin-right: 40px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+  display: inline-block;
+}
 
-  .expandedColorSetButton:hover{
-    background: var(--colorButtons);
-  }
+.slideValue {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: var(--colorTertiary);
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
 
-  .expandedColorSetButtonBack{
-    display: flex;
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+.slideValue::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--colorTertiaryTwo);
+  cursor: pointer;
+}
 
-  /*Lampu funkciju pogu daļa*/
+.slideValue::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--colorTertiaryTwo);
+  cursor: pointer;
+}
 
-  .colorFuncButton{
-    margin-left: auto;
-    margin-right: auto;
-    width: 100px;
-    height: 50px;
-    border: none;
-    border-radius: 5%;
-    background: var(--colorButtons);
-    font-size: 20px;
-    cursor: pointer;
-  }
-  .colorFuncButton:hover{
-    background: var(--colorButtonPressed);
-  }
-  /*Katras lampas pogas parādīšanās*/
-.dynamicButtonSpace{
+/*Collapsed daļa*/
+
+.collapsible {
+  background-color: var(--colorPrimary);
+  cursor: pointer;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+}
+
+.active, .collapsible:hover, .collapsible:hover .bookmark:before, .active .bookmark:before {
+  background-color: var(--colorPrimaryPressed);
+}
+
+.expandButton {
+  height: 100%;
+  width: 95%;
+  border: none;
+  color: white;
+  outline: none;
+  position: relative;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.content {
+  margin-right: auto;
+  margin-left: auto;
+  max-height: 0;
+  width: 95%;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: var(--colorBackgroundSecondary);
+  padding-top: 5px;
+}
+
+/*Expanded lietas*/
+
+.expandedColorSetButtons {
+  display: flex;
+  font-size: 25px;
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 20px;
+}
+
+.expandedOneColorSetButtonDiv {
+  width: 25%;
+  display: flex;
+}
+
+.expandedColorSetButton {
+  background: var(--colorButtonPressed);
+  height: 35px;
+  width: 60px;
+  border-radius: 8%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.expandedColorSetButton:hover {
+  background: var(--colorButtons);
+}
+
+.expandedColorSetButtonBack {
+  display: flex;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/*Lampu funkciju pogu daļa*/
+
+.colorFuncButton {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5%;
+  background: var(--colorButtons);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.colorFuncButton:hover {
+  background: var(--colorButtonPressed);
+}
+
+/*Katras lampas pogas parādīšanās*/
+
+.dynamicButtonSpace {
   width: 95%;
   margin-top: 30px;
   margin-left: auto;
@@ -348,10 +351,20 @@ body{
 
 .lampButton {
   background: var(--colorButtonPressed);
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60px;
 }
+
+.lampButton:hover {
+  background:var(--colorButtons);
+  cursor: pointer;
+}
+
 /*Dinamiski genereta baltas krasas izvelne*/
 
-.whiteCenterDiv{
+.whiteCenterDiv {
   width: 40%;
   height: 30%;
   /*background: rgb(13, 129, 175);*/
@@ -360,8 +373,9 @@ body{
   right: 0;
   margin-right: auto;
   margin-left: auto;
-  top:100px;
-  display: none;/*default stavoklis baltas krasas ievades lodzinam ir paslepts*/
+  top: 100px;
+  display: none;
+  /*default stavoklis baltas krasas ievades lodzinam ir paslepts*/
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -374,14 +388,15 @@ body{
   line-height: 18px;
 }
 
-.whiteCenterDivMiddle{
+.whiteCenterDivMiddle {
   height: 40%;
   width: 100%;
   background: var(--colorBackgroundSecondary);
   display: flex;
 }
 
-#whiteRange{/*Baltas krasas slideris*/
+#whiteRange {
+  /*Baltas krasas slideris*/
   width: 90%;
   margin-top: auto;
   margin-bottom: auto;
@@ -389,7 +404,7 @@ body{
   margin-right: auto;
 }
 
-.whiteCenterDivBottom{
+.whiteCenterDivBottom {
   height: 40%;
   width: 100%;
   border-bottom: 3px var(--colorBorder) solid;
@@ -410,18 +425,19 @@ body{
   border-left: 2px solid var(--colorBorder);
 }
 
-.whiteCenterDivOk:hover{
+.whiteCenterDivOk:hover {
   background: var(--colorButtonPressed);
 }
 
-.whiteCenterDivCancel:hover{
+.whiteCenterDivCancel:hover {
   background: var(--colorButtonPressed);
 }
 
-.whiteCenterDivOptionsText{
+.whiteCenterDivOptionsText {
   font-size: 18px;
   margin-left: 5px;
 }
+
 button {
   cursor: pointer;
 }
@@ -449,7 +465,7 @@ button {
   cursor: pointer;
 }
 
-.submitButton:hover{
+.submitButton:hover {
   background: darkgray;
 }
 
@@ -480,11 +496,11 @@ button {
   padding-left: 5px;
 }
 
-.optionsDivButton:hover{
+.optionsDivButton:hover {
   background: var(--colorTertiary);
 }
 
-.rotateOptionsPic{
+.rotateOptionsPic {
   height: 15px;
   margin-right: 18px;
   margin-left: auto;
@@ -498,82 +514,65 @@ button {
 
 /*Parametri kas ir kopigi vairakam klasem*/
 
-.mainPageText, .optionsDivButton{
+.mainPageText, .optionsDivButton {
   font-size: 18px;
 }
 
 .text, .submitButton, .expandedOneColorSetButtonDiv, .colorFuncButton {
-  font-size:16px;
+  font-size: 16px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*JAUNAIS KODS*/
+
 /*Krāsu aplis*/
 
 #s_color_picker_id {
   text-align: center;
 }
 
-
-
 /*Bultiņa*/
 
 div.arrow {
-	transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
-	div.arrow::before {
-		content: '';
-		width: 70%;
-		height: 70%;
-		border-width: .4vmin .4vmin 0 0;
-		border-style: solid;
-		border-color: black;
-		transition: .2s ease;
-		display: block;
-		transform-origin: 70% 0;
-	}
 
-	
-	div.arrow:after {
-		content: '';
-		float: left;
-		position: relative;
-		top: -70%;
-		width: 70%;
-		height: 70%;
-		border-width: 0 .4vmin 0 0;
-		border-style: solid;
-		border-color: black;
-		transform-origin: 70% 0;
-		transition:.2s ease;
-	}
-	
+div.arrow::before {
+  content: '';
+  width: 70%;
+  height: 70%;
+  border-width: .4vmin .4vmin 0 0;
+  border-style: solid;
+  border-color: black;
+  transition: .2s ease;
+  display: block;
+  transform-origin: 70% 0;
+}
 
-.medIcon{
+div.arrow:after {
+  content: '';
+  float: left;
+  position: relative;
+  top: -70%;
+  width: 70%;
+  height: 70%;
+  border-width: 0 .4vmin 0 0;
+  border-style: solid;
+  border-color: black;
+  transform-origin: 70% 0;
+  transition: .2s ease;
+}
+
+.medIcon {
   height: 20px;
   width: 20px;
   position: relative;
 }
 
-#collHolder{
-  height: 30px;
-}
 
-.elemPlaceHolder{
+
+.elemPlaceHolder {
   width: 95%;
 }
-
 
 .bookmark {
   color: #000;
@@ -587,6 +586,7 @@ div.arrow {
   border-right: solid 1px currentColor;
   background-color: currentColor;
 }
+
 .bookmark:before {
   content: '';
   position: absolute;
@@ -596,49 +596,41 @@ div.arrow {
   height: 7px;
   border-top: solid 1px currentColor;
   border-left: solid 1px currentColor;
-  
   -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-  
+  transform: rotate(45deg);
   background-color: var(--colorPrimary);
 }
 
-.collapsibleLabel{
+.collapsibleLabel {
   margin-left: 5px;
 }
 
-
-
-
-
-.colorBlock{
+.colorBlock {
   height: 40px;
   text-align: center;
   line-height: 40px;
   display: inline-block;
-  
   margin-bottom: 5px;
   margin-right: 5px;
   box-shadow: 1px 2px 3px #888888;
 }
 
-.colorBlock:hover{
+.colorBlock:hover {
   cursor: pointer;
   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
 }
 
-
-.animBlock{
+.animBlock {
   width: 100%;
-  height: 30px; 
-  background:darkgray;
+  height: 30px;
+  background: darkgray;
   line-height: 30px;
   border-bottom: #e0e0e0 1px solid;
   padding-left: 5px;
   color: white;
 }
 
-.animBlock:hover{
+.animBlock:hover {
   background: lightBlue;
   cursor: pointer;
 }

@@ -21,6 +21,7 @@ class CollapsibleButton {//izbīdamo pogu klase
 
     buildCollapseButton() {//Izveido pogas elementu un tajā esošo kontentu
         this.objectHolder = document.createElement('DIV');
+        //this.objectHolder.style.marginBottom = '20px';
         this.labelDiv = document.createElement('P');
 
         this.collButton = document.createElement('BUTTON');//izveido pogas elementu, kas arī būs pati poga

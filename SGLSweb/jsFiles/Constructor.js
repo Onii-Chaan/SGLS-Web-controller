@@ -1,3 +1,9 @@
+function createDynamicContent(){
+    createColl(document.getElementById('collHolder'));//izveido saved pogu un tās kontentu
+    createLampButts();//izveido lampu pogas
+}
+
+
 function createColl(placeHolder) {//Izveido collapsible div objektu
     var collapsibleObj = new CollapsibleButton(new Icon("arrow", "medIcon"), "Saved", placeHolder, new Icon("bookmark", "medIcon"));
     collapsibleObj.buildCollapseButton();
@@ -22,7 +28,7 @@ function createColl(placeHolder) {//Izveido collapsible div objektu
                 checkRotateElement(content.previousSibling.childNodes[1], content.previousSibling.childNodes[2], 'bottom: 6px; transform: rotate(180deg); margin-right: 14px; margin-left: auto');
                 content.style.maxHeight = content.scrollHeight + "px";
                 if (content.parentElement.parentElement != null) {//Nodrošina, ka kontents nekur nepazudīs izplešoties
-                    content.parentElement.parentElement.style.maxHeight = content.parentElement.parentElement.scrollHeight + content.scrollHeight + "px";
+                    content.parentElement.parentElement.style.maxHeight = 'inherit';
                 }
             }
         });
@@ -39,7 +45,6 @@ function checkRotateElement(checkNode1, checkNode2, styleToApply) {//Pagriež at
 }
 
 
-
 var collObjArr = [0, 0, 0];//Masīvs, kurā atrodas visi collapsible objekti
 var collObjArrCount = 0;//skaita uz priekšu jauno objektu pozīcijas masīvā
 
@@ -48,8 +53,8 @@ var rgbw = [[255, 255, 255, 0], [255, 255, 0, 0], [0, 255, 255, 0], [255, 0, 255
 var rgbwNames = ['SomeColor1', 'SmallerColorLol', 'A', 'Here', 'InternalSuffering', 'words', 'manyWords', 'lettersColor'];
 var colorBlockObjArr = [];
 
-var funcNum = [[2, 100],[3, 213],[15, 1],[23, 0]];
-var funcNames = ['bitch', 'function', 'colors', 'this'];
+var funcNum = [[2, 100],[3, 213],[15, 1],[23, 0], [22,11],[76, 233], [1, 677]];
+var funcNames = ['bitch', 'function', 'colors', 'this', 'test1', 'testdos', 'testtres'];
 var funcBlockObjArr = [];
 
 var colorBlockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu rindā un salīdzina ar to atrašanās bloku platumu
@@ -87,7 +92,15 @@ function createSubColl() {
     collObjArrCount += 1;//pabeidz pogas izveidi
 }
 
-
+var lampNum = 14;
+function createLampButts(){//izveido lampu pogas
+    var lampButtPlace = document.getElementById('lampButtHold');
+    var lampButton;
+    for(i = 0; i<lampNum; i++){
+        lampButton = new LampBlock('L'+(i+1), lampNum);
+        lampButtPlace.appendChild(lampButton.build());
+    }
+}
 
 
 
