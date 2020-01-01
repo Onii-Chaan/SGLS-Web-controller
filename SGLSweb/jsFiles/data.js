@@ -61,5 +61,14 @@ function sendValue(dataType, lampNum, colorOutput) {//parāda nosūtamos datus
 }
 
 
+function createGroupString(from, to){//izveido grupas string mainīgo
+    return from + '-' + to + '#';
+}
+
+function ajaxConsoleSend(dataName, dataToSend){//'izsūta' datus uz konsoli
+    console.log('AJAX SEND: ',dataName, 'value:', dataToSend);
+}
+
+
 
 

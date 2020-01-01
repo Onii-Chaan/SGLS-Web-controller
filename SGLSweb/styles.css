@@ -53,7 +53,7 @@ body {
   /*Nepieciešams, lai iekšējos div blokus varētu vadīt izmantojot left right top un bottom*/
   justify-content: space-between;
   /*Nepieciešams, lai pa vidu paliktu tukšums*/
-  z-index: 10;
+  z-index: 1;
 }
 
 .SGLSTitleDiv {
@@ -633,4 +633,39 @@ div.arrow:after {
 .animBlock:hover {
   background: lightBlue;
   cursor: pointer;
+}
+
+
+.documentCover{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  top: 0;
+  left: 0;
+
+  z-index: 2;
+
+}
+
+.settingsPopUp{
+  box-shadow: 1px 2px 3px #888888;
+  padding-left: 3px;
+  padding-top: 3px;
+  border: 1px solid black;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: block;
+  background: var(--colorBackground);
+
+  z-index: 3;
+}
+
+
+.smInput{
+  width: 50px;
 }

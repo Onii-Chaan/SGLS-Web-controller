@@ -1,4 +1,4 @@
-function createDynamicContent(){
+function createDynamicContent() {
     createColl(document.getElementById('collHolder'));//izveido saved pogu un tās kontentu
     createLampButts();//izveido lampu pogas
 }
@@ -53,7 +53,7 @@ var rgbw = [[255, 255, 255, 0], [255, 255, 0, 0], [0, 255, 255, 0], [255, 0, 255
 var rgbwNames = ['SomeColor1', 'SmallerColorLol', 'A', 'Here', 'InternalSuffering', 'words', 'manyWords', 'lettersColor'];
 var colorBlockObjArr = [];
 
-var funcNum = [[2, 100],[3, 213],[15, 1],[23, 0], [22,11],[76, 233], [1, 677]];
+var funcNum = [[2, 100], [3, 213], [15, 1], [23, 0], [22, 11], [76, 233], [1, 677]];
 var funcNames = ['bitch', 'function', 'colors', 'this', 'test1', 'testdos', 'testtres'];
 var funcBlockObjArr = [];
 
@@ -63,7 +63,7 @@ var colorBlockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu r
 function createSubColl() {
     collObjArr[collObjArrCount] = new CollapsibleButton(new Icon("arrow", "medIcon"), "Colors", document.getElementsByClassName("elemPlaceHolder")[0], '', 'colorBlockContent');
     collObjArr[collObjArrCount].buildCollapseButton();
-    
+
 
     for (i = 0; i < rgbw.length; i++) {//izveido krāsu pogas un saliek tās collapsible pogas kontentā
         colorBlockObjArr.push(new ColorBlock(rgbwNames[i], rgbw[i], 'colorBlock'));
@@ -75,7 +75,7 @@ function createSubColl() {
                 colorBlockObjArr[i - 1].grow(collObjArr[collObjArrCount].contentLength() - (colorBlockWidthCount - colorBlockObjArr[i].blockWidth()));
             }
             else if (i == rgbw.length - 1) {
-                colorBlockObjArr[i].grow(collObjArr[collObjArrCount].contentLength()  - colorBlockWidthCount -1);
+                colorBlockObjArr[i].grow(collObjArr[collObjArrCount].contentLength() - colorBlockWidthCount - 1);
             }
             colorBlockWidthCount = colorBlockObjArr[i].blockWidth();//atgriežas uz nākamo rindiņu
         }
@@ -92,17 +92,58 @@ function createSubColl() {
     collObjArrCount += 1;//pabeidz pogas izveidi
 }
 
-var lampNum = 14;
-function createLampButts(){//izveido lampu pogas
-    var lampButtPlace = document.getElementById('lampButtHold');
-    var lampButton;
-    for(i = 0; i<lampNum; i++){
-        lampButton = new LampBlock('L'+(i+1), lampNum);
-        lampButtPlace.appendChild(lampButton.build());
+
+
+var lampNum = 6;
+var lampCombos = 3;
+var lampCombNames = ['village', 'room1', 'anotherCombo'];//masīvs ar jau izveidoto lampu kombināciju nosaukumiem
+var lampCombosVal = [[1, 5], [5, 8], [7, 7]];//masīvs ar jau izveidoto lampu kombināciju nosaukumiem
+function createLampButts() {//izveido lampu pogas
+    var lampButtPlace = document.getElementById('lampButtHold');//nnosaka lampu pogu atrašanās vietas
+    var lampButton;//lampu pogas mainīgais
+
+    for (i = 0; i < lampGroups.length; i++) {//izveido lampu grupu pogu
+        lampButton = new LampBlock(lampGroups[i][0], lampGroups[i][1], new SettingsPopUp('Create new group', [['Type new name of group: ', 'bigInput'], ['Type which lamps you would like to group up: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 2, 1, 'group'));
+        lampButton.build();
+    }
+    for (i = 0; i < lampNum + 1; i++) {//izveido parastas lampas pogu
+        lampButton = new LampBlock('L' + (i + 1), i + 1);
+        lampButton.build();
+        if (i == lampNum) {//ja ir pienākusi pēdējās lampas izveide, tad izveido jauna kombo izveides pogu
+            lampButton = new LampBlock('Create ultimate combo', '');
+            lampButton.openOption();
+        }
     }
 }
 
 
+function buildElementNode(type, classList = '', textToAdd = '') {//izveido un atgriež paragrāfu ar klasi
+    var builtElement = document.createElement(type);
+    if (classList != '') {
+        builtElement.classList.add(classList);
+    }
+    if (textToAdd != '') {
+        builtElement.appendChild(document.createTextNode(textToAdd));
+    }
+    return builtElement;
+}
+
+
+function createPopUp() {//izveido settings popUp
+    // var createPopUp = new SettingsPopUp('Create new group', [['Type new name of group: ', 'bigInput'], ['Type which lamps you would like to group up: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 2, 1, 'group');
+    // createPopUp.build();
+}
+
+
+backCover = buildElementNode('DIV', 'documentCover');
+document.body.appendChild(backCover);
+function backShadow(set) {//padara fonu tumšu, tiek izmantots priekš settings elementiem
+    if (set) {
+        backCover.style.display = 'block';
+    } else {
+        backCover.style.display = 'none';
+    }
+}
 
 
 

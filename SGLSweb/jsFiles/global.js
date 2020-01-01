@@ -9,5 +9,7 @@ var buttonOn = false;//norada vai lietotajs darbojas ap vienu lampu vai ap visam
 var lampNum = "00";//lampu numura String vērtība
 var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
 var funcNum = 0;//lampu funkcijas numurs
+var currentLamp; //seko līdzi tam, kura lampa ir pašlaik nospiesta
 //document.getElementsByClassName("hidable")[0].style.display = "none"; BOOKMARK1
 
+var lampGroups = [['Room1', '1-5#'], ['BedRoom', '2-8#'], ['Garden', '6-7#']];//ienākošo lampu grupu datu masīvs
