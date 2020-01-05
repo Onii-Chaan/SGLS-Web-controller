@@ -1,11 +1,13 @@
 class ColorBlock {
-    constructor(colorName, colorValue, type) {
+    constructor(colorName, colorValue, type, options = '') {
         this.colorName = colorName;//krāsas nosaukums
         this.colorValue = colorValue;//krāsas rgbw vērtība
         this.colorNameLen = this.colorName.length;//krāsas nosaukuma string garums
         this.colorBlock;//pats krāsas bloks
         this.colorBlockPar;//teksta atrašanās vieta
         this.type = type;//nosaka vai šī būs animācijas vai krāsu klase
+
+        this.options = options; //animāciju un krāsu pogu editošanai
     }
 
     build() {//funkcija, kas atgriež gatavu krāsas bloku
@@ -19,7 +21,17 @@ class ColorBlock {
         this.colorBlock.addEventListener('click', function () {
             sendValue(0, '1-17', stringColorSet(parseToRGBA(this.style.backgroundColor)));
         });
+
+        if (this.options != '') {
+            this.colorBlock.ondblclick = methodize(this.dblclick, this);
+        }
         return this.colorBlock;
+    }
+
+    dblclick() {
+        this.dblData = this.colorValue;//izveido atsevišķu masīvu datu nosūtīšanai
+        this.dblData.push(this.colorName);
+        this.options.open(this.dblData);
     }
 
     grow(plusWidth = 0) {//izveido krāsu blokam atbilstošu platumu

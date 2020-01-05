@@ -1,5 +1,5 @@
 class SettingsPopUp {//pop elementu klase
-    constructor(title, inputFields, buttonCount, index, type) {
+    constructor(title, inputFields, buttonCount, type, classIndex, createType = '') {
         this.title = title;//popapa virsraksts
         this.inputFields = inputFields;//visu ievades lauciņu raksturojumi
         this.buttonCount = buttonCount;//Pogu daudzums
@@ -7,8 +7,12 @@ class SettingsPopUp {//pop elementu klase
         this.popUp;//PopUp elementa galvenais div
         this.data;//saglabā lietotāja ievadītos input datus
 
-        this.index = index;//nepieciešams, lai saglabātu vai dzēstu informāciju EEPROMā
         this.type = type;//nosaka vai šī ir grupas, animācijas, vai krāsu poga
+
+        this.classIndex = classIndex;//nepieciešams, lai manipulētu ar vairākiem settingu elementiem
+        this.createType = createType;//ja ir jāizveido kādus jaunus elementus, tad nosaka to tipu
+
+        this.dataIn;//klases globālais mainīgais, lai varētu apstrādāt ienākošos datus
     }
 
     build() {
@@ -17,7 +21,7 @@ class SettingsPopUp {//pop elementu klase
         this.popUp.appendChild(buildElementNode('H3', 'settingsPopTitle', this.title));//izveido virsrakstu
 
         var inputCount = this.inputFields.length;
-        for (i = 0; i < inputCount; i++) {//izveido visus ievades lauciņus
+        for (var i = 0; i < inputCount; i++) {//izveido visus ievades lauciņus
             if (this.inputFields[i][1] != 'double') {
                 this.popElement.appendChild(buildElementNode('P', '', this.inputFields[i][0]));
                 this.createInput = buildElementNode('INPUT', this.inputFields[i][1]);
@@ -43,50 +47,86 @@ class SettingsPopUp {//pop elementu klase
 
 
         if (this.buttonCount == 3) {
-            this.popElement.getElementsByClassName('actionButton')[0].addEventListener('click', this.save);
-            this.popElement.getElementsByClassName('actionButton')[1].addEventListener('click', this.delete);
-            this.popElement.getElementsByClassName('actionButton')[2].addEventListener('click', this.close);
+            this.popElement.getElementsByClassName('actionButton')[0].onclick = methodize(this.save, this);
+
+            this.popElement.getElementsByClassName('actionButton')[1].onclick = methodize(this.delete, this);
+            this.popElement.getElementsByClassName('actionButton')[2].onclick = methodize(this.closeSettings, this);
         } else {
-            this.popElement.getElementsByClassName('actionButton')[0].addEventListener('click', this.save);
-            this.popElement.getElementsByClassName('actionButton')[1].addEventListener('click', this.close);
+            this.popElement.getElementsByClassName('actionButton')[0].onclick = methodize(this.save, this);
+            this.popElement.getElementsByClassName('actionButton')[1].onclick = methodize(this.closeSettings, this);
         }
+        document.getElementsByClassName('settingsPopUp')[0].style.display = 'none';
         backShadow(false);//iestata fona ēnu
 
     }
 
-    setCover(set) {//lapas fons, kad tiek atvērts kāds no settingiem
-        if (set) {
-            this.cover.style.display = 'block';
-        } else {
-            this.cover.style.display = 'none';
-        }
-    }
+    open(dataIn = '') {//parāda settings logu
+        this.dataIn = dataIn;
 
-    open() {//parāda settings logu
-        this.setCover(true);
+        backShadow(true);
         this.popUp.style.display = 'block';
     }
 
-    save() {//nosūta uz serveri lietotāja jaunos ievadītos datus
-        this.formCount = document.getElementsByClassName('popUpInput').length;
-        this.inputElem = document.getElementsByClassName('popUpInput');
-        
-        this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
-        if(this.formCount<3){
-            this.saveValue = 'value='+this.inputElem[1].value;
-        }else if(this.formCount == 3){
-            this.saveValue = 'value='+createGroupString(this.inputElem[1].value, this.inputElem[2].value);
+    save() {//nosūta uz serveri lietotāja jaunos ievadītos datus un izveido jaunus elementus, ja tas ir nepieciešams
+        // this.dataIn = dataIn;//ja ir kkādi dati, kas ir papildus jāapstrādā saglabājot
+        // console.log('thisDataIn:', this.dataIn);
+        // console.log('dataIn: ', dataIn);
+        this.formCount = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT').length;
+        this.inputElem = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT');
+
+
+
+        if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
+            this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
+            if (this.formCount < 3) {
+                this.saveValue = 'value=' + this.inputElem[1].value;
+            } else if (this.formCount == 3) {
+                this.saveValue = 'value=' + createGroupString(this.inputElem[1].value, this.inputElem[2].value);
+            }
         }
-        
-        ajaxConsoleSend(this.saveName + ' ' + this.saveValue);
-        document.getElementsByClassName('popUpForm')[0].reset();
+
+
+        if (this.createType != '') {//ja dotajam settings logam ir jāizveido vēl kāds jauns elements
+            switch (this.createType) {
+                case 'group':
+                    createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                    break;
+                case 'color':
+                    break;
+                case 'animation':
+                    break;
+                case 'add':
+                    if (this.dataIn.length == 5) {//ja ir jāizveido jauns krāsu bloks
+                        if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
+                            alert('You have already saved ' + colorLimit + ' colors');
+                        } else {
+                            this.createColorButt = new ColorBlock(this.dataIn[4], this.dataIn.slice(0, 4), 'colorBlock');
+                            document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
+                            this.createColorButt.grow();
+                            colorCount++;
+                        }
+                    } else {
+                        if (animCount == animLimit) {
+                            alert('You have already saved ' + animLimit + ' animations');
+                        } else {
+                            console.log(this.dataIn.slice(0, 2));
+                            this.createColorButt = new AnimationsBlock(this.dataIn[2], this.dataIn.slice(0, 2), 'animBlock');
+                            document.getElementById('animBlockContent').appendChild(this.createColorButt.buildAnimBlock());
+                            animCount++;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        ajaxConsoleSend(this.saveName + ' ' + this.saveValue);//nosūta datus uz serveri
+        document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu
         console.log('save');
     }
 
-    close() {//noslēpj settings logu
+    closeSettings() {//noslēpj settings logu
         backShadow(false);//iestata fona ēnu
-        document.getElementsByClassName('settingsPopUp')[0].style.display = 'none';
-        console.log(document.getElementsByClassName('settingsPopUp'));
+        document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
         console.log('close');
     }
 
@@ -98,9 +138,5 @@ class SettingsPopUp {//pop elementu klase
 
     returnData(dataToGet) {
         return;
-    }
-
-    updateIndex(newIndex) {
-        this.index = newIndex;
     }
 }

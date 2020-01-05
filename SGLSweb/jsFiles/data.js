@@ -29,11 +29,11 @@ function stringColorSet(rgbwArr) {//Si funkcija parveido rgbw krasu vertibas Str
     return rgbwString;
 }
 
-function stringFunctionSet(funcNum, funcPar){//izveido funkciju nosūtāmo stringa otro daļu
+function stringFunctionSet(funcNum, funcPar) {//izveido funkciju nosūtāmo stringa otro daļu
     var sendOut = '';
-    if (funcNum<10){
+    if (funcNum < 10) {
         sendOut = '0' + funcNum;
-    } else{
+    } else {
         sendOut = funcNum;
     }
     if (funcPar >= 100) {
@@ -61,14 +61,16 @@ function sendValue(dataType, lampNum, colorOutput) {//parāda nosūtamos datus
 }
 
 
-function createGroupString(from, to){//izveido grupas string mainīgo
+function createGroupString(from, to) {//izveido grupas string mainīgo
     return from + '-' + to + '#';
 }
 
-function ajaxConsoleSend(dataName, dataToSend){//'izsūta' datus uz konsoli
-    console.log('AJAX SEND: ',dataName, 'value:', dataToSend);
+function ajaxConsoleSend(dataName) {//'izsūta' datus uz konsoli
+    console.log('AJAX SEND: ', dataName);
 }
 
 
-
+function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objektiem varētu pievienot eventus
+    return (function () { methodize_func.call(methodize_scope); });
+}
 

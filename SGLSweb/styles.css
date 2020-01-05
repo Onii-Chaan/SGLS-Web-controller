@@ -358,7 +358,7 @@ input:checked+.slider:before {
 }
 
 .lampButton:hover {
-  background:var(--colorButtons);
+  background: var(--colorButtons);
   cursor: pointer;
 }
 
@@ -568,8 +568,6 @@ div.arrow:after {
   position: relative;
 }
 
-
-
 .elemPlaceHolder {
   width: 95%;
 }
@@ -635,8 +633,7 @@ div.arrow:after {
   cursor: pointer;
 }
 
-
-.documentCover{
+.documentCover {
   height: 100%;
   width: 100%;
   position: fixed;
@@ -644,12 +641,10 @@ div.arrow:after {
   display: none;
   top: 0;
   left: 0;
-
   z-index: 2;
-
 }
 
-.settingsPopUp{
+.settingsPopUp {
   box-shadow: 1px 2px 3px #888888;
   padding-left: 3px;
   padding-top: 3px;
@@ -661,11 +656,39 @@ div.arrow:after {
   transform: translate(-50%, -50%);
   display: block;
   background: var(--colorBackground);
-
   z-index: 3;
 }
 
-
-.smInput{
+.smInput {
   width: 50px;
+}
+
+.explore {
+  color: #000;
+  position: absolute;
+  margin-top: 0;
+  margin-left: 3px;
+  width: 12px;
+  height: 12px;
+  border: solid 2px currentColor;
+  border-radius: 100%;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.explore:before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 5px;
+  height: 6px;
+  width: 2px;
+  background-color: currentColor;
+}
+
+
+.buttonGroupHolder{
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

@@ -14,7 +14,7 @@ class CollapsibleButton {//izbīdamo pogu klase
         this.objectHolder;
 
         this.secIcon = secIcon;//Papildus ikona, ja ir nepieciešamība
-        
+
         this.collContId = collContId;//Dotā collapsible kontenta ID
     }
 
@@ -48,10 +48,8 @@ class CollapsibleButton {//izbīdamo pogu klase
         this.smHolder = document.createElement("DIV");
         this.smHolder.classList.add('elemPlaceHolder');
         this.smHolder.classList.add('content');
-        //textToAdd = document.createTextNode(this.textToAppend);//Izveido tekstu pogai
-        //this.smHolder.appendChild(textToAdd);/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        if(this.collContId != ''){//iestata kontenta ID, lai to varētu izmantot ievietojot tajā elementus
+
+        if (this.collContId != '') {//iestata kontenta ID, lai to varētu izmantot ievietojot tajā elementus
             this.smHolder.id = this.collContId;
         }
 
@@ -59,16 +57,34 @@ class CollapsibleButton {//izbīdamo pogu klase
         this.objectHolder.appendChild(this.smHolder);
 
         this.elementHolder.appendChild(this.objectHolder);
+
+        //var coll = document.getElementsByClassName("collapsibleObj");
+
+        checkRotateElement(this.collButton.childNodes[1], this.collButton.childNodes[2], 'transform: rotate(0deg);top: 3px; margin-right: 10px; margin-left: auto');
+        this.collButton.onclick = methodize(this.click, this);//rotē bultiņu uz klikšķi un atver kontentu
     }
 
-    updateContent(contentToAdd){//apdeito kontentu
-        if(this.collContId != ''){
-            document.getElementById(this.collContId).appendChild(contentToAdd);
-        } 
+    click() {//rotē bultiņu ar klikšķi un dara visu nepieciešamo, kas notiek klikšķa laika uz collapsible
+        this.collButton.classList.toggle("active");
+        this.content = this.collButton.nextElementSibling;
+        if (this.content.style.maxHeight) {
+            checkRotateElement(this.content.previousSibling.childNodes[1], this.content.previousSibling.childNodes[2], 'transform: rotate(0deg);top: 3px; margin-right: 10px; margin-left: auto');
+            this.content.style.maxHeight = null;
+        } else {
+            checkRotateElement(this.content.previousSibling.childNodes[1], this.content.previousSibling.childNodes[2], 'bottom: 6px; transform: rotate(180deg); margin-right: 14px; margin-left: auto');
+            this.content.style.maxHeight = this.content.scrollHeight + "px";
+            if (this.content.parentElement.parentElement != null) {//Nodrošina, ka kontents nekur nepazudīs izplešoties
+                this.content.parentElement.parentElement.style.maxHeight = 'inherit';
+            }
+        }
     }
 
-    contentLength(){//iegūst kontenta elementa platumu
-        return document.getElementById(this.collContId).clientWidth;
+    updateContent(contentToAdd) {//apdeito kontentu
+        this.collButton.nextElementSibling.appendChild(contentToAdd);
+    }
+
+    contentLength() {//iegūst kontenta elementa platumu
+        return this.collButton.nextElementSibling.clientWidth;
     }
 }
 

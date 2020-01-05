@@ -10,6 +10,9 @@ var lampNum = "00";//lampu numura String vērtība
 var whiteAllowed = false;//atļauj vai arī aizliedz izmantot balto krāsu funkcijās
 var funcNum = 0;//lampu funkcijas numurs
 var currentLamp; //seko līdzi tam, kura lampa ir pašlaik nospiesta
-//document.getElementsByClassName("hidable")[0].style.display = "none"; BOOKMARK1
 
-var lampGroups = [['Room1', '1-5#'], ['BedRoom', '2-8#'], ['Garden', '6-7#']];//ienākošo lampu grupu datu masīvs
+var colorCount = 0;//seko līdzi tam cik krāsu pogu ir saglabāts 
+var animCount = 0;//seko līdzi tam cik animāciju pogu ir saglabāts
+
+var animLimit = 30; //nosaka saglabāto animāciju skaitlisko limitu
+var colorLimit = 30;//nosaka saglabāto krāsu skaitlisko limitu
