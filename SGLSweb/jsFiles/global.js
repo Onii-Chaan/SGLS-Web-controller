@@ -16,3 +16,10 @@ var animCount = 0;//seko līdzi tam cik animāciju pogu ir saglabāts
 
 var animLimit = 30; //nosaka saglabāto animāciju skaitlisko limitu
 var colorLimit = 30;//nosaka saglabāto krāsu skaitlisko limitu
+
+var brightness = 50;//glabā sevī krāsu apļa spožumu atkarībā no slīdera
+var whiteColor = 0;//glabā sevī visiem pieejamu baltās krāsas vērtību 
+var userRgbw = [];//glabā lietotāja saglabātos, pēdējās nospiestās rgbw vērtības 
+
+var currentLampString = '1-25#';//jau izveidots string priekš lampu numuriem
+var onOff=  false;//seko līdzi tam, vai lampas ieslēgtas vai izslēgtas

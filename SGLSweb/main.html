@@ -6,7 +6,7 @@
     <title>SGLS</title>
     <link rel=stylesheet href=styles.css type=text/css>
  </head> 
- <body onload="buildSettings();createDynamicContent();">
+ <body onload="buildSettings();createDynamicContent();output.innerHTML = slider.value; ">
     
         <header class="titleDiv">
         <a href="main.html" class="linkBlock">
@@ -22,7 +22,8 @@
 
         <div class="headerButton" onclick="openSettings();">
             <!--Options poga-->
-            <img src="pics/settingsButtonPic.png" id="settingsButtonPic" />
+            <!-- <img src="pics/settingsButtonPic.png" id="settingsButtonPic" /> -->
+            <div class = 'menuHolder'><div class = 'menu'></div></div>
             <!--Jāpievieno arī hrefs-->
         </div>
 
@@ -84,7 +85,7 @@
                 </div>
                 <label class="switch" id="onOffSwitch">
                     <!--On/Off poga-->
-                    <input type="checkbox" onClick="onOffTextChange()" id="onOffButton">
+                    <input type="checkbox" onclick="onOffTextChange();" id="onOffButton">
                     <!--On off poga ievade-->
                     <span class="slider round"></span>
                 </label>
@@ -107,7 +108,7 @@
                 </div>
                 <div class="slidecontainer">
                     <!--Brightness slīdera bloks-->
-                    <input type="range" min="0" max="100" value="100" class="slideValue" id="myRange">
+                    <input type="range" min="0" max="100" value="50" class="slideValue" id="myRange">
                     <!--Brightness slīderis, ievade-->
                 </div>
             </div>
@@ -117,8 +118,9 @@
             <!--Krāsu aplis-->
             <canvas id="color_picker" width="200" height="200"></canvas>
         </section>
-
-
+        <p style = 'margin-left: 20px;'>CurrentLamp value: <span id = 'displayCurrentLamp'>-</span></p>
+        <button id = 'saveColorButt' onclick = 'createUserColor();' style = 'margin-left: 20px'>Save this color</button>
+        
 
         <div class="dynamicButtonSpace">
             <!--Katras lampas pogas parādīšanās vieta-->

@@ -17,7 +17,7 @@ class LampBlock {
     build(placeToBuild = '') {
         this.colorBlock = document.createElement('DIV');
 
-        this.colorBlock.innerHTML += this.name;//izveido nosaukuma paragrāfu
+        this.colorBlock.innerHTML = this.name;//izveido nosaukuma paragrāfu
         this.colorBlock.setAttribute('name', this.value);//lai varētu vēlāk iegūt funkciju vērtības no elementa name
         this.colorBlock.classList.add('lampButton');
         if (this.options != '') {
@@ -39,13 +39,22 @@ class LampBlock {
     }
 
     doubleClick() {
-        this.options.open();
+        this.options.open('', this.colorBlock, this);
     }
 
     sendButtonValue() {
+        currentLampString = this.value;
+        document.getElementById('displayCurrentLamp').innerHTML = this.value;
         console.log('CurrentLampValue', this.value);
     }
 
-
+    updateData(name = '', value = ''){//apdeito lampBlock elementu
+        if(name != this.name && name != '' && typeof name != 'undefined'){//pārbauda vai var apdeitot vārdu
+            this.colorBlock.innerHTML = name;
+        }else if(createGroupString(value[0], value[1]) != this.value && !value.includes('') && !value.includes(undefined)){//pārbauda vai var apdeitot vērtību
+            console.log(value[1]);
+            this.value = createGroupString(value[0], value[1]);
+        }
+    }
 }
 

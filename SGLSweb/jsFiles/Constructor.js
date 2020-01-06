@@ -75,7 +75,7 @@ function createSubColl() {
     collapsibleObj.buildCollapseButton();
 
     for (var i = 0; i < rgbw.length; i++) {//izveido krāsu pogas un saliek tās collapsible pogas kontentā
-        colorBlockObjArr.push(new ColorBlock(rgbwNames[i], rgbw[i], 'colorBlock'));
+        colorBlockObjArr.push(new ColorBlock(rgbwNames[i], rgbw[i], 'colorBlock', editColorButton));
         collapsibleObj.updateContent(colorBlockObjArr[i].build());
         colorBlockObjArr[i].grow();//izveido krāsu bloku platumu
         colorBlockWidthCount += colorBlockObjArr[i].blockWidth();//skaita uz priekšu rindas platumu
@@ -96,7 +96,7 @@ function createSubColl() {
     collapsibleObj.buildCollapseButton();
 
     for (i = 0; i < funcNum.length; i++) {//izveido animāciju pogas un saliek tās collapsible pogas kontentā
-        funcBlockObjArr.push(new AnimationsBlock(funcNames[i], funcNum[i], 'animBlock'));
+        funcBlockObjArr.push(new AnimationsBlock(funcNames[i], funcNum[i], 'animBlock', editAnimButton));
         collapsibleObj.updateContent(funcBlockObjArr[i].buildAnimBlock());
 
         animCount++;//skaita uz priekšu cik ir animāciju pogu
@@ -114,8 +114,11 @@ var lampButton;//lampu pogas mainīgais
 var editGroupSettings;//liela ievade un tad from to ievade, nosūta ajax datus
 var newGroupSettings;//liela ievade un tad from to ievade, izveido jaunu pogu nosūta ajax datus
 var addExploreButton;//teksts un tikai save vai close
+var newColorButton;//teksts un liela ievade, 3 pogas
+var editColorButton;//teksts un liela ievade, 3 pogas, tiek piemērota saved krāsām
+var editAnimButton;//teksts liela ievade, teksts, maza ievade, 3 pogas
 function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai vienā eksemplārā un joprojām pieejami visiem citiem elementiem 
-    editGroupSettings = new SettingsPopUp('Edit this group', [['Update name of group: ', 'bigInput'], ['Type which lamps you would like to change in group: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 3, 'group', 0);
+    editGroupSettings = new SettingsPopUp('Edit this group', [['Update name of group: ', 'bigInput'], ['Type which lamps you would like to change in group: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 3, 'group', 0, 'updateGroup');
     editGroupSettings.build();
     editGroupSettings.closeSettings();
     newGroupSettings = new SettingsPopUp('Create new group', [['Type new name of group: ', 'bigInput'], ['Type which lamps you would like to group up: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 2, 'group', 1, 'group');
@@ -124,6 +127,15 @@ function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai
     addExploreButton = new SettingsPopUp('Save this to your collection?', [], 2, 'add', 2, 'add');
     addExploreButton.build();
     addExploreButton.closeSettings();
+    newColorButton = new SettingsPopUp('Save color to your collection', [['Type the name of your new color: ', 'bigInput']], 2, 'add', 3, 'color');
+    newColorButton.build();
+    newColorButton.closeSettings();
+    editColorButton = new SettingsPopUp('Color options', [['Edit color name: ', 'bigInput']], 3, 'add', 4, 'updateColor');
+    editColorButton.build();
+    editColorButton.closeSettings();
+    editAnimButton = new SettingsPopUp('Animation options', [['Edit animation name: ', 'bigInput'], ['Edit animation parameter', 'smInput']], 3, 'add', 5, 'updateAnimation');
+    editAnimButton.build();
+    editAnimButton.closeSettings();
 }
 
 function createLampButts() {//izveido lampu pogas
@@ -181,6 +193,11 @@ function backShadow(set) {//padara fonu tumšu, tiek izmantots priekš settings 
 
 
 
-function groupButtonSet(){//smuki izvieto lampu pogas un grupu pogas
+function saveThisColor(){
 
+}
+
+function createUserColor(){//saglabā lietotāja izvēlēto krāsu pēc 'Save this color' nospiešanas
+    console.log('User Ok');
+    newColorButton.open();
 }

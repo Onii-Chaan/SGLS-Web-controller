@@ -15,15 +15,18 @@ function color_picker_add() {
 }
 
 function select_color(e) {
+    userRgbw = [];
     var x = e.pageX - color_picker.offsetLeft,
         y = e.pageY - color_picker.offsetTop,
         pixel = color_picker.getContext("2d").getImageData(x, y, 1, 1).data;
 
     for (i = 0; i < 3; i++) {
-        rgbw[i] = pixel[i];
+        userRgbw.push(pixel[i]);
     }
-    dataType = 1;
-    stringColorSet();
+    userRgbw.push(whiteColor);//pievieno arī baltās krāsas vērtību
+    // dataType = 1;
+    // console.log(currentLamp);
+    console.log('<0'+ currentLampString + stringColorSet(userRgbw) + '>');
 }
 
 function color_picker_element(center_x, center_y, sx, sy) {
@@ -34,7 +37,7 @@ function color_picker_element(center_x, center_y, sx, sy) {
     this.draw = function () {
         for (var i = 0; i < 360; i += 0.1) {
             var rad = (i - 45) * (Math.PI) / 180;
-            color_picker_.strokeStyle = "hsla(" + i + ", 100%, 50%, 1.0)";
+            color_picker_.strokeStyle = "hsla(" + i + ", 100%, " + brightness + "%, 1.0)";
             color_picker_.beginPath();
             color_picker_.moveTo(center_x, center_y);
             color_picker_.lineTo(center_x + sx * Math.cos(-rad), center_y + sy * Math.sin(-rad));

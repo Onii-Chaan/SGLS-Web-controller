@@ -7,12 +7,14 @@ class SettingsPopUp {//pop elementu klase
         this.popUp;//PopUp elementa galvenais div
         this.data;//saglabā lietotāja ievadītos input datus
 
-        this.type = type;//nosaka vai šī ir grupas, animācijas, vai krāsu poga
+        this.type = type;//nosaka vai šī ir grupas, animācijas, vai krāsu poga, STĀV NEIZMANTOTS
 
         this.classIndex = classIndex;//nepieciešams, lai manipulētu ar vairākiem settingu elementiem
         this.createType = createType;//ja ir jāizveido kādus jaunus elementus, tad nosaka to tipu
 
         this.dataIn;//klases globālais mainīgais, lai varētu apstrādāt ienākošos datus
+        this.thisElement;//tiek padots objekta HTML elements, caur kuru arī atvēra settings 
+        this.thisObj;//tiek saglabāts esošais objekts, caur kuru tika atvērts settings
     }
 
     build() {
@@ -60,14 +62,16 @@ class SettingsPopUp {//pop elementu klase
 
     }
 
-    open(dataIn = '') {//parāda settings logu
+    open(dataIn = '', thisElement = '', thisObj) {//parāda settings logu
         this.dataIn = dataIn;
-
+        this.thisElement = thisElement;
+        this.thisObj = thisObj;
         backShadow(true);
         this.popUp.style.display = 'block';
     }
 
-    save() {//nosūta uz serveri lietotāja jaunos ievadītos datus un izveido jaunus elementus, ja tas ir nepieciešams
+    save() {
+        //nosūta uz serveri lietotāja jaunos ievadītos datus un izveido jaunus elementus, ja tas ir nepieciešams
         // this.dataIn = dataIn;//ja ir kkādi dati, kas ir papildus jāapstrādā saglabājot
         // console.log('thisDataIn:', this.dataIn);
         // console.log('dataIn: ', dataIn);
@@ -79,12 +83,11 @@ class SettingsPopUp {//pop elementu klase
         if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
             this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
             if (this.formCount < 3) {
-                this.saveValue = 'value=' + this.inputElem[1].value;
+                // this.saveValue = 'value=' + this.inputElem[1].value;
             } else if (this.formCount == 3) {
                 this.saveValue = 'value=' + createGroupString(this.inputElem[1].value, this.inputElem[2].value);
             }
         }
-
 
         if (this.createType != '') {//ja dotajam settings logam ir jāizveido vēl kāds jauns elements
             switch (this.createType) {
@@ -92,6 +95,14 @@ class SettingsPopUp {//pop elementu klase
                     createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
                     break;
                 case 'color':
+                        if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
+                            alert('You have already saved ' + colorLimit + ' colors');
+                        } else {
+                            this.createColorButt = new ColorBlock(this.inputElem[0].value, userRgbw, 'colorBlock', editColorButton);
+                            document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
+                            this.createColorButt.grow();
+                            colorCount++;
+                        }
                     break;
                 case 'animation':
                     break;
@@ -100,7 +111,7 @@ class SettingsPopUp {//pop elementu klase
                         if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                             alert('You have already saved ' + colorLimit + ' colors');
                         } else {
-                            this.createColorButt = new ColorBlock(this.dataIn[4], this.dataIn.slice(0, 4), 'colorBlock');
+                            this.createColorButt = new ColorBlock(this.dataIn[4], this.dataIn.slice(0, 4), 'colorBlock', editColorButton);
                             document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
                             this.createColorButt.grow();
                             colorCount++;
@@ -109,12 +120,21 @@ class SettingsPopUp {//pop elementu klase
                         if (animCount == animLimit) {
                             alert('You have already saved ' + animLimit + ' animations');
                         } else {
-                            console.log(this.dataIn.slice(0, 2));
-                            this.createColorButt = new AnimationsBlock(this.dataIn[2], this.dataIn.slice(0, 2), 'animBlock');
+                            // console.log(this.dataIn.slice(0, 2));
+                            this.createColorButt = new AnimationsBlock(this.dataIn[2], this.dataIn.slice(0, 2), 'animBlock', editAnimButton);
                             document.getElementById('animBlockContent').appendChild(this.createColorButt.buildAnimBlock());
                             animCount++;
                         }
                     }
+                    break;
+                case 'updateGroup'://apdeito grupu pogu
+                    this.thisObj.updateData(this.inputElem[0].value, [this.inputElem[1].value, this.inputElem[2].value]);//apdeuto group pogas datus
+                    break;
+                case 'updateColor'://apdeito krāsu pogu
+                    this.thisObj.updateData(this.inputElem[0].value);
+                    break;
+                case 'updateAnimation'://apdeito animāciju pogu
+                    this.thisObj.updateData(this.inputElem[0].value, this.inputElem[1].value);
                     break;
             }
         }
@@ -130,10 +150,15 @@ class SettingsPopUp {//pop elementu klase
         console.log('close');
     }
 
-    delete() {//izdzēš atbilstošo vērtību
+    delete() {//izdzēš atbilstošo vērtību un elementu
+        console.log(this.thisElement.className);
+        if(this.thisElement.className == 'lampButton lampGroup'){
+            currentLampString = '1-25#';
+        }
+        this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         console.log('delete');
         backShadow(false);//iestata fona ēnu
-        document.getElementsByClassName('settingsPopUp')[0].style.display = 'none';
+        document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
     }
 
     returnData(dataToGet) {

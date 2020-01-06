@@ -692,3 +692,43 @@ div.arrow:after {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+
+
+.menu {
+  color: #000;
+  position: absolute;
+  /* margin-left: 2px; */
+  /* margin-top: 10px; */
+  width: 20px;
+  height: 1px;
+  background-color: currentColor;
+}
+.menu:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 20px;
+  height: 1px;
+  background-color: currentColor;
+}
+.menu:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 20px;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.menuHolder{
+  height: 20px;
+  width: 20px;
+  position: relative;
+  left: 50%;
+  top: 65%;
+  transform: translate(-50%, -50%);
+  /* transform: translateY(-50%); */
+}

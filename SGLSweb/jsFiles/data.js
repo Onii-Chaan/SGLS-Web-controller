@@ -62,6 +62,7 @@ function sendValue(dataType, lampNum, colorOutput) {//parāda nosūtamos datus
 
 
 function createGroupString(from, to) {//izveido grupas string mainīgo
+    // console.log('a');
     return from + '-' + to + '#';
 }
 

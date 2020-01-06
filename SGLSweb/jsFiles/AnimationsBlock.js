@@ -10,11 +10,16 @@ class AnimationsBlock extends ColorBlock {//animāciju bloks ir tāds pats kā C
 
 
         this.colorBlock.onclick = methodize(this.click, this);
+        
+        if (this.options != '') {
+            this.colorBlock.ondblclick = methodize(this.dblclick, this);
+        }
+        
         return this.colorBlock;
     }
 
     click() {
         this.findMatch = this.colorBlock.getAttribute('name').match(/\d+/g);//atrod iekš name esošos parametrus funkcijai
-        sendValue(1, '1-42', stringFunctionSet(this.findMatch[0], this.findMatch[1]));
+        sendValue(1, currentLampString, stringFunctionSet(this.findMatch[0], this.findMatch[1]));
     }
 }

@@ -3,12 +3,22 @@
 //slīderis priekš brightness
 var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
 var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
-output.innerHTML = slider.value;
 
 slider.oninput = function () {//izvada vērtību slīderim
   output.innerHTML = this.value;
+  brightness = this.value;
+  color_picker_add();
 }
 
+
+function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
+  if (onOff){
+    onOff = false;
+  } else{
+    onOff = true;
+  }
+  console.log(onOff);
+}
 
 
 
