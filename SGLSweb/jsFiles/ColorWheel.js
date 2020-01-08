@@ -35,7 +35,7 @@ function color_picker_element(center_x, center_y, sx, sy) {
     this.sx = sx;
     this.sy = sy;
     this.draw = function () {
-        for (var i = 0; i < 360; i += 0.1) {
+        for (var i = 0; i < 360; i += 0.5) {
             var rad = (i - 45) * (Math.PI) / 180;
             color_picker_.strokeStyle = "hsla(" + i + ", 100%, " + brightness + "%, 1.0)";
             color_picker_.beginPath();

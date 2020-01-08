@@ -4,7 +4,7 @@ function createDynamicContent() {
 
     document.body.appendChild(buildElementNode('DIV', 'buttonGroupHolder'));//izveido lampu pogu un grupu pogu atrašanās vietu
     document.getElementsByClassName('buttonGroupHolder')[0].id = 'groupHolder';//pievieno id pogu div elementam
-    
+
     createLampButts();//izveido lampu pogas
     createExploreColl(document.body);//izveido explore sadaļu
 }
@@ -138,28 +138,121 @@ function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai
     editAnimButton.closeSettings();
 }
 
+
+
+function checkButtPlaceCount() {//pārbauda vai ir nepieciešams veidot nākamo elementu, lai turētu grupu pogas
+    // console.log(document.getElementsByClassName('groupButtonHolder')[createButtHolder(true) - 1].childElementCount);
+    if (document.getElementsByClassName('groupButtonHolder')[createButtHolder(true) - 1].childElementCount == 4) {
+        createButtHolder();
+    }
+}
+
+
+var createButtHolder = (function () {//mainīgais, funkcija, kas skaita uz priekšu ģenerētos pogas turetāja elementus
+    var buttonPlaceCount = 0;
+    // console.log('firstTime');
+    return function (ret = false) {
+        // console.log('funcExc');
+        if (ret) {
+            // console.log('ret count');
+            return buttonPlaceCount;
+        } else {
+            // console.log('append');
+            buttonPlaceCount++;
+            document.getElementById('groupHolder').appendChild(buildElementNode('DIV', 'groupButtonHolder'));
+        }
+    }
+})();
+
+
+
 function createLampButts() {//izveido lampu pogas
+    createButtHolder();
     for (j = 0; j < lampGroups.length; j++) {//izveido lampu grupu pogu
         lampButton = new LampBlock(lampGroups[j][0], lampGroups[j][1], editGroupSettings);
-        lampButton.build();
+        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+        checkButtPlaceCount();
     }
 
     for (i = 0; i < lampNum; i++) {//izveido parastas lampas pogu
         lampButton = new LampBlock('L' + (i + 1), i + 1);
-        lampButton.build();
+        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+        checkButtPlaceCount();
+
     }
     createNewLampGroup('Create new lamp group', 'newGroup', newGroupSettings);//izveido create new lamp group pogu
+    checkButtPlaceCount();
+    riseGroupButts();
 }
 
 
 function createNewLampGroup(name, value, settings = '', newButt = false) {//izveido jaunu lampu grupas pogu
     lampButton = new LampBlock(name, value, settings);
     if (!newButt) {//ja netiek pievienota jauna poga
-        lampButton.build();
-    } else {
-        lampButton.build(document.getElementsByClassName('lampGroup')[document.getElementsByClassName('lampGroup').length - 2/*Lai netiktu būvēts pēc create new group pogas*/]);//izveido elementu pēc pēdējās grupas pogas
+        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+    } else {//ja tiek pievienota jauna poga
+        if (!document.getElementsByClassName('groupButtonHolder')[document.getElementsByClassName('groupButtonHolder').length - 1].getElementsByClassName('lampButton').length == 0) {//ja pogas holderī vēl ir vieta jaunai pogai
+            document.getElementsByClassName('groupButtonHolder')//novāc create new lamp group pogu
+            [document.getElementsByClassName('groupButtonHolder').length - 1]
+            .getElementsByClassName('lampButton')[document.getElementsByClassName('groupButtonHolder')
+            [document.getElementsByClassName('groupButtonHolder').length - 1]
+            .getElementsByClassName('lampButton').length - 1].remove();
+            
+            lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);//izveido elementu pēc pēdējās grupas pogas        
+        } else {//ja pogas holderī nav vietas jaunai pogai
+            document.getElementsByClassName('groupButtonHolder')//novāc pēdējo create lamp button pogu
+            [document.getElementsByClassName('groupButtonHolder').length - 2]
+            .getElementsByClassName('lampButton')[document.getElementsByClassName('groupButtonHolder')
+            [document.getElementsByClassName('groupButtonHolder').length - 2]
+            .getElementsByClassName('lampButton').length - 1].remove();
+            
+            lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 2);//izveido elementu pēc pēdējās grupas pogas        
+        }
+        checkButtPlaceCount();
+        riseGroupButts();
+        createNewLampGroup('Create new lamp group', 'newGroup', newGroupSettings);//izveido create new lamp group pogu
+        checkButtPlaceCount();
+        riseGroupButts();
     }
 }
+
+function checkButtHolders() {//pārbauda vai ir nepieciešams pārvietot grupu pogas uz citiem div elementiem
+
+}
+
+
+function riseGroupButts() {//iestata group pogām to garumu
+    for (var i = 0; i < document.getElementsByClassName('groupButtonHolder').length; i++) {
+        for (var j = 0; j < document.getElementsByClassName('groupButtonHolder')[i].childElementCount; j++) {
+            switch (document.getElementsByClassName('groupButtonHolder')[i].childElementCount) {
+                case 1:
+                    document.getElementsByClassName('groupButtonHolder')[i]
+                    .getElementsByClassName('lampButton')[j].style.width = '100%';
+                    break;
+                case 2:
+                    document.getElementsByClassName('groupButtonHolder')[i]
+                    .getElementsByClassName('lampButton')[j].style.width = '50%';
+                    break;
+                case 3:
+                    document.getElementsByClassName('groupButtonHolder')[i]
+                    .getElementsByClassName('lampButton')[j].style.width = '33%';
+                    break;
+                case 4:
+                    // console.log(document.getElementsByClassName('groupButtonHolder')[i].getElementsByClassName('lampButton')[j]);
+                    document.getElementsByClassName('groupButtonHolder')[i]
+                    .getElementsByClassName('lampButton')[j].style.width = '25%';
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
+
+
+
+
 
 
 
@@ -192,12 +285,12 @@ function backShadow(set) {//padara fonu tumšu, tiek izmantots priekš settings 
 }
 
 
-
-function saveThisColor(){
-
-}
-
-function createUserColor(){//saglabā lietotāja izvēlēto krāsu pēc 'Save this color' nospiešanas
+function createUserColor() {//saglabā lietotāja izvēlēto krāsu pēc 'Save this color' nospiešanas
     console.log('User Ok');
     newColorButton.open();
 }
+
+window.onclick = e => {//būs nepieciešams, lai sekotu tam , kur notiek klikšķis, lai izvēlētos, vai atgriezt pogas default stāvokli vai nē
+    console.log(e.target);
+    console.log(e.target.tagName);
+} 

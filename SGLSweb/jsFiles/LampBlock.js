@@ -26,12 +26,15 @@ class LampBlock {
 
 
         this.colorBlock.onclick = methodize(this.sendButtonValue, this);//pievieno klikšķa iespēju
-
-        if (placeToBuild == '') {//izvēlās, kurā vietā tiks būvēta nākamā lampu poga
-            document.getElementById('groupHolder').appendChild(this.colorBlock);
-        } else {
-            placeToBuild.parentNode.insertBefore(this.colorBlock, placeToBuild.nextSibling);//uzbūvē grupas pogu pēc pēdējās grupas pogas
-        }
+        // console.log('a', placeToBuild);
+        if (typeof placeToBuild == 'number') {//izvēlās, kurā vietā tiks būvēta nākamā lampu poga
+            // console.log('placeToBuild: '+ placeToBuild);
+            document.getElementsByClassName('groupButtonHolder')[placeToBuild].appendChild(this.colorBlock);
+        } 
+        // else {
+        //     console.log('parentNode: ');
+        //     document.getElementsByClassName('groupButtonHolder')[parseInt(placeToBuild.substring(3,4))].parentNode.insertBefore(this.colorBlock, placeToBuild.nextSibling);//uzbūvē grupas pogu pēc pēdējās grupas pogas
+        // }
 
         if (this.options != '') {//pievieno dubultklikšķa iespēju
             this.colorBlock.ondblclick = methodize(this.doubleClick, this);
@@ -48,10 +51,10 @@ class LampBlock {
         console.log('CurrentLampValue', this.value);
     }
 
-    updateData(name = '', value = ''){//apdeito lampBlock elementu
-        if(name != this.name && name != '' && typeof name != 'undefined'){//pārbauda vai var apdeitot vārdu
+    updateData(name = '', value = '') {//apdeito lampBlock elementu
+        if (name != this.name && name != '' && typeof name != 'undefined') {//pārbauda vai var apdeitot vārdu
             this.colorBlock.innerHTML = name;
-        }else if(createGroupString(value[0], value[1]) != this.value && !value.includes('') && !value.includes(undefined)){//pārbauda vai var apdeitot vērtību
+        } else if (createGroupString(value[0], value[1]) != this.value && !value.includes('') && !value.includes(undefined)) {//pārbauda vai var apdeitot vērtību
             console.log(value[1]);
             this.value = createGroupString(value[0], value[1]);
         }

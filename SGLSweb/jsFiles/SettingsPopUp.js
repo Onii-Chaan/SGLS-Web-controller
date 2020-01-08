@@ -141,22 +141,22 @@ class SettingsPopUp {//pop elementu klase
 
         ajaxConsoleSend(this.saveName + ' ' + this.saveValue);//nosūta datus uz serveri
         document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu
-        console.log('save');
+        // console.log('save');
     }
 
     closeSettings() {//noslēpj settings logu
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
-        console.log('close');
+        // console.log('close');
     }
 
     delete() {//izdzēš atbilstošo vērtību un elementu
-        console.log(this.thisElement.className);
+        // console.log(this.thisElement.className);
+        this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if(this.thisElement.className == 'lampButton lampGroup'){
             currentLampString = '1-25#';
+            riseGroupButts();   
         }
-        this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
-        console.log('delete');
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
     }
