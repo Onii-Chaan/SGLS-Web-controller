@@ -20,21 +20,16 @@ class LampBlock {
         this.colorBlock.innerHTML = this.name;//izveido nosaukuma paragrāfu
         this.colorBlock.setAttribute('name', this.value);//lai varētu vēlāk iegūt funkciju vērtības no elementa name
         this.colorBlock.classList.add('lampButton');
+        // this.colorBlock.classList.add('no_selection');
         if (this.options != '') {
             this.colorBlock.classList.add('lampGroup');//lai būtu atšķirība no parastājām lampu pogām
         }
 
 
         this.colorBlock.onclick = methodize(this.sendButtonValue, this);//pievieno klikšķa iespēju
-        // console.log('a', placeToBuild);
         if (typeof placeToBuild == 'number') {//izvēlās, kurā vietā tiks būvēta nākamā lampu poga
-            // console.log('placeToBuild: '+ placeToBuild);
             document.getElementsByClassName('groupButtonHolder')[placeToBuild].appendChild(this.colorBlock);
         } 
-        // else {
-        //     console.log('parentNode: ');
-        //     document.getElementsByClassName('groupButtonHolder')[parseInt(placeToBuild.substring(3,4))].parentNode.insertBefore(this.colorBlock, placeToBuild.nextSibling);//uzbūvē grupas pogu pēc pēdējās grupas pogas
-        // }
 
         if (this.options != '') {//pievieno dubultklikšķa iespēju
             this.colorBlock.ondblclick = methodize(this.doubleClick, this);

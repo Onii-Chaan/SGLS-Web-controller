@@ -5,6 +5,12 @@
   padding: 0;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
+
+  /* Nepieļauj teksta iezīmēšanu */
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
 }
 
 :root {
@@ -111,7 +117,7 @@ body {
 }
 
 .allLampsMainDivPartTextDiv {
-  width: 170px;
+  /* width: 170px; */
   height: 100%;
   left: 10px;
   position: relative;
@@ -143,7 +149,7 @@ body {
   width: 60px;
   height: 34px;
   margin-left: auto;
-  margin-right: 40px;
+  margin-right: 10px;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -205,8 +211,8 @@ input:checked+.slider:before {
 /*Slider with value*/
 
 .slidecontainer {
-  width: 35%;
-  margin-right: 40px;
+  width:35%;
+  margin-right: 10px;
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -749,3 +755,17 @@ div.arrow:after {
   /* transform: translateY(-50%); */
 }
 
+/* Tur kur atrodas lapas galvenais kontents, krāsu aplis */
+.mainColor {
+  /*šajā daļā atrodas viss tas, kas atrodas zem headera*/
+  /* background: var(--colorBackground); */
+  margin-top: 20px;
+}
+
+/* Nepieļauj teksta iezīmēšanu */
+/* .no_selection {
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  /* -moz-user-select: none; mozilla browsers */
+  /* -khtml-user-select: none; webkit (konqueror) browsers */
+  /* -ms-user-select: none; IE10+ */
+/* } */ 

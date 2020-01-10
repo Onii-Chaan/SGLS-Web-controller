@@ -36,6 +36,7 @@ class ColorBlock {
 
     grow(plusWidth = 0) {//izveido krāsu blokam atbilstošu platumu
         if (!plusWidth) {//strādā tikai tad, kad netiek likts papildus platums
+            // console.log('TEST: ', this.colorBlock.clientWidth);
             this.colorBlock.style.width = this.colorBlock.clientWidth + Math.floor(this.colorBlock.clientWidth * 0.5) + 'px';//izveido atbilstošo bloka garumu
         } else if (plusWidth) {//ja ir papildus vērtība, ko pievienot
             this.colorBlock.style.width = this.colorBlock.clientWidth + plusWidth + 'px';

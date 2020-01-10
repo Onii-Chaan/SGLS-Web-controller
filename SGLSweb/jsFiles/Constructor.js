@@ -62,7 +62,7 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
                 )
             );
         }
-        addColorBlock(i, collapsibleObj, colorAnimBlockObjArr, rgbw.length);
+        addColorBlock(i, collapsibleObj, colorAnimBlockObjArr, exploreArr.length);
     }
 }
 
@@ -71,10 +71,12 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     collObj.updateContent(objArr[j].build());//uzbūvē krāsu pogu
     objArr[j].grow();//izveido krāsu bloku platumu
     blockWidthCount += objArr[j].blockWidth();//skaita uz priekšu rindas platumu
+    console.log('BEF_LEN: ', objArr[j].blockWidth());
     if (
         blockWidthCount >= collObj.contentLength() ||
         j == arrLen - 1
     ) {//pārbauda vai pēdējo krāsu bloku ir jāpaplašina
+        console.log('A');
         if (
             blockWidthCount - objArr[j].blockWidth() !=
             collObj.contentLength() && j > 0 && j != arrLen - 1
@@ -82,16 +84,20 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
             objArr[j - 1].grow(
                 collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth())
             );
+            console.log('B');
         }
         else if (
             j == arrLen - 1
         ) {
             objArr[j].grow(collObj.contentLength() - blockWidthCount);
+            console.log('D');
         }
         blockWidthCount = objArr[j].blockWidth();//atgriežas uz nākamo rindiņu
     } else if (
         objArr[j].blockWidth() > collObj.contentLength() - blockWidthCount
     ) {
+        console.log('E');
+
         objArr[j - 1].grow(
             collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() + 1)
         );
@@ -100,13 +106,16 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     if (blockWidthCount >= collObj.contentLength()) {
         blockWidthCount = 0;
     }
-    console.log(objArr[j]);
-     //console.log(j);
-     console.log(collObj);
-     // console.log(objArr);
-     console.log(blockWidthCount);
-     console.log(arrLen);
-     console.log('---------------------------------------------------');
+    //  console.log(objArr[j]);
+    //console.log(j);
+    //  console.log(collObj);
+    // console.log(objArr);
+    console.log('AFTER_LEN: ', objArr[j].blockWidth());
+    console.log('CONTENT_LENGTH', collObj.contentLength());
+    console.log('BLOCK_SUM', blockWidthCount);
+    console.log(arrLen);
+    console.log(objArr[j].show());
+    console.log('---------------------------------------------------');
 }
 
 
