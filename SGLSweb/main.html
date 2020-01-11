@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SGLS</title>
-    <link rel=stylesheet href=styles.css type=text/css>
- </head> 
- <body onload="buildSettings();createDynamicContent();output.innerHTML = slider.value; ">
-    
-        <header class="titleDiv">
+    <link rel=stylesheet href=styles.css type=text/css> </head> <body
+        onload="buildSettings();createDynamicContent();output.innerHTML = slider.value; ">
+
+    <header class="titleDiv">
         <a href="main.html" class="linkBlock">
             <div class="SGLSTitleDiv">
                 <!--SGLS nosaukums-->
@@ -20,7 +19,9 @@
         <div class="headerButton" onclick="openSettings();">
             <!--Options poga-->
             <!-- <img src="pics/settingsButtonPic.png" id="settingsButtonPic" /> -->
-            <div class = 'menuHolder'><div class = 'menu'></div></div>
+            <div class='menuHolder'>
+                <div class='menu'></div>
+            </div>
             <!--Jāpievieno arī hrefs-->
         </div>
 
@@ -110,15 +111,17 @@
     </main>
     <main class="mainColor">
         <!--Visa satura bloks-->
-        
+
 
         <section id="s_color_picker_id">
             <!--Krāsu aplis-->
-            <canvas id="color_picker" width="200" height="200"></canvas>
+            <!-- <canvas id="color_picker" width="200" height="200"></canvas> -->
+            <div class="wheel" id="colorWheelDemo"></div>
+
         </section>
-        <p style = 'margin-left: 20px;'>CurrentLamp value: <span id = 'displayCurrentLamp'>-</span></p>
-        <button id = 'saveColorButt' onclick = 'createUserColor();' style = 'margin-left: 20px'>Save this color</button>
-        
+        <p style='margin-left: 20px;'>CurrentLamp value: <span id='displayCurrentLamp'>-</span></p>
+        <button id='saveColorButt' onclick='createUserColor();' style='margin-left: 20px'>Save this color</button>
+
 
         <div class="dynamicButtonSpace">
             <!--Katras lampas pogas parādīšanās vieta-->
@@ -130,7 +133,7 @@
                     White center value:&nbsp;
                 </p>
                 <p class="whiteCenterDivOptionsText" id="whiteBrightnessSliderTextValue">
-                    
+
                 </p>
             </div>
             <div class="whiteCenterDivMiddle">
@@ -153,12 +156,12 @@
 
     </main>
 
-    
+
     <div id="collHolder"></div>
     <div id='lampButtHold'
         style='margin-top: 5px; display:flex;text-align: center;width: 95%;margin-right: auto;margin-left: auto;'>
     </div>
-    
+
 
 
     <!--<div id = "testColorBlocksDiv" style = 'height: 500px;width: 400px;  margin-left: 20px;'></div>-->
@@ -171,8 +174,33 @@
     <script src=jsFiles\SGLSscripts.js></script>
     <script src=jsFiles\data.js></script>
     <script src=jsFiles\ColorBlock.js></script>
-    <script src=jsFiles\ColorWheel.js></script>
+    <!-- <script src=jsFiles\ColorWheel.js></script> -->
     <script src=jsFiles\AnimationsBlock.js></script>
     <script src=jsFiles\LampBlock.js></script>
-    <script src=jsFiles\SettingsPopUp.js></script>    
+    <script src=jsFiles\SettingsPopUp.js></script>
+    <script src="iroJs\iro.min.js"></script>
+    <script>
+        var colorWheel = iro.ColorPicker("#colorWheelDemo", {
+            width: 250,
+            height: 250,
+            color: '#fff',
+            padding: 6,
+            borderWidth: 0,
+            borderColor: '#fff',
+            handleRadius: 8,
+            handleSvg: null, // Custom handle SVG
+            handleOrigin: {
+                x: 0,
+                y: 0
+            },
+            wheelLightness: true,
+            wheelAngle: 0, // starting angle
+            wheelDirection: 'anticlockwise', // clockwise/anticlockwise
+            sliderHeight: undefined,
+            sliderMargin: 12,
+            display: 'block', // CSS display value
+            // layout: {} // Custom Layouts
+        });
+    </script>
+
 </html>

@@ -769,3 +769,8 @@ div.arrow:after {
   /* -khtml-user-select: none; webkit (konqueror) browsers */
   /* -ms-user-select: none; IE10+ */
 /* } */ 
+
+.iro__colorPicker{
+  margin-left: auto;
+  margin-right: auto;
+}
