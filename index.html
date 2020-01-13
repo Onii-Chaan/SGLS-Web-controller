@@ -14,7 +14,14 @@
                 <h1 class="mainText" id="SGLSmainName"><b>SGLS</b></h1>
             </div>
         </a>
+        <!--On/Off paziņojums-->
 
+        <label class="switch" id="onOffSwitch">
+            <!--On/Off poga-->
+            <input type="checkbox" onclick="onOffTextChange();" id="onOffButton">
+            <!--On off poga ievade-->
+            <span class="slider round"></span>
+        </label>
 
         <div class="headerButton" onclick="openSettings();">
             <!--Options poga-->
@@ -74,21 +81,11 @@
 
     </header>
     <main class="main">
-        <div class="allLampsMainDiv">
+        <!-- <div class="allLampsMainDiv">
             <div class="allLampsMainDivPart">
-                <!--On/Off paziņojums-->
-                <div class="allLampsMainDivPartTextDiv">
-                    <!--On/Off teksts-->
-                    <p class="mainPageText" id="onOffText">On/Off:</p>
-                </div>
-                <label class="switch" id="onOffSwitch">
-                    <!--On/Off poga-->
-                    <input type="checkbox" onclick="onOffTextChange();" id="onOffButton">
-                    <!--On off poga ievade-->
-                    <span class="slider round"></span>
-                </label>
+
             </div>
-        </div>
+        </div> -->
         <!-- <div class="allLampsMainDiv">
             Visu lampu opcijas
             <div class="allLampsMainDivPart">
@@ -119,11 +116,11 @@
             <div class="wheel" id="colorWheelDemo"></div>
             <div class='wheelSlider' id='colorWheelSlider'></div>
         </section>
-        <div class = 'displayLampGroup'>
+        <div class='displayLampGroup'>
             <p>Group: <span id='displayCurrentLamp'>All</span></p>
-            <button id='saveColorButt' onclick='createUserColor();' class = 'btn btn-default'>Save this color</button>    
+            <button id='saveColorButt' onclick='createUserColor();' class='btn btn-default'>Save this color</button>
         </div>
-        
+
 
         <div class="dynamicButtonSpace">
             <!--Katras lampas pogas parādīšanās vieta-->
@@ -182,4 +179,5 @@
     <script src=jsFiles\SettingsPopUp.js></script>
     <script src=iroJs\iro.min.js></script>
     <script src=jsFiles\iroSet.js></script>
+
 </html>

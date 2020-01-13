@@ -5,12 +5,15 @@
   padding: 0;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
-
   /* Nepieļauj teksta iezīmēšanu */
-  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-  -moz-user-select: none; /* mozilla browsers */
-  -khtml-user-select: none; /* webkit (konqueror) browsers */
-  -ms-user-select: none; /* IE10+ */
+  -webkit-user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -moz-user-select: none;
+  /* mozilla browsers */
+  -khtml-user-select: none;
+  /* webkit (konqueror) browsers */
+  -ms-user-select: none;
+  /* IE10+ */
 }
 
 :root {
@@ -66,7 +69,7 @@ body {
   position: relative;
   height: 100%;
   width: 100px;
-  left: 50px;
+  left: 10px;
   right: auto;
   text-align: center;
   line-height: 50px;
@@ -92,10 +95,13 @@ body {
 } */
 
 /* .outputDiv { */
-  /*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
-  /* height: 100%;
+
+/*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
+
+/* height: 100%;
   width: 300px;
   background: lightcoral; */
+
 /* } */
 
 /*Mājaslapas vidējā daļa, te atrodas viss līdz izplešanās uz leju pogai*/
@@ -149,7 +155,7 @@ body {
   width: 60px;
   height: 34px;
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: 20px;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -167,7 +173,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--colorTertiary);
+  background-color: gray;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -185,7 +191,7 @@ body {
 }
 
 input:checked+.slider {
-  background-color: var(--colorTertiaryTwo);
+  background-color: lightgray;
 }
 
 input:focus+.slider {
@@ -211,7 +217,7 @@ input:checked+.slider:before {
 /*Slider with value*/
 
 .slidecontainer {
-  width:35%;
+  width: 35%;
   margin-right: 10px;
   margin-left: auto;
   margin-top: auto;
@@ -287,6 +293,7 @@ input:checked+.slider:before {
 }
 
 /*Expanded lietas*/
+
 /* 
 .expandedColorSetButtons {
   display: flex;
@@ -355,8 +362,6 @@ input:checked+.slider:before {
   margin-right: auto;
 } */
 
-
-
 /*Dinamiski genereta baltas krasas izvelne*/
 
 .whiteCenterDiv {
@@ -387,6 +392,7 @@ input:checked+.slider:before {
   background: var(--colorBackgroundSecondary);
   display: flex;
 } */
+
 /* 
 #whiteRange {
   width: 90%;
@@ -449,6 +455,7 @@ button {
   padding-top: 30px;
   padding-bottom: 30px;
 } */
+
 /* 
 .submitButton {
   background: gray;
@@ -491,6 +498,7 @@ button {
 .optionsDivButton:hover {
   background: var(--colorTertiary);
 }
+
 /* 
 .rotateOptionsPic {
   height: 15px;
@@ -515,7 +523,9 @@ button {
 } */
 
 /*JAUNAIS KODS*/
+
 /*Krāsu aplis*/
+
 #s_color_picker_id {
   text-align: center;
 }
@@ -553,6 +563,7 @@ div.arrow:after {
 }
 
 /* Ikonas izmērs */
+
 .medIcon {
   height: 20px;
   width: 20px;
@@ -560,11 +571,13 @@ div.arrow:after {
 }
 
 /* Vieta kur atrodas pogas */
+
 .elemPlaceHolder {
   width: 95%;
 }
 
 /* Bookmark ikona */
+
 .bookmark {
   color: #000;
   position: absolute;
@@ -593,11 +606,13 @@ div.arrow:after {
 }
 
 /* Collapsible pogas nosaukums */
+
 .collapsibleLabel {
   margin-left: 5px;
 }
 
 /* Krāsu poga */
+
 .colorBlock {
   height: 40px;
   text-align: center;
@@ -614,6 +629,7 @@ div.arrow:after {
 }
 
 /* Animāciju poga */
+
 .animBlock {
   width: 100%;
   height: 30px;
@@ -630,6 +646,7 @@ div.arrow:after {
 }
 
 /* Settings loga lapas aptumšojošais elements */
+
 .documentCover {
   height: 100%;
   width: 100%;
@@ -642,27 +659,37 @@ div.arrow:after {
 }
 
 /* Settings logs */
+
 .settingsPopUp {
   box-shadow: 1px 2px 3px #888888;
   padding-left: 3px;
   padding-top: 3px;
   border: 1px solid black;
-  top: 50%;
-  left: 50%;
-  position: fixed;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  display: block;
+  /* top: 50%;
+  left: 50%; */
+  position: absolute;
+  /* -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
+  /* display: block; */
   background: var(--colorBackground);
   z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: max-content;
+  height: max-content;
 }
 
 /* Mazā settings ievade */
+
 .smInput {
   width: 50px;
 }
 
 /* Explore ikona */
+
 .explore {
   color: #000;
   position: absolute;
@@ -687,15 +714,16 @@ div.arrow:after {
 }
 
 /* Grupu pogu atrašanās vieta */
-.buttonGroupHolder{
+
+.buttonGroupHolder {
   width: 95%;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: auto;
-  margin-right:auto;
+  margin-right: auto;
 }
 
-.groupButtonHolder{
+.groupButtonHolder {
   display: flex;
 }
 
@@ -715,48 +743,52 @@ div.arrow:after {
   cursor: pointer;
 }
 
-
 /* Menu ikona */
+
 .menu {
   color: #000;
   position: absolute;
   /* margin-left: 2px; */
   /* margin-top: 10px; */
-  width: 20px;
-  height: 1px;
+  width: 27px;
+  height: 4px;
   background-color: currentColor;
 }
+
 .menu:before {
   content: '';
   position: absolute;
-  top: -5px;
+  top: -8px;
   left: 0;
-  width: 20px;
-  height: 1px;
+  width: 27px;
+  height: 4px;
   background-color: currentColor;
 }
+
 .menu:after {
   content: '';
   position: absolute;
-  top: 5px;
+  top: 8px;
   left: 0;
-  width: 20px;
-  height: 1px;
+  width: 27px;
+  height: 4px;
   background-color: currentColor;
 }
 
 /* Menu ikonas turētājs */
-.menuHolder{
+
+.menuHolder {
   height: 20px;
   width: 20px;
   position: relative;
-  left: 50%;
-  top: 65%;
+  left: 43%;
+  top: 64%;
   transform: translate(-50%, -50%);
   /* transform: translateY(-50%); */
 }
 
 /* Tur kur atrodas lapas galvenais kontents, krāsu aplis */
+
 .mainColor {
   /*šajā daļā atrodas viss tas, kas atrodas zem headera*/
   /* background: var(--colorBackground); */
@@ -764,27 +796,30 @@ div.arrow:after {
 }
 
 /* Nepieļauj teksta iezīmēšanu */
+
 /* .no_selection {
   -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-  /* -moz-user-select: none; mozilla browsers */
-  /* -khtml-user-select: none; webkit (konqueror) browsers */
-  /* -ms-user-select: none; IE10+ */
-/* } */ 
+
+/* -moz-user-select: none; mozilla browsers */
+
+/* -khtml-user-select: none; webkit (konqueror) browsers */
+
+/* -ms-user-select: none; IE10+ */
+
+/* } */
 
 /* Nocentrē krāsu apli */
-.iro__colorPicker{
+
+.iro__colorPicker {
   margin-left: auto;
   margin-right: auto;
 }
-
-
 
 .btn {
   margin-right: 1px;
   font-size: 14px;
   padding: 6px 12px;
   margin-bottom: 0;
-
   display: inline-block;
   text-decoration: none;
   text-align: center;
@@ -800,17 +835,18 @@ div.arrow:after {
   background-image: none;
   border: 1px solid transparent;
 }
-.btn:focus,
-.btn:active:focus {
+
+.btn:focus, .btn:active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-.btn:hover,
-.btn:focus {
+
+.btn:hover, .btn:focus {
   color: #333;
   text-decoration: none;
 }
+
 .btn:active {
   background-image: none;
   outline: 0;
@@ -820,21 +856,25 @@ div.arrow:after {
 
 /* default
 ---------------------------- */
+
 .btn-default {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
 }
+
 .btn-default:focus {
   color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
 }
+
 .btn-default:hover {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
+
 .btn-default:active {
   color: #333;
   background-color: #e6e6e6;
@@ -889,9 +929,8 @@ div.arrow:after {
   border-color: #dc3545;
 }
 
-
 /* Lampu pogu vērtības atrādīšana */
 
-.displayLampGroup{
+.displayLampGroup {
   margin-left: 2.5%;
 }
