@@ -14,12 +14,13 @@ class ColorBlock {
         this.colorBlock = document.createElement('DIV');
 
         this.colorBlock.innerHTML = this.colorName;//izveido nosaukuma paragrāfu
+        this.colorBlock.style.color = getContrast(this.colorValue.slice(0,3));//Maina teksta krāsu atbilstoši fona krāsai
 
         this.colorBlock.classList.add(this.type);
         this.colorBlock.style.background = 'rgba(' + this.colorValue[0] + ', ' + this.colorValue[1] + ', ' + this.colorValue[2] + ', ' + scaleToRange(this.colorValue[3] * 100, 0 * 100, 255 * 100, 1 * 100, 0.01 * 100) / 100 + ')';
 
         this.colorBlock.addEventListener('click', function () {
-            sendValue(0, '1-17', stringColorSet(parseToRGBA(this.style.backgroundColor)));
+            sendValue(0, currentLampString, stringColorSet(parseToRGBA(this.style.backgroundColor)));
         });
 
         if (this.options != '') {

@@ -12,10 +12,8 @@ function parseToRGBA(stringToParse) {//sadala style rgb un rgba uz skaitliskām 
 function stringColorSet(rgbwArr) {//Si funkcija parveido rgbw krasu vertibas String rindina. Gatavu izsutisanai
     var countString = "";
     var rgbwString = '';
-    if (rgbwArr[3] > 0) {//pārveido alfa vērtību uz balto baita vērtību
-        rgbwArr[3] = Math.round(scaleToRange(rgbwArr[3] * 100, 1 * 100, 0.01 * 100, 0 * 100, 255 * 100) / 100);
-    }
-    for (var i = 0; i < 4; i++) {//Nosaka vai saraksta skaitli ir divcipara vai viencipara vai trisciparu skaitlis un atbilstosi pieliek nulles
+
+    for (var i = 0; i < rgbwArr.length; i++) {//Nosaka vai saraksta skaitli ir divcipara vai viencipara vai trisciparu skaitlis un atbilstosi pieliek nulles
         if (rgbwArr[i] >= 100) {
             countString = rgbwArr[i];
         } else if (rgbwArr[i] < 100 && rgbwArr[i] >= 10) {

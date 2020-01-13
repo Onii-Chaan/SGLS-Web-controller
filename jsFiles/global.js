@@ -19,7 +19,7 @@ var colorLimit = 30;//nosaka saglabāto krāsu skaitlisko limitu
 
 var brightness = 50;//glabā sevī krāsu apļa spožumu atkarībā no slīdera
 var whiteColor = 0;//glabā sevī visiem pieejamu baltās krāsas vērtību 
-var userRgbw = [];//glabā lietotāja saglabātos, pēdējās nospiestās rgbw vērtības 
+var userRgbw = [0,255,0];//glabā lietotāja saglabātos, pēdējās nospiestās rgbw vērtības 
 
 var currentLampString = '1-25#';//jau izveidots string priekš lampu numuriem
 var onOff=  false;//seko līdzi tam, vai lampas ieslēgtas vai izslēgtas

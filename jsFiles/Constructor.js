@@ -41,7 +41,7 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
     );
     collapsibleObj.buildCollapseButton();
     blockWidthCount = 0;
-    console.log('//////////////////////////////////////////////////////////////////////////////////');
+    // console.log('//////////////////////////////////////////////////////////////////////////////////');
     for (var i = 0; i < exploreArr.length; i++) {//izveido krāsu pogas un saliek tās collapsible pogas kontentā
         if (exploreArr[i].length == 5) {//ja masīva elementa atbilst krāsai 
             colorAnimBlockObjArr.push(
@@ -71,12 +71,12 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     collObj.updateContent(objArr[j].build());//uzbūvē krāsu pogu
     objArr[j].grow();//izveido krāsu bloku platumu
     blockWidthCount += objArr[j].blockWidth();//skaita uz priekšu rindas platumu
-    console.log('BEF_LEN: ', objArr[j].blockWidth());
+    // console.log('BEF_LEN: ', objArr[j].blockWidth());
     if (
         blockWidthCount >= collObj.contentLength() ||
         j == arrLen - 1
     ) {//pārbauda vai pēdējo krāsu bloku ir jāpaplašina
-        console.log('A');
+        // console.log('A');
         if (
             blockWidthCount - objArr[j].blockWidth() !=
             collObj.contentLength() && j > 0 && j != arrLen - 1
@@ -84,19 +84,19 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
             objArr[j - 1].grow(
                 collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth())
             );
-            console.log('B');
+            // console.log('B');
         }
         else if (
             j == arrLen - 1
         ) {
             objArr[j].grow(collObj.contentLength() - blockWidthCount);
-            console.log('D');
+            // console.log('D');
         }
         blockWidthCount = objArr[j].blockWidth();//atgriežas uz nākamo rindiņu
     } else if (
         objArr[j].blockWidth() > collObj.contentLength() - blockWidthCount
     ) {
-        console.log('E');
+        // console.log('E');
 
         objArr[j - 1].grow(
             collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() + 1)
@@ -110,12 +110,12 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     //console.log(j);
     //  console.log(collObj);
     // console.log(objArr);
-    console.log('AFTER_LEN: ', objArr[j].blockWidth());
-    console.log('CONTENT_LENGTH', collObj.contentLength());
-    console.log('BLOCK_SUM', blockWidthCount);
-    console.log(arrLen);
-    console.log(objArr[j].show());
-    console.log('---------------------------------------------------');
+    // console.log('AFTER_LEN: ', objArr[j].blockWidth());
+    // console.log('CONTENT_LENGTH', collObj.contentLength());
+    // console.log('BLOCK_SUM', blockWidthCount);
+    // console.log(arrLen);
+    // console.log(objArr[j].show());
+    // console.log('---------------------------------------------------');
 }
 
 
@@ -350,6 +350,9 @@ var createButtHolder = (function () {//mainīgais, funkcija, kas skaita uz priek
 
 function createLampButts() {//izveido lampu pogas
     createButtHolder();
+    lampButton = new LampBlock('All', '1-25#');//izveido pogu, kas ieslēdz visas lampas
+    lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+    checkButtPlaceCount();
     for (j = 0; j < lampGroups.length; j++) {//izveido lampu grupu pogu
         lampButton = new LampBlock(lampGroups[j][0], lampGroups[j][1], editGroupSettings);
         lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
@@ -444,7 +447,13 @@ function riseGroupButts() {//iestata group pogām to garumu
 function buildElementNode(type, classList = '', textToAdd = '') {//izveido un atgriež paragrāfu ar klasi
     var builtElement = document.createElement(type);
     if (classList != '') {
-        builtElement.classList.add(classList);
+        if (classList.constructor === Array) {
+            for (var i = 0; i < classList.length; i++) {
+                builtElement.classList.add(classList[i]);
+            }
+        } else {
+            builtElement.classList.add(classList);
+        }
     }
     if (textToAdd != '') {
         builtElement.appendChild(document.createTextNode(textToAdd));
@@ -479,3 +488,13 @@ function createUserColor() {//saglabā lietotāja izvēlēto krāsu pēc 'Save t
 //     console.log(e.target);
 //     console.log(e.target.tagName);
 // } 
+
+
+var getContrast = function (rgbColor){//pārbauda un atgriež fonta krāsu
+	// Get YIQ ratio
+	var yiq = ((rgbColor[0] * 299) + (rgbColor[1] * 587) + (rgbColor[2] * 114)) / 1000;
+	// Check contrast
+	return (yiq >= 128) ? 'black' : 'white';
+};
+
+

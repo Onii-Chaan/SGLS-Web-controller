@@ -1,14 +1,14 @@
 
 
 //slīderis priekš brightness
-var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
-var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
+// var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
+// var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
 
-slider.oninput = function () {//izvada vērtību slīderim
-  output.innerHTML = this.value;
-  brightness = this.value;
-  color_picker_add();
-}
+// slider.oninput = function () {//izvada vērtību slīderim
+//   output.innerHTML = this.value;
+//   brightness = this.value;
+//   color_picker_add();
+// }
 
 
 function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
@@ -85,20 +85,20 @@ function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
 
 
 
-//slideris prieks white brightness
-var newWhite = 100;//saglaba sevi baltas krasas vertibu, pasa sakuma vertiba ir uzlikta uz maksimumu
+// //slideris prieks white brightness
+// var newWhite = 100;//saglaba sevi baltas krasas vertibu, pasa sakuma vertiba ir uzlikta uz maksimumu
 
-var whiteSlider = document.getElementById("whiteRange");//saņem vērtību no balta līdera 0 - 100
-var whiteSliderOutput = document.getElementById("whiteBrightnessSliderTextValue");//mainīgais baltajai slīdera vērtībai, ko izvadīt
-output.innerHTML = whiteSlider.value;
-whiteSlider.oninput = function () {//izvada vērtību slīderim
-  if (whiteSetOn == true) {
-    whiteSliderOutput.innerHTML = this.value;
-    if (isNaN(this.value) == false) {
-      newWhite = this.value;//Tiek iestatita baltas krasas vertiba
-    }
-  }
-}
+// var whiteSlider = document.getElementById("whiteRange");//saņem vērtību no balta līdera 0 - 100
+// var whiteSliderOutput = document.getElementById("whiteBrightnessSliderTextValue");//mainīgais baltajai slīdera vērtībai, ko izvadīt
+// output.innerHTML = whiteSlider.value;
+// whiteSlider.oninput = function () {//izvada vērtību slīderim
+//   if (whiteSetOn == true) {
+//     whiteSliderOutput.innerHTML = this.value;
+//     if (isNaN(this.value) == false) {
+//       newWhite = this.value;//Tiek iestatita baltas krasas vertiba
+//     }
+//   }
+// }
 
 function okWhite() {//aprekina un iestata baltas krasas vertibu
   if (whiteSetOn == true) {

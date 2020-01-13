@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SGLS</title>
-    <link rel=stylesheet href=styles.css type=text/css>
- </head> 
- <body onload="buildSettings();createDynamicContent();output.innerHTML = slider.value; ">
-    
-        <header class="titleDiv">
+    <link rel=stylesheet href=styles.css type=text/css> </head> <body
+        onload="buildSettings();createDynamicContent();/*output.innerHTML = slider.value;*/ ">
+
+    <header class="titleDiv">
         <a href="main.html" class="linkBlock">
             <div class="SGLSTitleDiv">
                 <!--SGLS nosaukums-->
@@ -20,7 +19,9 @@
         <div class="headerButton" onclick="openSettings();">
             <!--Options poga-->
             <!-- <img src="pics/settingsButtonPic.png" id="settingsButtonPic" /> -->
-            <div class = 'menuHolder'><div class = 'menu'></div></div>
+            <div class='menuHolder'>
+                <div class='menu'></div>
+            </div>
             <!--Jāpievieno arī hrefs-->
         </div>
 
@@ -88,36 +89,40 @@
                 </label>
             </div>
         </div>
-        <div class="allLampsMainDiv">
-            <!--Visu lampu opcijas-->
+        <!-- <div class="allLampsMainDiv">
+            Visu lampu opcijas
             <div class="allLampsMainDivPart">
-                <!--Brightness-->
+                Brightness
                 <div class="allLampsMainDivPartTextDiv">
-                    <!--Brightness text-->
+                    Brightness text
                     <p class="mainPageText">Brightness: </p>
                 </div>
                 <div class="allLampsMainDivPartTextDiv" id="sliderValueTextDiv">
-                    <!--Brightness vērtības slīdera teksta bloks-->
+                    Brightness vērtības slīdera teksta bloks
                     <p class="mainPageText" id="sliderValueText"></p>
                 </div>
                 <div class="slidecontainer">
-                    <!--Brightness slīdera bloks-->
+                    Brightness slīdera bloks
                     <input type="range" min="0" max="100" value="50" class="slideValue" id="myRange">
-                    <!--Brightness slīderis, ievade-->
+                    Brightness slīderis, ievade
                 </div>
             </div>
-        </div>
+        </div> -->
     </main>
     <main class="mainColor">
         <!--Visa satura bloks-->
-        
+
 
         <section id="s_color_picker_id">
             <!--Krāsu aplis-->
-            <canvas id="color_picker" width="200" height="200"></canvas>
+            <!-- <canvas id="color_picker" width="200" height="200"></canvas> -->
+            <div class="wheel" id="colorWheelDemo"></div>
+            <div class='wheelSlider' id='colorWheelSlider'></div>
         </section>
-        <p style = 'margin-left: 20px;'>CurrentLamp value: <span id = 'displayCurrentLamp'>-</span></p>
-        <button id = 'saveColorButt' onclick = 'createUserColor();' style = 'margin-left: 20px'>Save this color</button>
+        <div class = 'displayLampGroup'>
+            <p>Group: <span id='displayCurrentLamp'>All</span></p>
+            <button id='saveColorButt' onclick='createUserColor();' class = 'btn btn-default'>Save this color</button>    
+        </div>
         
 
         <div class="dynamicButtonSpace">
@@ -130,7 +135,7 @@
                     White center value:&nbsp;
                 </p>
                 <p class="whiteCenterDivOptionsText" id="whiteBrightnessSliderTextValue">
-                    
+
                 </p>
             </div>
             <div class="whiteCenterDivMiddle">
@@ -153,12 +158,12 @@
 
     </main>
 
-    
+
     <div id="collHolder"></div>
     <div id='lampButtHold'
         style='margin-top: 5px; display:flex;text-align: center;width: 95%;margin-right: auto;margin-left: auto;'>
     </div>
-    
+
 
 
     <!--<div id = "testColorBlocksDiv" style = 'height: 500px;width: 400px;  margin-left: 20px;'></div>-->
@@ -171,8 +176,10 @@
     <script src=jsFiles\SGLSscripts.js></script>
     <script src=jsFiles\data.js></script>
     <script src=jsFiles\ColorBlock.js></script>
-    <script src=jsFiles\ColorWheel.js></script>
+    <!-- <script src=jsFiles\ColorWheel.js></script> -->
     <script src=jsFiles\AnimationsBlock.js></script>
     <script src=jsFiles\LampBlock.js></script>
-    <script src=jsFiles\SettingsPopUp.js></script>    
+    <script src=jsFiles\SettingsPopUp.js></script>
+    <script src=iroJs\iro.min.js></script>
+    <script src=jsFiles\iroSet.js></script>
 </html>
