@@ -16,7 +16,8 @@ class LampBlock {
 
     build(placeToBuild = '') {
         this.colorBlock = document.createElement('DIV');
-
+        
+  
         this.colorBlock.innerHTML = this.name;//izveido nosaukuma paragrāfu
         this.colorBlock.setAttribute('name', this.value);//lai varētu vēlāk iegūt funkciju vērtības no elementa name
         this.colorBlock.classList.add('lampButton');
@@ -25,6 +26,11 @@ class LampBlock {
             this.colorBlock.classList.add('lampGroup');//lai būtu atšķirība no parastājām lampu pogām
         }
 
+        // console.log(this.colorBlock.style.backgroundColor);
+        // this.textColor = parseToRGBA(this.colorBlock.style.background);
+        // console.log(this.textColor);
+        // this.colorBlock.style.color = getContrast(this.colorValue.slice(0,3));
+        
 
         this.colorBlock.onclick = methodize(this.sendButtonValue, this);//pievieno klikšķa iespēju
         if (typeof placeToBuild == 'number') {//izvēlās, kurā vietā tiks būvēta nākamā lampu poga
@@ -42,7 +48,7 @@ class LampBlock {
 
     sendButtonValue() {
         currentLampString = this.value;
-        document.getElementById('displayCurrentLamp').innerHTML = this.value;
+        document.getElementById('displayCurrentLamp').innerHTML = this.name;
         console.log('CurrentLampValue', this.value);
     }
 

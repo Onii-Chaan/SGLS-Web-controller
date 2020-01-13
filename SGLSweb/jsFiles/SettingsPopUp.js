@@ -35,12 +35,12 @@ class SettingsPopUp {//pop elementu klase
         }
         this.buttonHolder = buildElementNode('DIV', 'actionButtonsHolder');//izveido pogas divu
         if (this.buttonCount == 2) {
-            this.buttonHolder.appendChild(buildElementNode('BUTTON', 'actionButton', 'Save'));
-            this.buttonHolder.appendChild(buildElementNode('BUTTON', 'actionButton', 'Close'));
+            this.buttonHolder.appendChild(buildElementNode('BUTTON', ['actionButton', 'btn', 'btn-success'], 'Save'));
+            this.buttonHolder.appendChild(buildElementNode('BUTTON', ['actionButton', 'btn', 'btn-default'], 'Close'));
         } else {//ja ir visas 3 pogas
-            this.buttonHolder.appendChild(buildElementNode('BUTTON', 'actionButton', 'Save'));
-            this.buttonHolder.appendChild(buildElementNode('BUTTON', 'actionButton', 'Delete'));
-            this.buttonHolder.appendChild(buildElementNode('BUTTON', 'actionButton', 'Close'));
+            this.buttonHolder.appendChild(buildElementNode('BUTTON',  ['actionButton', 'btn', 'btn-success'], 'Save'));
+            this.buttonHolder.appendChild(buildElementNode('BUTTON',  ['actionButton', 'btn', 'btn-danger'], 'Delete'));
+            this.buttonHolder.appendChild(buildElementNode('BUTTON',  ['actionButton', 'btn', 'btn-default'], 'Close'));
         }
 
         this.popUp.appendChild(this.popElement);

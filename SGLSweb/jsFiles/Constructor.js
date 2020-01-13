@@ -350,6 +350,9 @@ var createButtHolder = (function () {//mainīgais, funkcija, kas skaita uz priek
 
 function createLampButts() {//izveido lampu pogas
     createButtHolder();
+    lampButton = new LampBlock('All', '1-25#');//izveido pogu, kas ieslēdz visas lampas
+    lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+    checkButtPlaceCount();
     for (j = 0; j < lampGroups.length; j++) {//izveido lampu grupu pogu
         lampButton = new LampBlock(lampGroups[j][0], lampGroups[j][1], editGroupSettings);
         lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
@@ -444,7 +447,13 @@ function riseGroupButts() {//iestata group pogām to garumu
 function buildElementNode(type, classList = '', textToAdd = '') {//izveido un atgriež paragrāfu ar klasi
     var builtElement = document.createElement(type);
     if (classList != '') {
-        builtElement.classList.add(classList);
+        if (classList.constructor === Array) {
+            for (var i = 0; i < classList.length; i++) {
+                builtElement.classList.add(classList[i]);
+            }
+        } else {
+            builtElement.classList.add(classList);
+        }
     }
     if (textToAdd != '') {
         builtElement.appendChild(document.createTextNode(textToAdd));
@@ -479,3 +488,13 @@ function createUserColor() {//saglabā lietotāja izvēlēto krāsu pēc 'Save t
 //     console.log(e.target);
 //     console.log(e.target.tagName);
 // } 
+
+
+var getContrast = function (rgbColor){//pārbauda un atgriež fonta krāsu
+	// Get YIQ ratio
+	var yiq = ((rgbColor[0] * 299) + (rgbColor[1] * 587) + (rgbColor[2] * 114)) / 1000;
+	// Check contrast
+	return (yiq >= 128) ? 'black' : 'white';
+};
+
+
