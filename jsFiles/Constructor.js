@@ -69,6 +69,7 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
 var blockWidthCount = 0;//skaita platumu krāsu bloku radīšanas brīdī
 function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atbilstošajā vietā, atbilstošajā lielumā
     collObj.updateContent(objArr[j].build());//uzbūvē krāsu pogu
+    // console.log(objArr[j].show());
     objArr[j].grow();//izveido krāsu bloku platumu
     blockWidthCount += objArr[j].blockWidth();//skaita uz priekšu rindas platumu
     // console.log('BEF_LEN: ', objArr[j].blockWidth());
@@ -76,7 +77,7 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
         blockWidthCount >= collObj.contentLength() ||
         j == arrLen - 1
     ) {//pārbauda vai pēdējo krāsu bloku ir jāpaplašina
-        // console.log('A');
+        // console.log('A');        
         if (
             blockWidthCount - objArr[j].blockWidth() !=
             collObj.contentLength() && j > 0 && j != arrLen - 1
@@ -89,7 +90,7 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
         else if (
             j == arrLen - 1
         ) {
-            objArr[j].grow(collObj.contentLength() - blockWidthCount);
+            objArr[j].grow(collObj.contentLength() - blockWidthCount - 1);
             // console.log('D');
         }
         blockWidthCount = objArr[j].blockWidth();//atgriežas uz nākamo rindiņu
@@ -405,7 +406,16 @@ function createNewLampGroup(name, value, settings = '', newButt = false) {//izve
 }
 
 function checkButtHolders() {//pārbauda vai ir nepieciešams pārvietot grupu pogas uz citiem div elementiem
-
+    var groupDivs = document.getElementsByClassName('groupButtonHolder');
+    for (var i = 0; i < groupDivs.length; i++) {
+        while (
+            groupDivs[i].getElementsByClassName('lampButton').length < 4 &&
+            i != groupDivs.length - 1 &&
+            groupDivs[i + 1].getElementsByClassName('lampButton').length > 0
+        ) {
+            groupDivs[i].appendChild(groupDivs[i + 1].getElementsByClassName('lampButton')[0])
+        }
+    }
 }
 
 
@@ -436,10 +446,6 @@ function riseGroupButts() {//iestata group pogām to garumu
         }
     }
 }
-
-
-
-
 
 
 
@@ -490,11 +496,11 @@ function createUserColor() {//saglabā lietotāja izvēlēto krāsu pēc 'Save t
 // } 
 
 
-var getContrast = function (rgbColor){//pārbauda un atgriež fonta krāsu
-	// Get YIQ ratio
-	var yiq = ((rgbColor[0] * 299) + (rgbColor[1] * 587) + (rgbColor[2] * 114)) / 1000;
-	// Check contrast
-	return (yiq >= 128) ? 'black' : 'white';
+var getContrast = function (rgbColor) {//pārbauda un atgriež fonta krāsu
+    // Get YIQ ratio
+    var yiq = ((rgbColor[0] * 299) + (rgbColor[1] * 587) + (rgbColor[2] * 114)) / 1000;
+    // Check contrast
+    return (yiq >= 128) ? 'black' : 'white';
 };
 
 

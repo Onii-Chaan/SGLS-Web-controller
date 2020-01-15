@@ -24,11 +24,9 @@ var colorWheel = iro.ColorPicker("#colorWheelDemo", {
 colorWheel.on('input:end', function (color) {
     userRgbw = [];
 
-    userRgbw[0] = color.rgb.r;
-    userRgbw[1] = color.rgb.g;
-    userRgbw[2] = color.rgb.b;
+    //Ievieto 4 vērtības masīvā
+    userRgbw = [...userRgbw, color.rgb.r, color.rgb.g, color.rgb.b, whiteColor]
 
-    userRgbw[3] = whiteColor;//pievieno arī baltās krāsas vērtību
     console.log('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });
 
@@ -62,7 +60,7 @@ var whitePicker = new iro.ColorPicker("#colorWheelSlider", {
 });
 
 whiteColor = 0;
-whitePicker.on('input:end', function (color) {
+whitePicker.on('input:end', function (color) {//LAI TE NOTIKTU LIETAS TIEK IZVEIDOTS TAIMERIS UZ ONCLICK
     whiteColor = color.rgb.r;
     console.log('User: ', color.rgb.r);
     userRgbw[3] = whiteColor;//pievieno arī baltās krāsas vērtību
