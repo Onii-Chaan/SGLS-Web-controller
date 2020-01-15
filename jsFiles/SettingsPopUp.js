@@ -100,7 +100,7 @@ class SettingsPopUp {//pop elementu klase
                     } else {
                         this.createColorButt = new ColorBlock(this.inputElem[0].value, userRgbw, 'colorBlock', editColorButton);
                         document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
-                        this.createColorButt.grow();
+                        this.createColorButt.grow(document.getElementById('colorBlockContent').offsetWidth - this.createColorButt.blockWidth());
                         colorCount++;
                     }
                     break;
@@ -169,29 +169,30 @@ class SettingsPopUp {//pop elementu klase
 
 function growColors() {
     var place = document.getElementById('colorBlockContent');
+    // console.log(place);
     var placeWidth = place.clientWidth;
-    console.log('PLACEWIDTH: ', placeWidth)
+    // console.log('PLACEWIDTH: ', placeWidth)
     var buttonWidth = 0;
     for (var i = 0; i < place.childElementCount; i++) {
-        buttonWidth += place.getElementsByClassName('colorBlock')[i].offsetWidth;
-        console.log('elementWIDTH: ', place.getElementsByClassName('colorBlock')[i]);
-        console.log('DIFFERENCE: ', placeWidth - buttonWidth);
+        buttonWidth += place.getElementsByClassName('colorBlock')[i].offsetWidth + 5;
+        // console.log('element: ', place.getElementsByClassName('colorBlock')[i]);
+        // console.log('DIFFERENCE: ', placeWidth - buttonWidth);
         if (placeWidth - buttonWidth <= 2 && placeWidth - buttonWidth >= 0) {
-            placeWidth = 0;
-            console.log('C');
+            buttonWidth = 0;
+            // console.log('C');
         } else if (placeWidth - buttonWidth < 0 && i != place.childElementCount - 1) {
-            console.log('A');
-            place.getElementsByClassName('colorBlock')[i + 1].style.width = place.getElementsByClassName('colorBlock')[i - 1].offsetWidth + placeWidth - (buttonWidth - place.getElementsByClassName('colorBlock')[i].offsetWidth) - 5 + 'px';
-            buttonWidth = place.getElementsByClassName('colorBlock')[i].offsetWidth;
-        } else if (i == place.childElementCount - 1) {//Ja pēdējais elements
-            console.log('B', place.getElementsByClassName('colorBlock')[i]);
-            console.log(buttonWidth);
-            console.log(placeWidth);
-            // place.getElementsByClassName('colorBlock')[i].style.width = placeWidth - buttonWidth + 'px';
+            // console.log('A');
+            place.getElementsByClassName('colorBlock')[i - 1].style.width = place.getElementsByClassName('colorBlock')[i - 1].offsetWidth + placeWidth - (buttonWidth - place.getElementsByClassName('colorBlock')[i].offsetWidth) + 5 + 'px';
+            buttonWidth = place.getElementsByClassName('colorBlock')[i].offsetWidth + 5;
+        } else if (i == place.childElementCount - 1 && placeWidth - buttonWidth > 1) {//Ja pēdējais elements
+            // console.log('B', place.getElementsByClassName('colorBlock')[i]);
+            // console.log(buttonWidth);
+            // console.log(placeWidth);
+            place.getElementsByClassName('colorBlock')[i].style.width =place.getElementsByClassName('colorBlock')[i].offsetWidth + placeWidth - buttonWidth + 'px';
         }
-        console.log('BUTTONWIDTH: ', buttonWidth);
-        console.log('PLACEWIDTH: ', placeWidth);
-        console.log('---------------------------------------------------');
+        // console.log('BUTTONWIDTH: ', buttonWidth);
+        // console.log('PLACEWIDTH: ', placeWidth);
+        // console.log('---------------------------------------------------');
     }
-
+    // console.log('///////////////////////////////////////////////////////////////////////////////////////////');
 }
