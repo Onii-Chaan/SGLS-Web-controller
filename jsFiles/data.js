@@ -73,3 +73,103 @@ function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objekt
     return (function () { methodize_func.call(methodize_scope); });
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+var apConnectionState;//Seko tam vai ir savienojums ar softAP serveri
+
+sendAjaxData(" ", "check_ap_connection");
+
+showState(false, 'wlanState');
+//Jādarbojas balstoties uz AJAX saņemtajiem datiem
+function showState(state, idToDisplay) {//Parāda uz lapas vai atbilstošā daļa ir pieejama , vai arī nē
+    if (state) {//Maina tekstu un tā krāsu
+        document.getElementById(idToDisplay).innerHTML = 'Available';
+        document.getElementById(idToDisplay).style.color = 'green';
+    } else {
+        document.getElementById(idToDisplay).innerHTML = 'Unavailable';
+        document.getElementById(idToDisplay).style.color = 'red';
+    }
+}
+
+
+
+
+function sendAjaxData(dataToSend = "", dataTypeToSend = "", returnData = false) {//Nosūta datus uz serveri izmantojot AJAX
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            ajaxResponses(this.responseText);
+            //if (returnData) {
+            //return this.responseText;
+            //}
+        }
+    };
+    xhttp.open("POST", dataTypeToSend, true);
+    xhttp.send(dataToSend);
+}
+
+
+
+var startConnectionTimeout;//Gaida atbildi no servera pusotru sekundi
+
+
+function checkAPstate() {//Pārbauda savienojumu ar softAP
+    startConnectionTimeout = setTimeout(function () { apConnectionState = false; showState(apConnectionState, 'softAPState') }, 1500);
+    sendAjaxData(" ", "check_ap_connection");
+
+    if(document.getElementById("controllerLink").text == ""){//pārbauda un iegūst wlan linku
+        requestAPLink();///////////////Vai tas varēs nosūtīties kopā ar check ap connection??///////////////////
+    }
+} 
+
+
+
+setInterval(function () { checkAPstate(); }, 5000);
+
+
+// _yourDataName_ yourData 
+function ajaxResponses(incText, payload = "") {
+    if (incText.indexOf("_") == 0){//Ja ienāk mainīgie dati
+        payload = incText.slice(incText.indexOf(" ")+1, incText.lastIndexOf(" "));
+        incText = incText.slice(1, incText.lastIndexOf("_"));
+    }
+    switch (incText) {
+        case "server_ap_ok"://Ja ir savienojums ar serveri
+            clearTimeout(startConnectionTimeout);
+            apConnectionState = true;
+            showState(apConnectionState, 'softAPState');
+            break;
+        case "wlan_login_data_ok"://Ja veiksmīgi tika saglabāti dati
+            alert("You have successfully changed your WLAN name and password");
+            break;
+        case "wlan_login_data_fail"://Ja uz esp netiek saglabāta dati
+            alert("Changing your WLAN name and/or password has failed");
+            break;
+        case "wlan_link"://Ja tiek iegūts wlan links
+            var link = payload + ".local";
+            document.getElementById("controllerLink").innerHTML = link;
+            document.getElementById("controllerLink").href = link;
+            break;
+    }
+}
+
+
+function requestAPLink(){//pieprasa wlan mdns linku ielādējot lapu
+    sendAjaxData(" ", "wlan_link_request");
+}
+
+
+function connectToWlan(){//nosūta pieprasījumu pievienoties wlan tīklam
+    sendAjaxData(" ", "connect_to_wlan");
+}
