@@ -74,6 +74,16 @@ function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objekt
 }
 
 
+var checkInput = (inputData) => {//Pārbauda vai ievadītā stringa dati ir atbilstoši
+    if(inputData.length > 32){
+        alert('Input must be no longer than 32 characters');
+        return false;
+    } else if(inputData.length == 0){
+        alert('Input must not be empty');
+        return false;
+    }
+}
+
 
 
 

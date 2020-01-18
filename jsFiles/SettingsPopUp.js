@@ -79,7 +79,7 @@ class SettingsPopUp {//pop elementu klase
         this.inputElem = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT');
 
 
-
+        
         if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
             this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
             if (this.formCount < 3) {
