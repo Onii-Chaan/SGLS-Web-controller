@@ -77,9 +77,9 @@ class SettingsPopUp {//pop elementu klase
         // console.log('dataIn: ', dataIn);
         this.formCount = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT').length;
         this.inputElem = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT');
+        this.inputFail = false;//Seko līdzi tam vai lietotājs ir pareizi ievadījis datus
 
 
-        
         if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
             this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
             if (this.formCount < 3) {
@@ -92,16 +92,27 @@ class SettingsPopUp {//pop elementu klase
         if (this.createType != '') {//ja dotajam settings logam ir jāizveido vēl kāds jauns elements
             switch (this.createType) {
                 case 'group':
-                    createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                    if (
+                        checkInput(this.inputElem[0].value) &&
+                        checkInput(this.inputElem[1].value, 'number') &&
+                        checkInput(this.inputElem[2].value, 'number') &&
+                        checkInput([this.inputElem[1].value, this.inputElem[2].value], 'number')
+                    ) {//Izveido jaunu grupu pogu
+                        createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                    } else {
+                        this.inputFail = true;
+                    }
                     break;
                 case 'color':
                     if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                         alert('You have already saved ' + colorLimit + ' colors');
-                    } else {
+                    } else if (checkInput(this.inputElem[0].value)) {
                         this.createColorButt = new ColorBlock(this.inputElem[0].value, userRgbw, 'colorBlock', editColorButton);
                         document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
                         this.createColorButt.grow(document.getElementById('colorBlockContent').offsetWidth - this.createColorButt.blockWidth());
                         colorCount++;
+                    } else {
+                        this.inputFail = true;
                     }
                     break;
                 case 'animation':
@@ -128,20 +139,39 @@ class SettingsPopUp {//pop elementu klase
                     }
                     break;
                 case 'updateGroup'://apdeito grupu pogu
-                    this.thisObj.updateData(this.inputElem[0].value, [this.inputElem[1].value, this.inputElem[2].value]);//apdeuto group pogas datus
+                    if (
+                        checkInput(this.inputElem[0].value) &&
+                        checkInput(this.inputElem[1].value, 'number') &&
+                        checkInput(this.inputElem[2].value, 'number') &&
+                        checkInput([this.inputElem[1].value, this.inputElem[2].value], 'number')
+                    ) {//Izveido jaunu grupu pogu
+                        createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                    } else {
+                        this.inputFail = true;
+                    }
                     break;
                 case 'updateColor'://apdeito krāsu pogu
-                    this.thisObj.updateData(this.inputElem[0].value);
+                    if (checkInput(this.inputElem[0].value)) {
+                        this.thisObj.updateData(this.inputElem[0].value);
+                    } else {
+                        this.inputFail = true;
+                    }
                     break;
                 case 'updateAnimation'://apdeito animāciju pogu
-                    this.thisObj.updateData(this.inputElem[0].value, this.inputElem[1].value);
+                    if (checkInput(this.inputElem[0].value) &&
+                        checkInput(this.inputElem[0].value, 'number'))
+                        this.thisObj.updateData(this.inputElem[0].value, this.inputElem[1].value);
                     break;
             }
         }
-
-        ajaxConsoleSend(this.saveName + ' ' + this.saveValue);//nosūta datus uz serveri
-        document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu
-        // console.log('save');
+        if (!this.inputFail) {
+            ajaxConsoleSend(this.saveName + ' ' + this.saveValue);//nosūta datus uz serveri
+        } else {
+            // debugger;
+            document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu        
+            // this.save();
+        }
+        document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu        
     }
 
     closeSettings() {//noslēpj settings logu
@@ -151,23 +181,25 @@ class SettingsPopUp {//pop elementu klase
     }
 
     delete() {//izdzēš atbilstošo vērtību un elementu
-        // console.log(this.thisElement.className);
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if (this.thisElement.className == 'lampButton lampGroup') {
             currentLampString = '1-25#';
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
+            ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
         } else if (this.thisElement.className == 'colorBlock') {
             // console.log(this.thisElement);
             growColors();
-            // debugger;
+            ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
+        } else if(this.thisElement.className == 'animBlock'){
+            ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
         }
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
     }
 }
 
-function growColors() {
+function growColors() {//pēc krāsu pogas izdzēšanas palielina visas pārējās krāsu pogas, lai tās atbilstoši aizpildītu tukšo laukumu
     var place = document.getElementById('colorBlockContent');
     // console.log(place);
     var placeWidth = place.clientWidth;
@@ -188,11 +220,7 @@ function growColors() {
             // console.log('B', place.getElementsByClassName('colorBlock')[i]);
             // console.log(buttonWidth);
             // console.log(placeWidth);
-            place.getElementsByClassName('colorBlock')[i].style.width =place.getElementsByClassName('colorBlock')[i].offsetWidth + placeWidth - buttonWidth + 'px';
+            place.getElementsByClassName('colorBlock')[i].style.width = place.getElementsByClassName('colorBlock')[i].offsetWidth + placeWidth - buttonWidth + 'px';
         }
-        // console.log('BUTTONWIDTH: ', buttonWidth);
-        // console.log('PLACEWIDTH: ', placeWidth);
-        // console.log('---------------------------------------------------');
     }
-    // console.log('///////////////////////////////////////////////////////////////////////////////////////////');
 }

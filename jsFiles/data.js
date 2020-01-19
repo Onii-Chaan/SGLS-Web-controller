@@ -47,15 +47,7 @@ function stringFunctionSet(funcNum, funcPar) {//izveido funkciju nosūtāmo stri
 function sendValue(dataType, lampNum, colorOutput) {//parāda nosūtamos datus
     var sendPar = '';
     sendPar = "<" + dataType + lampNum + colorOutput + ">";
-
-    console.log(sendPar);
-    /*else if (dataType == 2) {//funkciju nosutisana
-      sendPar.innerText = "<" + dataType + "00" + sendValueOutput + "000" + ">";//pedejas tris nulles ir prieks parametru iestatisanas. pagaidam netiek izmantots
-    } else if (dataType == 3) {//gaismas muzikas nosutisana
-      sendPar.innerText = "<3>";
-    } else if (dataType == 0) {//saskaitisanas nosutisana
-      sendPar.innerText = "<000>";
-    }*/
+    ajaxConsoleSend(sendPar);
 }
 
 
@@ -74,13 +66,27 @@ function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objekt
 }
 
 
-var checkInput = (inputData) => {//Pārbauda vai ievadītā stringa dati ir atbilstoši
-    if(inputData.length > 32){
+var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā stringa dati ir atbilstoši    
+    if (inputData.length > 32 && valType == 'String') {//Pārbauda vai ievadītais strings nav garāks par 32 simboliem
         alert('Input must be no longer than 32 characters');
         return false;
-    } else if(inputData.length == 0){
+    }
+    else if (inputData.length == 0) {//Pārbauda vai ievadītais lauciņš nav tukšs
         alert('Input must not be empty');
         return false;
+    } else if (//Pārbauda vai pirmā ievadītā vērtība nav lielāka par otro
+        inputData[0] > inputData[1] &&
+        valType == 'number' &&
+        !isNaN(inputData[0]) &&
+        !isNaN(inputData[1])
+    ) {
+        alert('First number must be smaller than second');
+        return false;
+    } else if (isNaN(inputData) && valType == 'number' && !Array.isArray(inputData)) {//Pārbauda vai ievadītais skaitlis ir skaitlis nevis strings
+        alert('You must input a number');
+        return false;
+    } else {//Ja netika izpildīts neviens no iepriekšējiem nosacījumiem, tad pārbaude ir bijusi veiksmīga un netika atrastas nekādas kļūdas
+        return true;
     }
 }
 
@@ -138,10 +144,10 @@ function checkAPstate() {//Pārbauda savienojumu ar softAP
     startConnectionTimeout = setTimeout(function () { apConnectionState = false; showState(apConnectionState, 'softAPState') }, 1500);
     sendAjaxData(" ", "check_ap_connection");
 
-    if(document.getElementById("controllerLink").text == ""){//pārbauda un iegūst wlan linku
+    if (document.getElementById("controllerLink").text == "") {//pārbauda un iegūst wlan linku
         requestAPLink();///////////////Vai tas varēs nosūtīties kopā ar check ap connection??///////////////////
     }
-} 
+}
 
 
 
@@ -150,8 +156,8 @@ setInterval(function () { checkAPstate(); }, 5000);
 
 // _yourDataName_ yourData 
 function ajaxResponses(incText, payload = "") {
-    if (incText.indexOf("_") == 0){//Ja ienāk mainīgie dati
-        payload = incText.slice(incText.indexOf(" ")+1, incText.lastIndexOf(" "));
+    if (incText.indexOf("_") == 0) {//Ja ienāk mainīgie dati
+        payload = incText.slice(incText.indexOf(" ") + 1, incText.lastIndexOf(" "));
         incText = incText.slice(1, incText.lastIndexOf("_"));
     }
     switch (incText) {
@@ -175,11 +181,11 @@ function ajaxResponses(incText, payload = "") {
 }
 
 
-function requestAPLink(){//pieprasa wlan mdns linku ielādējot lapu
+function requestAPLink() {//pieprasa wlan mdns linku ielādējot lapu
     sendAjaxData(" ", "wlan_link_request");
 }
 
 
-function connectToWlan(){//nosūta pieprasījumu pievienoties wlan tīklam
+function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
     sendAjaxData(" ", "connect_to_wlan");
 }

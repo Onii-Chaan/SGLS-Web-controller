@@ -6,12 +6,6 @@ class LampBlock {
             this.value = createGroupString(this.value, this.value);
         }
         this.options = options;
-        // console.log(this.options);
-        // if (this.options != '') {
-        // this.options.build();
-        // console.log('nowClose');
-        // this.options.closeSettings();
-        // }
     }
 
     build(placeToBuild = '') {
@@ -25,12 +19,6 @@ class LampBlock {
         if (this.options != '') {
             this.colorBlock.classList.add('lampGroup');//lai būtu atšķirība no parastājām lampu pogām
         }
-
-        // console.log(this.colorBlock.style.backgroundColor);
-        // this.textColor = parseToRGBA(this.colorBlock.style.background);
-        // console.log(this.textColor);
-        // this.colorBlock.style.color = getContrast(this.colorValue.slice(0,3));
-        
 
         this.colorBlock.onclick = methodize(this.sendButtonValue, this);//pievieno klikšķa iespēju
         if (typeof placeToBuild == 'number') {//izvēlās, kurā vietā tiks būvēta nākamā lampu poga
@@ -59,6 +47,10 @@ class LampBlock {
             console.log(value[1]);
             this.value = createGroupString(value[0], value[1]);
         }
+    }
+
+    getData(){//atgriež šī objekta galvenos datus
+        return [this.name, this.value];
     }
 }
 

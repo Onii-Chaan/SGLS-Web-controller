@@ -57,12 +57,16 @@ class ColorBlock {
         if(value != this.colorValue[1] && value != '' && typeof value != 'undefined' ){
             console.log('value: ', value);
             console.log('name', this.colorValue[0] + '|' + value);
-            this.colorBlock.setAttribute('name', this.colorValue[0] + '|' + value) ;
+            this.colorBlock. setAttribute('name', this.colorValue[0] + '|' + value) ;
         }
     }
     
     show(){//parāda HTML elementu
         return this.colorBlock;
+    }
+
+    getData(){
+        return [this.colorName, this.colorValue];
     }
 }
 
