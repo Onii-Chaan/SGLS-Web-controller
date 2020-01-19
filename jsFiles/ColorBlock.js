@@ -8,6 +8,7 @@ class ColorBlock {
         this.type = type;//nosaka vai šī būs animācijas vai krāsu klase
 
         this.options = options; //animāciju un krāsu pogu editošanai
+
     }
 
     build() {//funkcija, kas atgriež gatavu krāsas bloku
@@ -19,14 +20,20 @@ class ColorBlock {
         this.colorBlock.classList.add(this.type);
         this.colorBlock.style.background = 'rgba(' + this.colorValue[0] + ', ' + this.colorValue[1] + ', ' + this.colorValue[2] + ', ' + scaleToRange(this.colorValue[3] * 100, 0 * 100, 255 * 100, 1 * 100, 0.01 * 100) / 100 + ')';
 
-        this.colorBlock.addEventListener('click', function () {
-            sendValue(0, currentLampString, stringColorSet(parseToRGBA(this.style.backgroundColor)));
-        });
+        this.colorBlock.onclick = methodize(this.colClick, this);//pievieno notikumu un funkciju
 
         if (this.options != '') {
             this.colorBlock.ondblclick = methodize(this.dblclick, this);
         }
         return this.colorBlock;
+    }
+
+    colClick(){//krāsas klikšķis        
+        if (this.type == 'animBlock'){
+            sendValue(0, currentLampString, stringFunctionSet(this.colorValue[0], this.colorValue[1]));
+        }else{
+            sendValue(0, currentLampString, stringColorSet(this.colorValue));
+        }
     }
 
     dblclick() {
@@ -52,12 +59,11 @@ class ColorBlock {
         if(name != this.colorName && name != '' && typeof name != 'undefined'){//pārbauda vai var apdeitot nosaukumu
             this.colorBlock.innerHTML = name;
         }
-        console.log('befvalue: ', value);
-
+        // console.log('befvalue: ', value);
         if(value != this.colorValue[1] && value != '' && typeof value != 'undefined' ){
-            console.log('value: ', value);
-            console.log('name', this.colorValue[0] + '|' + value);
-            this.colorBlock. setAttribute('name', this.colorValue[0] + '|' + value) ;
+            // console.log('value: ', value);
+            // console.log('name', this.colorValue[0] + '|' + value);
+            this.colorBlock.setAttribute('name', this.colorValue[0] + '|' + value) ;
         }
     }
     

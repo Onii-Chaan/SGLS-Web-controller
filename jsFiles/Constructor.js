@@ -41,7 +41,6 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
     );
     collapsibleObj.buildCollapseButton();
     blockWidthCount = 0;
-    // console.log('//////////////////////////////////////////////////////////////////////////////////');
     for (var i = 0; i < exploreArr.length; i++) {//izveido krāsu pogas un saliek tās collapsible pogas kontentā
         if (exploreArr[i].length == 5) {//ja masīva elementa atbilst krāsai 
             colorAnimBlockObjArr.push(
@@ -53,11 +52,12 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
                 )
             );
         } else {
+            // console.log(exploreArr[i].slice(1, 3));
             colorAnimBlockObjArr.push(
                 new ColorBlock(
                     exploreArr[i][0],
                     exploreArr[i].slice(1, 3),
-                    'colorBlock',
+                    'animBlock',
                     addExploreButton
                 )
             );
@@ -107,16 +107,6 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     if (blockWidthCount >= collObj.contentLength()) {
         blockWidthCount = 0;
     }
-    //  console.log(objArr[j]);
-    //console.log(j);
-    //  console.log(collObj);
-    // console.log(objArr);
-    // console.log('AFTER_LEN: ', objArr[j].blockWidth());
-    // console.log('CONTENT_LENGTH', collObj.contentLength());
-    // console.log('BLOCK_SUM', blockWidthCount);
-    // console.log(arrLen);
-    // console.log(objArr[j].show());
-    // console.log('---------------------------------------------------');
 }
 
 

@@ -1,16 +1,3 @@
-
-
-//slīderis priekš brightness
-// var slider = document.getElementById("myRange");//saņem vērtību no slīdera 0 - 100
-// var output = document.getElementById("sliderValueText");//mainīgais slīdera vērtībai, ko izvadīt
-
-// slider.oninput = function () {//izvada vērtību slīderim
-//   output.innerHTML = this.value;
-//   brightness = this.value;
-//   color_picker_add();
-// }
-
-
 function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
   if (onOff){
     onOff = false;
@@ -47,9 +34,6 @@ function cancelWhite() {//iziet ara no baltas krasas iestatisanas lodzina nemain
   }
 }
 
-function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija parveido skaitli no vienas kopas uz citu
-  return Math.round(((number - fromMin) / (fromHigh - fromMin)) * (toHigh - toMin) + toMin);
-}
 
 function funcNumBuilder(num) {
   if (num >= 100) {

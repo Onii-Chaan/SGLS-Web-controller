@@ -5,6 +5,7 @@ function parseToRGBA(stringToParse) {//sadala style rgb un rgba uz skaitliskām 
         return [m[1], m[2], m[3], 0];
     } else {
         m = stringToParse.match(/^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(0\.(\d+))\s*\)$/i);
+        m[4] = scaleToRange(m[4], 1.00, 0.00, 0, 255);
         return [m[1], m[2], m[3], m[4]];
     }
 }
@@ -91,7 +92,9 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
 }
 
 
-
+function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija parveido skaitli no vienas kopas uz citu
+    return Math.round(((number - fromMin) / (fromHigh - fromMin)) * (toHigh - toMin) + toMin);
+}
 
 
 
