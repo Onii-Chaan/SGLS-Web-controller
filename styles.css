@@ -63,7 +63,8 @@ body {
   justify-content: space-between;
   /*Nepieciešams, lai pa vidu paliktu tukšums*/
   z-index: 1;
-  /* box-shadow: 0px 0px 7px #888888; */
+  box-shadow: 0px 2px 6px grey;
+  
 }
 
 .SGLSTitleDiv {
@@ -264,6 +265,8 @@ input:checked+.slider:before {
   margin-right: auto;
   margin-left: auto;
   display: flex;
+  border-radius: 2px;
+  box-shadow: 0px 2px 6px grey
 }
 
 .active, .collapsible:hover, .collapsible:hover .bookmark:before, .active .bookmark:before {
@@ -544,10 +547,14 @@ div.arrow:after {
 .lampButton {
   background: var(--colorButtonPressed);
   height: 30px;
+  line-height: 30px;
+  text-align:center;
+  vertical-align: middle;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   border: 1px solid var(--colorBackground);
+  border-radius: 5px;
   /* width: 60px; */
   color: white;
 }
@@ -568,7 +575,7 @@ div.arrow:after {
 .lampButton:active, .expandButton:active {
   background-color: #6eb9f7;
   background-size: 100%;
-  transition: background 0s;
+  transition: background 0.01s;
 }
 
 /* Button style */
