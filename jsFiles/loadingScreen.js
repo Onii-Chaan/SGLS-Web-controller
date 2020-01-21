@@ -17,7 +17,6 @@ var loadingScreen = {
     end: function () {//izbeidz ielādēšanās elementu darbību
         var fadeTarget = document.getElementsByClassName('loadingDiv')[0];
         var fadeEffect = setInterval(function () {
-            console.log('aaaa');
             if (!fadeTarget.style.opacity) {
                 fadeTarget.style.opacity = 1;
             }
@@ -34,7 +33,3 @@ var loadingScreen = {
 
 loadingScreen.start();//izveido ielādē lādēšanās ekrānu
 window.addEventListener('load', loadingScreen.end, false);//aizver lādēšanās ekrānu
-// setTimeout(function () { loadingScreen.end(); }, 3000);
-
-
-// document.getElementById("target").addEventListener('click', fadeOutEffect);

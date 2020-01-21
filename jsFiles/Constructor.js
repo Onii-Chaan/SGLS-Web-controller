@@ -344,17 +344,17 @@ function createLampButts() {//izveido lampu pogas
     lampButton = new LampBlock('All', '1-25#');//izveido pogu, kas ieslēdz visas lampas
     lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
     checkButtPlaceCount();
-    for (j = 0; j < lampGroups.length; j++) {//izveido lampu grupu pogu
-        lampButton = new LampBlock(lampGroups[j][0], lampGroups[j][1], editGroupSettings);
-        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
-        checkButtPlaceCount();
-    }
 
     for (i = 0; i < lampNum; i++) {//izveido parastas lampas pogu
         lampButton = new LampBlock('L' + (i + 1), i + 1);
         lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
         checkButtPlaceCount();
+    }
 
+    for (j = 0; j < lampGroups.length; j++) {//izveido lampu grupu pogu
+        lampButton = new LampBlock(lampGroups[j][0], lampGroups[j][1], editGroupSettings);
+        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+        checkButtPlaceCount();
     }
     createNewLampGroup('Create new lamp group', 'newGroup', newGroupSettings);//izveido create new lamp group pogu
     checkButtPlaceCount();
@@ -364,28 +364,22 @@ function createLampButts() {//izveido lampu pogas
 
 function createNewLampGroup(name, value, settings = '', newButt = false) {//izveido jaunu lampu grupas pogu
     lampButton = new LampBlock(name, value, settings);
+    let placeToBuildElems = document.getElementsByClassName('groupButtonHolder');
     if (!newButt) {//ja netiek pievienota jauna poga
-        lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
+        lampButton.build(placeToBuildElems.length - 1);
     } else {//ja tiek pievienota jauna poga
         if (
-            !document.getElementsByClassName('groupButtonHolder')
-            [document.getElementsByClassName('groupButtonHolder').length - 1]
-                .getElementsByClassName('lampButton').length == 0
-        ) {//ja pogas holderī vēl ir vieta jaunai pogai
-            document.getElementsByClassName('groupButtonHolder')//novāc create new lamp group pogu
-            [document.getElementsByClassName('groupButtonHolder').length - 1]
-                .getElementsByClassName('lampButton')[document.getElementsByClassName('groupButtonHolder')
-                [document.getElementsByClassName('groupButtonHolder').length - 1]
+            placeToBuildElems[placeToBuildElems.length - 1]
+                .getElementsByClassName('lampButton').length != 0
+        ) {//ja pogas holderī nav vietas jaunai pogai
+            placeToBuildElems[placeToBuildElems.length - 1]//novāc create new lamp group pogu
+                .getElementsByClassName('lampButton')[placeToBuildElems[placeToBuildElems.length - 1]
                     .getElementsByClassName('lampButton').length - 1].remove();
-            lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);//izveido elementu pēc pēdējās grupas pogas        
-        } else {//ja pogas holderī nav vietas jaunai pogai
-            document.getElementsByClassName('groupButtonHolder')//novāc pēdējo create lamp button pogu
-            [document.getElementsByClassName('groupButtonHolder').length - 2]
-                .getElementsByClassName('lampButton')[document.getElementsByClassName('groupButtonHolder')
-                [document.getElementsByClassName('groupButtonHolder').length - 2]
-                    .getElementsByClassName('lampButton').length - 1].remove();
-
-            lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 2);//izveido elementu pēc pēdējās grupas pogas        
+            lampButton.build(placeToBuildElems.length - 1);//izveido elementu pēc pēdējās grupas pogas        
+        } else {//ja pogas holderī vēl ir vieta jaunai pogai
+            placeToBuildElems[placeToBuildElems.length - 2].getElementsByClassName('lampButton')//novāc pēdējo create lamp button pogu
+            [placeToBuildElems[placeToBuildElems.length - 2].getElementsByClassName('lampButton').length - 1].remove();
+            lampButton.build(placeToBuildElems.length - 2);//izveido elementu pēc pēdējās grupas pogas        
         }
         checkButtPlaceCount();
         riseGroupButts();
