@@ -11,6 +11,7 @@ function parseToRGBA(stringToParse) {//sadala style rgb un rgba uz skaitliskām 
 }
 
 function stringColorSet(rgbwArr) {//Si funkcija parveido rgbw krasu vertibas String rindina. Gatavu izsutisanai
+    
     var countString = "";
     var rgbwString = '';
 

@@ -63,6 +63,7 @@ body {
   justify-content: space-between;
   /*Nepieciešams, lai pa vidu paliktu tukšums*/
   z-index: 1;
+  /* box-shadow: 0px 0px 7px #888888; */
 }
 
 .SGLSTitleDiv {
@@ -292,76 +293,6 @@ input:checked+.slider:before {
   padding-top: 5px;
 }
 
-/*Expanded lietas*/
-
-/* 
-.expandedColorSetButtons {
-  display: flex;
-  font-size: 25px;
-  margin-top: 10px;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  margin-bottom: 20px;
-} */
-
-/* .expandedOneColorSetButtonDiv {
-  width: 25%;
-  display: flex;
-} */
-
-/* .expandedColorSetButton {
-  background: var(--colorButtonPressed);
-  height: 35px;
-  width: 60px;
-  border-radius: 8%;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
-/* .expandedColorSetButton:hover {
-  background: var(--colorButtons);
-}
-
-.expandedColorSetButtonBack {
-  display: flex;
-  margin-top: auto;
-  margin-bottom: auto;
-  height: 45px;
-  width: 45px;
-  border-radius: 50%;
-  cursor: pointer;
-} */
-
-/*Lampu funkciju pogu daļa*/
-
-/* .colorFuncButton {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100px;
-  height: 50px;
-  border: none;
-  border-radius: 5%;
-  background: var(--colorButtons);
-  font-size: 20px;
-  cursor: pointer;
-} */
-
-/* .colorFuncButton:hover {
-  background: var(--colorButtonPressed);
-} */
-
-/*Katras lampas pogas parādīšanās*/
-
-/* .dynamicButtonSpace {
-  width: 95%;
-  margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
 /*Dinamiski genereta baltas krasas izvelne*/
 
 .whiteCenterDiv {
@@ -377,100 +308,6 @@ input:checked+.slider:before {
   padding-left: 5px;
   padding-right: 5px;
 }
-
-/* .whiteCenterDivTop {
-  height: 20%;
-  width: 100%;
-  background: var(--colorTertiary);
-  display: flex;
-  line-height: 18px;
-} */
-
-/* .whiteCenterDivMiddle {
-  height: 40%;
-  width: 100%;
-  background: var(--colorBackgroundSecondary);
-  display: flex;
-} */
-
-/* 
-#whiteRange {
-  width: 90%;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
-/* .whiteCenterDivBottom {
-  height: 40%;
-  width: 100%;
-  border-bottom: 3px var(--colorBorder) solid;
-  display: flex;
-}
-
-.whiteCenterDivOk {
-  height: 100%;
-  width: 50%;
-  background: var(--colorButtons);
-  border-right: 1px var(--colorBorder) solid;
-}
-
-.whiteCenterDivCancel {
-  height: 100%;
-  width: 50%;
-  background: var(--colorTertiary);
-  border-left: 2px solid var(--colorBorder);
-}
-
-.whiteCenterDivOk:hover {
-  background: var(--colorButtonPressed);
-}
-
-.whiteCenterDivCancel:hover {
-  background: var(--colorButtonPressed);
-}
-
-.whiteCenterDivOptionsText {
-  font-size: 18px;
-  margin-left: 5px;
-}
-
-button {
-  cursor: pointer;
-} */
-
-/*Paroles ievadisanas dizains*/
-
-/* .inputForm {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--colorSecondary);
-  text-align: center;
-  width: 400px;
-  height: 100px;
-  text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
-} */
-
-/* 
-.submitButton {
-  background: gray;
-  width: 70px;
-  height: 30px;
-  cursor: pointer;
-}
-
-.submitButton:hover {
-  background: darkgray;
-}
-
-.textInput {
-  font-size: 20px;
-} */
 
 /*Settings lodzins*/
 
@@ -498,29 +335,6 @@ button {
 .optionsDivButton:hover {
   background: var(--colorTertiary);
 }
-
-/* 
-.rotateOptionsPic {
-  height: 15px;
-  margin-right: 18px;
-  margin-left: auto;
-}
-
-.optionsContent {
-  width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
-} */
-
-/*Parametri kas ir kopigi vairakam klasem*/
-
-/* .mainPageText, .optionsDivButton {
-  font-size: 18px;
-} */
-
-/* .text, .submitButton, .expandedOneColorSetButtonDiv, .colorFuncButton {
-  font-size: 16px;
-} */
 
 /*JAUNAIS KODS*/
 
@@ -933,4 +747,71 @@ div.arrow:after {
 
 .displayLampGroup {
   margin-left: 2.5%;
+}
+
+/* LOADING SCREEN */
+
+.loader, .loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+
+.loader {
+  /* margin: 60px auto; */
+  font-size: 10px;
+  /* position: relative; */
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+  /* z-index: 21; */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /* width: max-content; */
+  /* height: max-content; */
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.loadingDiv {
+  z-index: 11;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width:100%;
+  min-height:100%;
+  /* background-color:#000; */
+  /* width: max-content; */
+  /* height: max-content; */
 }

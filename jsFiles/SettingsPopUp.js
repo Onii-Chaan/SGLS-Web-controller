@@ -72,14 +72,11 @@ class SettingsPopUp {//pop elementu klase
 
     save() {
         //nosūta uz serveri lietotāja jaunos ievadītos datus un izveido jaunus elementus, ja tas ir nepieciešams
-        // this.dataIn = dataIn;//ja ir kkādi dati, kas ir papildus jāapstrādā saglabājot
-        // console.log('thisDataIn:', this.dataIn);
-        // console.log('dataIn: ', dataIn);
         this.formCount = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT').length;
         this.inputElem = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT');
         this.inputFail = false;//Seko līdzi tam vai lietotājs ir pareizi ievadījis datus
 
-
+        // Šī daļa atbild par ievadīto datu nosūtīšanu uz serveri
         if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
             this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
             if (this.formCount < 3) {
@@ -180,19 +177,19 @@ class SettingsPopUp {//pop elementu klase
         // console.log('close');
     }
 
-    delete() {//izdzēš atbilstošo vērtību un elementu
+    delete() {//izdzēš atbilstošo vērtību un elementu un nosūta dzēšamos datus uz serveri
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if (this.thisElement.className == 'lampButton lampGroup') {
             currentLampString = '1-25#';
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
-            ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
+            ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
         } else if (this.thisElement.className == 'colorBlock') {
-            // console.log(this.thisElement);
             growColors();
-            ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
-        } else if(this.thisElement.className == 'animBlock'){
-            ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + this.thisObj.getData()[1]);
+            ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
+        } else if (this.thisElement.className == 'animBlock') {
+            console.log('ANIMTEST: ',  );
+            ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + ' ' + stringFunctionSet(this.thisObj.getData()[1][0], this.thisObj.getData()[1][1]) + ' ');
         }
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
