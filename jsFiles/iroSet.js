@@ -27,6 +27,7 @@ colorWheel.on('input:end', function (color) {
     //Ievieto 4 vērtības masīvā
     userRgbw = [...userRgbw, color.rgb.r, color.rgb.g, color.rgb.b, whiteColor]
 
+    sendAjaxData('_set_lamp_ ', '<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ');
     ajaxConsoleSend('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });
 
@@ -65,5 +66,6 @@ whitePicker.on('input:end', function (color) {//LAI TE NOTIKTU LIETAS TIEK IZVEI
     // console.log('User: ', color.rgb.r);
     userRgbw[3] = whiteColor;//pievieno arī baltās krāsas vērtību
     // console.log(userRgbw);
+    sendAjaxData('_set_lamp_ ', '<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ');
     ajaxConsoleSend('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });

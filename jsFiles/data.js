@@ -109,7 +109,7 @@ var apConnectionState;//Seko tam vai ir savienojums ar softAP serveri
 
 sendAjaxData(" ", "check_ap_connection");
 
-showState(false, 'wlanState');
+// showState(false, 'wlanState');
 //Jādarbojas balstoties uz AJAX saņemtajiem datiem
 function showState(state, idToDisplay) {//Parāda uz lapas vai atbilstošā daļa ir pieejama , vai arī nē
     if (state) {//Maina tekstu un tā krāsu
