@@ -1,5 +1,5 @@
 var loadingScreen = {
-    background: 'gray',
+    // background: 'gray',
     start: function () {//parāda ielādēšanās elementus
         // console.log('execute');
         this.loadingElement = document.createElement('DIV');//izveido tumšo fonu
