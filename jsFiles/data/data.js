@@ -155,7 +155,7 @@ function checkAPstate() {//Pārbauda savienojumu ar softAP
 
 
 
-setInterval(function () { checkAPstate(); }, 5000);
+// setInterval(function () { checkAPstate(); }, 5000);
 
 
 // _yourDataName_ yourData 

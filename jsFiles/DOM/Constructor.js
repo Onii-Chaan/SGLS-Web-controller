@@ -452,11 +452,6 @@ function buildElementNode(type, classList = '', textToAdd = '') {//izveido un at
 }
 
 
-function createPopUp() {//izveido settings popUp
-    // var createPopUp = new SettingsPopUp('Create new group', [['Type new name of group: ', 'bigInput'], ['Type which lamps you would like to group up: ', 'double'], ['From: ', 'smInput'], ['To: ', 'smInput']], 2, 1, 'group');
-    // createPopUp.build();
-}
-
 
 backCover = buildElementNode('DIV', 'documentCover');//izveido lapas aptumšojošo div elementu
 document.body.appendChild(backCover);

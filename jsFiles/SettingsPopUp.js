@@ -59,7 +59,6 @@ class SettingsPopUp {//pop elementu klase
         }
         document.getElementsByClassName('settingsPopUp')[0].style.display = 'none';
         backShadow(false);//iestata fona ēnu
-
     }
 
     open(dataIn = '', thisElement = '', thisObj) {//parāda settings logu
