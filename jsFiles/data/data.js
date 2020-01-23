@@ -11,7 +11,7 @@ function parseToRGBA(stringToParse) {//sadala style rgb un rgba uz skaitliskām 
 }
 
 function stringColorSet(rgbwArr) {//Si funkcija parveido rgbw krasu vertibas String rindina. Gatavu izsutisanai
-    
+
     var countString = "";
     var rgbwString = '';
 
@@ -79,8 +79,8 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
     } else if (//Pārbauda vai pirmā ievadītā vērtība nav lielāka par otro
         inputData[0] > inputData[1] &&
         valType == 'number' &&
-        !isNaN(inputData[0]) &&
-        !isNaN(inputData[1])
+        (!isNaN(inputData[0]) ||
+            !isNaN(inputData[1]))
     ) {
         alert('First number must be smaller than second');
         return false;

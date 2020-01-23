@@ -90,17 +90,14 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
         else if (
             j == arrLen - 1
         ) {
-            objArr[j].grow(collObj.contentLength() - blockWidthCount - 1);
-            // console.log('D');
+            objArr[j].grow(collObj.contentLength() - blockWidthCount + 5);
         }
         blockWidthCount = objArr[j].blockWidth();//atgriežas uz nākamo rindiņu
     } else if (
         objArr[j].blockWidth() > collObj.contentLength() - blockWidthCount
     ) {
-        // console.log('E');
-
         objArr[j - 1].grow(
-            collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() + 1)
+            collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() - 5)
         );
         blockWidthCount = objArr[j].blockWidth();//ieņem nākamā elementa lielumu nākamajā rindiņā
     }
