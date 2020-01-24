@@ -27,7 +27,7 @@ colorWheel.on('input:end', function (color) {
     //Ievieto 4 vērtības masīvā
     userRgbw = [...userRgbw, color.rgb.r, color.rgb.g, color.rgb.b, whiteColor]
 
-    sendAjaxData('_set_lamp_ ', '<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ');
+    sendAjaxData('<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ', '_set_lamp_ ');
     ajaxConsoleSend('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });
 

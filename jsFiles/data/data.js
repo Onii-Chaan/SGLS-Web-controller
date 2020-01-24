@@ -107,7 +107,7 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija p
 
 var apConnectionState;//Seko tam vai ir savienojums ar softAP serveri
 
-sendAjaxData(" ", "check_ap_connection");
+sendAjaxData("connData", "check_ap_connection");
 
 // showState(false, 'wlanState');
 //Jādarbojas balstoties uz AJAX saņemtajiem datiem
