@@ -5,6 +5,7 @@ class AnimationsBlock extends ColorBlock {//animāciju bloks ir tāds pats kā C
         this.colorBlock.innerHTML += this.colorName;//izveido nosaukuma paragrāfu
 
         this.colorBlock.classList.add('animBlock');
+        this.colorBlock.classList.add('ellipsisText');
 
         this.colorBlock.setAttribute('name', this.colorValue[0] + '|' + this.colorValue[1]);//lai varētu vēlāk iegūt funkciju vērtības no elementa name
 

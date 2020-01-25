@@ -85,14 +85,19 @@ class SettingsPopUp {//pop elementu klase
             }
         }
 
+        if (this.inputElem.length >= 2) {
+            this.userInputData = [parseInt(this.inputElem[1].value), parseInt(this.inputElem[2].value)];
+        }
+
         if (this.createType != '') {//ja dotajam settings logam ir jāizveido vēl kāds jauns elements
             switch (this.createType) {
                 case 'group':
                     if (
                         checkInput(this.inputElem[0].value) &&
                         checkInput(this.inputElem[1].value, 'number') &&
-                        checkInput(this.inputElem[2].value, 'number') &&
-                        checkInput([this.inputElem[1].value, this.inputElem[2].value], 'number')
+                        checkInput(this.userInputData, 'number') &&
+                        checkInput(this.inputElem[2].value, 'number')
+
                     ) {//Izveido jaunu grupu pogu
                         createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
                     } else {
@@ -103,10 +108,13 @@ class SettingsPopUp {//pop elementu klase
                     if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                         alert('You have already saved ' + colorLimit + ' colors');
                     } else if (checkInput(this.inputElem[0].value)) {
-                        this.createColorButt = new ColorBlock(this.inputElem[0].value, userRgbw, 'colorBlock', editColorButton);
-                        document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
-                        this.createColorButt.grow(document.getElementById('colorBlockContent').offsetWidth - this.createColorButt.blockWidth());
-                        colorCount++;
+                        rgbwArr.push([this.inputElem[0].value].concat(userRgbw));//iepušo lietotāja ievadīto vērtību globālajā masīvā
+
+                        this.deletedData = userRgbw;//izveido masīvu nosūtīšanai
+                        this.deletedData.push(this.inputElem[0].value)
+
+                        growColors(this.deletedData, false);//pievieno jauno krāsu
+
                     } else {
                         this.inputFail = true;
                     }
@@ -184,10 +192,9 @@ class SettingsPopUp {//pop elementu klase
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
             ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
         } else if (this.thisElement.className == 'colorBlock') {
-            growColors();
+            growColors(this.thisObj.colorValue);
             ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
         } else if (this.thisElement.className == 'animBlock') {
-            console.log('ANIMTEST: ',  );
             ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + ' ' + stringFunctionSet(this.thisObj.getData()[1][0], this.thisObj.getData()[1][1]) + ' ');
         }
         backShadow(false);//iestata fona ēnu
@@ -195,28 +202,39 @@ class SettingsPopUp {//pop elementu klase
     }
 }
 
-function growColors() {//pēc krāsu pogas izdzēšanas palielina visas pārējās krāsu pogas, lai tās atbilstoši aizpildītu tukšo laukumu
-    var place = document.getElementById('colorBlockContent');
-    // console.log(place);
-    var placeWidth = place.clientWidth;
-    // console.log('PLACEWIDTH: ', placeWidth)
-    var buttonWidth = 0;
-    for (var i = 0; i < place.childElementCount; i++) {
-        buttonWidth += place.getElementsByClassName('colorBlock')[i].offsetWidth + 5;
-        // console.log('element: ', place.getElementsByClassName('colorBlock')[i]);
-        // console.log('DIFFERENCE: ', placeWidth - buttonWidth);
-        if (placeWidth - buttonWidth <= 2 && placeWidth - buttonWidth >= 0) {
-            buttonWidth = 0;
-            // console.log('C');
-        } else if (placeWidth - buttonWidth < 0 && i != place.childElementCount - 1) {
-            // console.log('A');
-            place.getElementsByClassName('colorBlock')[i - 1].style.width = place.getElementsByClassName('colorBlock')[i - 1].offsetWidth + placeWidth - (buttonWidth - place.getElementsByClassName('colorBlock')[i].offsetWidth) + 5 + 'px';
-            buttonWidth = place.getElementsByClassName('colorBlock')[i].offsetWidth + 5;
-        } else if (i == place.childElementCount - 1 && placeWidth - buttonWidth > 1) {//Ja pēdējais elements
-            // console.log('B', place.getElementsByClassName('colorBlock')[i]);
-            // console.log(buttonWidth);
-            // console.log(placeWidth);
-            place.getElementsByClassName('colorBlock')[i].style.width = place.getElementsByClassName('colorBlock')[i].offsetWidth + placeWidth - buttonWidth + 'px';
+function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēšanas palielina visas pārējās krāsu pogas, lai tās atbilstoši aizpildītu tukšo laukumu
+    console.log(deletedData);
+    let lastVar = deletedData[4];//Masīvs tiek pielāgots salīdzināšanai
+    deletedData.sort(function (x, y) { return x == lastVar ? -1 : y == lastVar ? 1 : 0; });
+
+    if (toDelete) {
+        for (let i = 0; i < rgbwArr.length; i++) {
+            if (rgbwArr[i].equals(deletedData)) {//Izdzēš esošo vērtību no masīva
+                rgbwArr.splice(i, 1);
+            }
         }
     }
+
+
+    let placeHolder = document.getElementById('colorBlockContent');//izdzēš visas krāsu pogas
+    while (placeHolder.firstChild) {
+        placeHolder.removeChild(placeHolder.firstChild);
+    }
+
+    blockWidthCount = 0;
+    colorBlockObjArr = [];
+    let arrLen = rgbwArr.length;
+    for (let i = 0; i < arrLen; i++) {
+        //izveido krāsu pogas un saliek tās collapsible pogas kontentā
+        colorBlockObjArr.push(
+            new ColorBlock(
+                rgbwArr[i][0],
+                rgbwArr[i].slice(1, 5),
+                'colorBlock',
+                editColorButton)
+        );
+        addColorBlock(i, COLOR_COLLAPSIBLE_OBJ, colorBlockObjArr, arrLen, true);//!!!!!
+        colorCount++;//skaita uz priekšu cik ir krāsu pogu
+    }
+
 }

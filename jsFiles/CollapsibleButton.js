@@ -27,6 +27,7 @@ class CollapsibleButton {//izbīdamo pogu klase
         this.collButton = document.createElement('BUTTON');//izveido pogas elementu, kas arī būs pati poga
         this.collButton.style.height = '35px';
 
+        this.collButton.classList.add('ellipsisText');
 
         this.collButton.classList.add('collapsibleObj');
         this.collButton.classList.add('collapsible');//pievieno klasi pogai

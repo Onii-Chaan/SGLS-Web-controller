@@ -72,19 +72,19 @@ function submitPassword() {
 //Paroles ievades dala beidzas
 
 //Settings logs
-document.getElementsByClassName("optionsDiv")[0].style.display = "none";
-var openSettingsVar = false
-function openSettings() {
-  if (openSettingsVar == false) {
+// document.getElementsByClassName("optionsDiv")[0].style.display = "none";
+// var openSettingsVar = false
+// function openSettings() {
+//   if (openSettingsVar == false) {
 
-    openSettingsVar = true;
-    document.getElementsByClassName("optionsDiv")[0].style.display = "block";
-  } else {
+//     openSettingsVar = true;
+//     document.getElementsByClassName("optionsDiv")[0].style.display = "block";
+//   } else {
 
-    openSettingsVar = false;
-    document.getElementsByClassName("optionsDiv")[0].style.display = "none";
-  }
-}
+//     openSettingsVar = false;
+//     document.getElementsByClassName("optionsDiv")[0].style.display = "none";
+//   }
+// }
 
 
 

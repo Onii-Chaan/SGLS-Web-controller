@@ -14,6 +14,8 @@ class LampBlock {
 
         this.colorBlock.innerHTML = this.name;//izveido nosaukuma paragrāfu
         this.colorBlock.setAttribute('name', this.value);//lai varētu vēlāk iegūt funkciju vērtības no elementa name
+
+        this.colorBlock.classList.add('ellipsisText');
         this.colorBlock.classList.add('lampButton');
         // this.colorBlock.classList.add('no_selection');
         if (this.options != '') {

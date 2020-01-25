@@ -1,6 +1,12 @@
+var COLOR_WHEEL_DIAMETER;
+if(document.body.clientWidth<310){
+    COLOR_WHEEL_DIAMETER = 220;
+} else {
+    COLOR_WHEEL_DIAMETER = 300;
+}
 var colorWheel = iro.ColorPicker("#colorWheelDemo", {
-    width: 300,
-    height: 300,
+    width: COLOR_WHEEL_DIAMETER,
+    height: COLOR_WHEEL_DIAMETER,
     color: "rgb(0, 255, 0)",
     // color: '#fff',
     padding: 6,
@@ -32,8 +38,8 @@ colorWheel.on('input:end', function (color) {
 });
 
 var whitePicker = new iro.ColorPicker("#colorWheelSlider", {
-    width: 300,
-    height: 300,
+    width: COLOR_WHEEL_DIAMETER,
+    height: COLOR_WHEEL_DIAMETER,
     color: "rgb(0, 0, 0)",
     // color: '#fff',
     padding: 6,

@@ -878,3 +878,11 @@ div.arrow:after {
   margin-right: 2.5%;
   margin-left: auto;
 }
+
+
+/* teksta salīšanai */
+.ellipsisText{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

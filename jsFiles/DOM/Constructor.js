@@ -69,15 +69,12 @@ function createExploreColl(placeHolder) {//izveido explore collapsible
 var blockWidthCount = 0;//skaita platumu krāsu bloku radīšanas brīdī
 function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atbilstošajā vietā, atbilstošajā lielumā
     collObj.updateContent(objArr[j].build());//uzbūvē krāsu pogu
-    // console.log(objArr[j].show());
     objArr[j].grow();//izveido krāsu bloku platumu
     blockWidthCount += objArr[j].blockWidth();//skaita uz priekšu rindas platumu
-    // console.log('BEF_LEN: ', objArr[j].blockWidth());
     if (
         blockWidthCount >= collObj.contentLength() ||
         j == arrLen - 1
     ) {//pārbauda vai pēdējo krāsu bloku ir jāpaplašina
-        // console.log('A');        
         if (
             blockWidthCount - objArr[j].blockWidth() !=
             collObj.contentLength() && j > 0 && j != arrLen - 1
@@ -85,19 +82,18 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
             objArr[j - 1].grow(
                 collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth())
             );
-            // console.log('B');
         }
         else if (
             j == arrLen - 1
         ) {
-            objArr[j].grow(collObj.contentLength() - blockWidthCount + 5);
+            objArr[j].grow(collObj.contentLength() - blockWidthCount + 4);
         }
         blockWidthCount = objArr[j].blockWidth();//atgriežas uz nākamo rindiņu
     } else if (
-        objArr[j].blockWidth() > collObj.contentLength() - blockWidthCount
+        objArr[j].blockWidth() > collObj.contentLength() - blockWidthCount && j > 0
     ) {
         objArr[j - 1].grow(
-            collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() - 5)
+            collObj.contentLength() - (blockWidthCount - objArr[j].blockWidth() - 4)
         );
         blockWidthCount = objArr[j].blockWidth();//ieņem nākamā elementa lielumu nākamajā rindiņā
     }
@@ -130,18 +126,18 @@ var collObjArr = [0, 0, 0];//Masīvs, kurā atrodas visi collapsible objekti
 var collObjArrCount = 0;//skaita uz priekšu jauno objektu pozīcijas masīvā
 
 
-var rgbw = [
-    [255, 255, 255, 0],
-    [255, 255, 0, 0],
-    [0, 255, 255, 0],
-    [255, 0, 255, 10],
-    [255, 255, 0, 120],
-    [0, 255, 255, 0],
-    [0, 255, 255, 0],
-    [0, 255, 255, 0]
+var rgbwArr = [
+    ['SomeColor1', 255, 255, 255, 0],
+    ['SmallerColorLol', 255, 255, 0, 0],
+    ['A', 0, 255, 255, 0],
+    ['Here', 255, 0, 255, 10],
+    ['InternalSuffering', 255, 255, 0, 120],
+    ['words', 0, 255, 255, 0],
+    ['manyWords', 0, 255, 255, 0],
+    ['lettersColor', 0, 255, 255, 0]
 ];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
-var rgbwNames = ['SomeColor1', 'SmallerColorLol', 'A', 'Here',
-    'InternalSuffering', 'words', 'manyWords', 'lettersColor'];
+
+
 
 var colorBlockObjArr = [];
 
@@ -160,30 +156,31 @@ var funcBlockObjArr = [];
 
 blockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu rindā un salīdzina ar to atrašanās bloku platumu
 
+var COLOR_COLLAPSIBLE_OBJ; 
 function createSubColl() {
-    var collapsibleObj = new CollapsibleButton(
+    COLOR_COLLAPSIBLE_OBJ = new CollapsibleButton(
         new Icon("arrow", "medIcon"),
         "Colors",
         document.getElementsByClassName("elemPlaceHolder")[0],
         '',
         'colorBlockContent'
     );
-    collapsibleObj.buildCollapseButton();
+    COLOR_COLLAPSIBLE_OBJ.buildCollapseButton();
     blockWidthCount = 0;
-    for (var i = 0; i < rgbw.length; i++) {
+    for (var i = 0; i < rgbwArr.length; i++) {
         //izveido krāsu pogas un saliek tās collapsible pogas kontentā
         colorBlockObjArr.push(
             new ColorBlock(
-                rgbwNames[i],
-                rgbw[i],
+                rgbwArr[i][0],
+                rgbwArr[i].slice(1, 5),
                 'colorBlock',
                 editColorButton)
         );
-        addColorBlock(i, collapsibleObj, colorBlockObjArr, rgbw.length);//!!!!!
+        addColorBlock(i, COLOR_COLLAPSIBLE_OBJ, colorBlockObjArr, rgbwArr.length);//!!!!!
         colorCount++;//skaita uz priekšu cik ir krāsu pogu
     }
 
-    collapsibleObj = new CollapsibleButton(
+    var collapsibleObj = new CollapsibleButton(
         new Icon("arrow", "medIcon"),
         "Animations",
         document.getElementsByClassName("elemPlaceHolder")[0],
@@ -414,7 +411,7 @@ function riseGroupButts() {//iestata group pogām to garumu
                     break;
                 case 3:
                     document.getElementsByClassName('groupButtonHolder')[i]
-                        .getElementsByClassName('lampButton')[j].style.width = '33%';
+                        .getElementsByClassName('lampButton')[j].style.width = '33.33%';
                     break;
                 case 4:
                     // console.log(document.getElementsByClassName('groupButtonHolder')[i].getElementsByClassName('lampButton')[j]);
@@ -478,5 +475,6 @@ var getContrast = function (rgbColor) {//pārbauda un atgriež fonta krāsu
     // Check contrast
     return (yiq >= 128) ? 'black' : 'white';
 };
+
 
 

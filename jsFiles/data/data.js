@@ -72,15 +72,15 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
     if (inputData.length > 32 && valType == 'String') {//Pārbauda vai ievadītais strings nav garāks par 32 simboliem
         alert('Input must be no longer than 32 characters');
         return false;
-    }
-    else if (inputData.length == 0) {//Pārbauda vai ievadītais lauciņš nav tukšs
+    } else if (inputData.length == 0) {//Pārbauda vai ievadītais lauciņš nav tukšs
         alert('Input must not be empty');
         return false;
     } else if (//Pārbauda vai pirmā ievadītā vērtība nav lielāka par otro
         inputData[0] > inputData[1] &&
-        valType == 'number' &&
-        (!isNaN(inputData[0]) ||
-            !isNaN(inputData[1]))
+        valType === 'number' &&
+        !isNaN(inputData[0]) &&
+        !isNaN(inputData[1]) &&
+        inputData.constructor === Array
     ) {
         alert('First number must be smaller than second');
         return false;
@@ -96,6 +96,106 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
 function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija parveido skaitli no vienas kopas uz citu
     return Math.round(((number - fromMin) / (fromHigh - fromMin)) * (toHigh - toMin) + toMin);
 }
+
+
+function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
+    let form = formId;
+    let sendGetData = true;
+    let dataToSend;
+    let doublePass = false;//seko tam, lai parole netiktu sūtīta divreiz dēļ pārbaudes 
+    for (i = 0; i < form.length; i++) {//Iet cauri katram elementam iekš form un pārbauda vai tas ir derīgs
+        var elementToCheck = form.elements[i];
+        if (elementToCheck.name == 'ssid' || elementToCheck.name == 'pass' || elementToCheck.name == 'linkName') {
+            if (elementToCheck.value.length > 32 && elementToCheck.name != 'linkName') {//Pārbauda vai ievadītā SSID simbolu garums nav lielāks par 32 baitiem
+                sendGetData = false;
+                alert("Your ssid name is longer than 32 symbols");
+                break;
+            } else if (!isASCII(elementToCheck.value)) {//Pārbauda vai ievadītā SSID simboli ir ASCII simboli
+                sendGetData = false;
+                alert("Your ssid name contains forbidden symbols");
+                break;
+            } else if (elementToCheck.value == '') {
+                sendGetData = false;
+                alert("You must fill all fields");
+                break;
+            }
+        }
+        if (elementToCheck.name == 'pass') {//Pārbauda vai paroles garums ir lielāks par 8 simboliem
+            if (elementToCheck.value.length < 8) {
+                sendGetData = false;
+                alert("Your password must be longer than 8 symbols");
+                break;
+            }
+        }
+        if (elementToCheck.name == 'ssid') {
+            dataToSend = dataToSend + "ssid=" + elementToCheck.value + " ";
+        } else if (elementToCheck.name == 'pass' && doublePass == false) {
+            doublePass = true;
+            dataToSend = dataToSend + "pass=" + elementToCheck.value + " ";
+        } else if (elementToCheck.name == 'linkName') {
+            dataToSend = dataToSend + "linkName=" + elementToCheck.value + " ";
+        }
+    }
+
+    if (sendGetData) {
+        ajaxConsoleSend(dataToSend, formId);
+    }
+    form.reset();
+}
+
+
+function isASCII(valueToCheck) {//Funkcija, kas pārbauda vai simbols ir ASCII, vai arī nav, kā arī pārbauda atstarpes esamību
+    for (var i = 0; i < valueToCheck.length; i++) {
+        if (valueToCheck.charCodeAt(i) > 127 || valueToCheck.charCodeAt(i) == 32) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+//Priekš divu masīvu salīdzināšanas
+if(Array.prototype.equals)
+console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
