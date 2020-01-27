@@ -2,9 +2,11 @@ function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
   if (onOff){
     onOff = false;
     ajaxConsoleSend('turnOff');
+    sendAjaxData('turnOff', 'onoff');
   } else{
     onOff = true;
     ajaxConsoleSend('turnOn');
+    sendAjaxData('turnOn', 'onoff');
   }
   // console.log(onOff);
 }

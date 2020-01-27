@@ -32,8 +32,10 @@ class ColorBlock {
     colClick(){//krāsas klikšķis        
         if (this.type == 'animBlock'){
             sendValue(0, currentLampString, stringFunctionSet(this.colorValue[0], this.colorValue[1]));
+            sendAjaxData('<1' + currentLampString +stringFunctionSet(this.colorValue[0], this.colorValue[1]) + '>' + ' ', 'setlamp');
         }else{
-            sendValue(0, currentLampString, stringColorSet(this.colorValue));
+            sendValue(1, currentLampString, stringColorSet(this.colorValue));
+            sendAjaxData('<0' + currentLampString +stringColorSet(this.colorValue) + '>' + ' ', 'setlamp');
         }
     }
 

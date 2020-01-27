@@ -185,16 +185,17 @@ class SettingsPopUp {//pop elementu klase
     }
 
     delete() {//izdzēš atbilstošo vērtību un elementu un nosūta dzēšamos datus uz serveri
+        console.log(this.thisElement.className);
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
-        if (this.thisElement.className == 'lampButton lampGroup') {
+        if (this.thisElement.className == 'ellipsisText lampButton lampGroup') {
             currentLampString = '1-25#';
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
             ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
-        } else if (this.thisElement.className == 'colorBlock') {
+        } else if (this.thisElement.className == 'ellipsisText colorBlock') {
             growColors(this.thisObj.colorValue);
             ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
-        } else if (this.thisElement.className == 'animBlock') {
+        } else if (this.thisElement.className == 'ellipsisText animBlock') {
             ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + ' ' + stringFunctionSet(this.thisObj.getData()[1][0], this.thisObj.getData()[1][1]) + ' ');
         }
         backShadow(false);//iestata fona ēnu
