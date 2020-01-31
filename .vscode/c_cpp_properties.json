@@ -7,17 +7,14 @@
                 "C:\\Users\\marti\\OneDrive\\Dokumenti\\Arduino\\libraries\\SimpleTimer\\**",
                 "C:\\Users\\marti\\OneDrive\\Dokumenti\\Arduino\\libraries\\AsyncTCP-master\\**",
                 "C:\\Users\\marti\\OneDrive\\Dokumenti\\Arduino\\libraries\\ESPAsyncTCP-master\\**",
-
                 "C:\\Users\\marti\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\libraries\\WiFi**",
                 "C:\\Users\\marti\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
                 "C:\\Users\\marti\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
                 "C:\\Users\\marti\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                 "C:\\Users\\marti\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
-
-
-
-                "C:\\Users\\marti\\OneDrive\\Dokumenti\\GitHub\\SGLS-Web-controller\\forFastPics\\**"
-
+                "C:\\Users\\marti\\OneDrive\\Dokumenti\\GitHub\\SGLS-Web-controller\\forFastPics\\**",
+                "C:\\Users\\Martin\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
+                "C:\\Users\\Martin\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
             ],
             "defines": [
                 "_DEBUG",
