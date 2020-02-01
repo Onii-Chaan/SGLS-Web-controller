@@ -501,8 +501,29 @@ div.arrow:after {
   margin: auto;
   width: max-content;
   height: max-content;
+  border-radius: 5px;
+  padding: 6px;
 }
 
+.popUpInput{
+  margin-bottom: 2px;
+}
+
+.actionButton{
+  margin-right: 2px !important;
+}
+
+.actionButtonsHolder{
+  margin-top: 10px;
+}
+
+.settingsPopTitle{
+  margin-bottom: 5px;
+}
+
+.settingsText{
+  margin-bottom: 4px;
+}
 /* Mazā settings ievade */
 
 .smInput {
@@ -576,7 +597,7 @@ div.arrow:after {
 }
 
 .lampButton:hover, .animBlock:hover{
-  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  background: var(--colorPrimary) radial-gradient(circle, transparent 1%, var(--colorPrimary) 1%) center/15000%;
 }
 
 .expandButton:hover{

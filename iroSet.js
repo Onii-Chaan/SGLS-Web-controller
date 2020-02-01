@@ -37,7 +37,7 @@ colorWheel.on('input:end', function (color) {
     whiteColor = scaleToRange(colorWheel.color.rgba.a , 1 , 0 , 0 , 255);
     userRgbw = [...userRgbw, color.rgb.r, color.rgb.g, color.rgb.b, whiteColor]
 
-    sendAjaxData('<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ', 'setlamp');
+    sendAjaxData('lamp='+'<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ', 'setlamp');
     ajaxConsoleSend('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });
 

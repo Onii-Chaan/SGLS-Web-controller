@@ -25,12 +25,12 @@ class SettingsPopUp {//pop elementu klase
         var inputCount = this.inputFields.length;
         for (var i = 0; i < inputCount; i++) {//izveido visus ievades lauciņus
             if (this.inputFields[i][1] != 'double') {
-                this.popElement.appendChild(buildElementNode('P', '', this.inputFields[i][0]));
+                this.popElement.appendChild(buildElementNode('P', 'settingsText', this.inputFields[i][0]));
                 this.createInput = buildElementNode('INPUT', this.inputFields[i][1]);
                 this.createInput.classList.add('popUpInput');
                 this.popElement.appendChild(this.createInput);
             } else {
-                this.popElement.appendChild(buildElementNode('P', '', this.inputFields[i][0]));
+                this.popElement.appendChild(buildElementNode('P', 'settingsText', this.inputFields[i][0]));
             }
         }
         this.buttonHolder = buildElementNode('DIV', 'actionButtonsHolder');//izveido pogas divu
@@ -243,5 +243,4 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
         addColorBlock(i, COLOR_COLLAPSIBLE_OBJ, colorBlockObjArr, arrLen, true);//!!!!!
         colorCount++;//skaita uz priekšu cik ir krāsu pogu
     }
-
 }

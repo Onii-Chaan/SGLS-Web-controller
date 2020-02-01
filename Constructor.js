@@ -142,16 +142,16 @@ var rgbwArr = [
 var colorBlockObjArr = [];
 
 var funcNum = [
-    [2, 100],
-    [3, 213],
-    [15, 1],
-    [23, 0],
-    [22, 11],
-    [76, 233],
+    [2, 10],
+    [3, 13],
+    [4, 540],
+    [5, 10],
+    [6, 11],
+    [7, 233],
     [1, 677]
 ];
 
-var funcNames = ['bitch', 'function', 'colors', 'this', 'test1', 'testdos', 'testtres'];
+var funcNames = ['solid rainbow', 'solid fade', 'blink', 'fire', 'adr rainbow', 'light music', 'testtres'];
 var funcBlockObjArr = [];
 
 blockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu rindā un salīdzina ar to atrašanās bloku platumu
