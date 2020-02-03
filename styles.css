@@ -51,6 +51,7 @@ body {
   /*<a>, kas padara SGLS bloku un nosaukumu par linku*/
   text-decoration: none;
   color: black;
+  width: 35%;
 }
 
 .titleDiv {
@@ -69,12 +70,15 @@ body {
 .SGLSTitleDiv {
   position: relative;
   height: 100%;
-  width: 100px;
+  width: 100%;
   left: 10px;
   right: auto;
-  text-align: center;
   line-height: 50px;
   /*nepieciešams, lai SGLS nosaukuma teksts tiktu horizontāli centrēts. Tā line-height uzstādīts uz tik pat lielu vērtību kā div blokam kurā tā atrodas*/
+}
+
+#SGLSmainName{
+  font-size: 18px;
 }
 
 .headerButton {
@@ -87,23 +91,7 @@ body {
   cursor: pointer;
 }
 
-/* .headerButton:hover { */
-  /* background: var(--colorPrimaryPressed); */
-/* } */
 
-/* #settingsButtonPic {
-  height: 50px;
-} */
-
-/* .outputDiv { */
-
-/*Bloks priekš rezultāta izvades, tiks pēc galarezultāta izveides dzēsts------------------------------------------------------------------------------------------------------------------------*/
-
-/* height: 100%;
-  width: 300px;
-  background: lightcoral; */
-
-/* } */
 
 /*Mājaslapas vidējā daļa, te atrodas viss līdz izplešanās uz leju pogai*/
 
@@ -137,16 +125,6 @@ body {
   width: 50px !important;
 }
 
-/*Paplašināšanas poga*/
-
-/* #expandTrianglePic {
-  position: relative;
-  height: 25px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-} */
 
 /*Augšējo daļa*/
 
@@ -174,7 +152,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--colorPrimaryPressed);
+  background-color: var(--colorButtons);
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -192,7 +170,7 @@ body {
 }
 
 input:checked+.slider {
-  background-color: var(--colorButtons);
+  background-color: var(--colorPrimaryPressed);
 }
 
 input:focus+.slider {
@@ -316,27 +294,6 @@ input:checked+.slider:before {
   padding-right: 5px;
 }
 
-/*Settings lodzins*/
-
-/* .optionsDiv {
-  position: fixed;
-  right: 0px;
-  left: auto;
-  background: var(--colorBackgroundSecondary);
-  width: 200px;
-  height: 300px;
-  top: 50px;
-  box-shadow: 0px 5px 5px gray;
-} */
-
-/* .optionsDivButton {
-  display: flex;
-  background: var(--colorSecondary);
-  width: 100%;
-  height: 70px;
-  border-bottom: var(--colorBorder) 1px solid;
-  padding-left: 5px;
-} */
 
 .optionsDivButton:hover {
   background: var(--colorTertiary);
@@ -907,3 +864,4 @@ div.arrow:after {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+

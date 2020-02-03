@@ -17,19 +17,7 @@ function createDynamicContent() {
 }
 
 /*ExploreArr masīvā glabājas visas explore pogu vērtības*/
-var exploreArr = [
-    ['SameColor', 123, 123, 123, 123],
-    ['hmhmmhh', 0, 23, 0, 122],
-    ['word', 255, 255, 0, 0],
-    ['manyWords', 10, 10, 23, 18],
-    ['manyMore', 10, 23, 15, 200],
-    ['Yeye', 100, 200, 100, 0],
-    ['pum_pum', 25, 10],
-    ['animManim', 50, 0],
-    ['someAnim', 10, 100],
-    ['oldAnim', 19, 230],
-    ['NewAnim', 7, 123]
-];
+var exploreArr = JSON_DATA.ExploreArr;
 
 var colorAnimBlockObjArr = [];
 function createExploreColl(placeHolder) {//izveido explore collapsible
@@ -126,37 +114,17 @@ var collObjArr = [0, 0, 0];//Masīvs, kurā atrodas visi collapsible objekti
 var collObjArrCount = 0;//skaita uz priekšu jauno objektu pozīcijas masīvā
 
 
-var rgbwArr = [
-    ['SomeColor1', 255, 255, 255, 0],
-    ['SmallerColorLol', 255, 255, 0, 0],
-    ['A', 0, 255, 255, 0],
-    ['Here', 255, 0, 255, 10],
-    ['InternalSuffering', 255, 255, 0, 120],
-    ['words', 0, 255, 255, 0],
-    ['manyWords', 0, 255, 255, 0],
-    ['lettersColor', 0, 255, 255, 0]
-];//šajā sarakstā glabājas 4 krāsu rgbw vērtības
-
-
+var rgbwArr = JSON_DATA.RgbwArr;//šajā sarakstā glabājas 4 krāsu rgbw vērtības
 
 var colorBlockObjArr = [];
 
-var funcNum = [
-    [2, 10],
-    [3, 13],
-    [4, 540],
-    [5, 10],
-    [6, 11],
-    [7, 233],
-    [1, 677]
-];
+var funcArr = JSON_DATA.FuncArr;
 
-var funcNames = ['solid rainbow', 'solid fade', 'blink', 'fire', 'adr rainbow', 'light music', 'testtres'];
 var funcBlockObjArr = [];
 
 blockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu rindā un salīdzina ar to atrašanās bloku platumu
 
-var COLOR_COLLAPSIBLE_OBJ; 
+var COLOR_COLLAPSIBLE_OBJ;
 function createSubColl() {
     COLOR_COLLAPSIBLE_OBJ = new CollapsibleButton(
         new Icon("arrow", "medIcon"),
@@ -190,8 +158,8 @@ function createSubColl() {
 
     collapsibleObj.buildCollapseButton();
 
-    for (i = 0; i < funcNum.length; i++) {//izveido animāciju pogas un saliek tās collapsible pogas kontentā
-        funcBlockObjArr.push(new AnimationsBlock(funcNames[i], funcNum[i], 'animBlock', editAnimButton));
+    for (i = 0; i < funcArr.length; i++) {//izveido animāciju pogas un saliek tās collapsible pogas kontentā
+        funcBlockObjArr.push(new AnimationsBlock(funcArr[i][0], funcArr[i].slice(1,3), 'animBlock', editAnimButton));
         collapsibleObj.updateContent(funcBlockObjArr[i].buildAnimBlock());
 
         animCount++;//skaita uz priekšu cik ir animāciju pogu
@@ -200,12 +168,7 @@ function createSubColl() {
 
 
 
-var lampGroups = [
-    ['Room1', '1-5#'],
-    ['BedRoom', '2-8#'],
-    ['Garden', '6-7#']
-];//ienākošo lampu grupu datu masīvs
-var lampNum = 6;
+var lampGroups = JSON_DATA.LampGroups//ienākošo lampu grupu datu masīvs
 var lampButton;//lampu pogas mainīgais
 
 

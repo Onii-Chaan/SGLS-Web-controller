@@ -187,17 +187,18 @@ class SettingsPopUp {//pop elementu klase
     closeSettings() {//noslēpj settings logu
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
-        // console.log('close');
     }
 
     delete() {//izdzēš atbilstošo vērtību un elementu un nosūta dzēšamos datus uz serveri
-        console.log(this.thisElement.className);
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if (this.thisElement.className == 'ellipsisText lampButton lampGroup') {
-            currentLampString = '1-25#';
+            currentLampString = '1-'+ lampNum +'#';
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
-            ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
+            
+            // sendAjaxData(, "deletegroup")
+            console.log(this.thisObj.getData().toString());
+            ajaxConsoleSend('_deletegroup_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
         } else if (this.thisElement.className == 'ellipsisText colorBlock') {
             growColors(this.thisObj.colorValue);
             ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
@@ -210,7 +211,6 @@ class SettingsPopUp {//pop elementu klase
 }
 
 function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēšanas palielina visas pārējās krāsu pogas, lai tās atbilstoši aizpildītu tukšo laukumu
-    console.log(deletedData);
     let lastVar = deletedData[4];//Masīvs tiek pielāgots salīdzināšanai
     deletedData.sort(function (x, y) { return x == lastVar ? -1 : y == lastVar ? 1 : 0; });
 
