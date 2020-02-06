@@ -222,7 +222,6 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
         }
     }
 
-
     let placeHolder = document.getElementById('colorBlockContent');//izdzēš visas krāsu pogas
     while (placeHolder.firstChild) {
         placeHolder.removeChild(placeHolder.firstChild);
