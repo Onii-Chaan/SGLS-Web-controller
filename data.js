@@ -303,25 +303,30 @@ function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
 // }
 
 // function encodeQueryData(data) {
-    
+
 //  }
 
-function testDick(){
-    let firstData = ["name1","nam2e","nam3e","name4"];
-    let secName = ["secName1","secNam2e","secName3","secName4"];
-    var map = new Object();
-    for (var i = 0; i<firstData.length; i++){
-        map[firstData[i]] = secName[i];
-    }
-    console.log(map);
-    console.log(encodeQueryData(map));
+
+var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
+
+    return Object.keys(params)
+        .map(k => k + '=' + params[k])
+        .join('&');
 }
 
-testDick();
 
-function encodeQueryData(data) {
-    const ret = [];
-    for (let d in data)
-      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-    return ret.join('&');
- }
+
+var createDic = (keyArr, valArr) => {//Izveido dictionary no diviem masīviem
+    var items = {};
+    for (let i = 0; i < keyArr.length; i++) {
+        items[keyArr[i]] = valArr[i];
+    }
+    return items;
+}
+
+
+// console.log("CreateDic: ", JSON.stringify(createDic(keyArr, valArr)));
+// console.log("URLQuery", urlQuery(createDic(keyArr, valArr)));
+
+
+

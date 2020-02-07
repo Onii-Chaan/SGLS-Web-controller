@@ -192,18 +192,53 @@ class SettingsPopUp {//pop elementu klase
     delete() {//izdzēš atbilstošo vērtību un elementu un nosūta dzēšamos datus uz serveri
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if (this.thisElement.className == 'ellipsisText lampButton lampGroup') {
-            currentLampString = '1-'+ lampNum +'#';
+            currentLampString = '1-' + lampNum + '#';
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
-            
             // sendAjaxData(, "deletegroup")
-            console.log(this.thisObj.getData().toString());
-            ajaxConsoleSend('_deletegroup_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
+            ajaxConsoleSend('/deletegroup/' +//nosūta datus uz konsoli
+                urlQuery(
+                    createDic(
+                        [
+                            "name",
+                            "value"
+                        ],
+                        [
+                            this.thisObj.getData()[0],
+                            this.thisObj.getData()[1]
+                        ]
+                    )
+                )
+            );
         } else if (this.thisElement.className == 'ellipsisText colorBlock') {
-            growColors(this.thisObj.colorValue);
-            ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
-        } else if (this.thisElement.className == 'ellipsisText animBlock') {
-            ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + ' ' + stringFunctionSet(this.thisObj.getData()[1][0], this.thisObj.getData()[1][1]) + ' ');
+            growColors(this.thisObj.colorValue);//izveido jaunos krāsu blokus
+            ajaxConsoleSend(
+                '/deletecolor/' +
+                urlQuery(
+                    createDic(
+                        ['name', 'r', 'g', 'b', 'w'],
+                        this.thisObj.getData()[1]
+                    )
+                )
+            );
+        } else if (this.thisElement.className == 'animBlock ellipsisText') {
+            ajaxConsoleSend(
+                '/deleteanim/' +
+                urlQuery(
+                    createDic(
+                        [
+                            "name",
+                            "funcNum",
+                            "param"
+                        ],
+                        [
+                            this.thisObj.getData()[0],
+                            this.thisObj.getData()[1][0],
+                            this.thisObj.getData()[1][1]
+                        ]
+                    )
+                )
+            );
         }
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
