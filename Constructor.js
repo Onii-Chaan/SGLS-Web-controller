@@ -90,9 +90,6 @@ function addColorBlock(j, collObj, objArr, arrLen) {//veido krāsu blokus to atb
     }
 }
 
-
-
-
 function createColl(placeHolder) {//Izveido collapsible div objektu
     var collapsibleObj = new CollapsibleButton(
         new Icon("arrow", "medIcon"), "Saved", placeHolder, new Icon("bookmark", "medIcon")
@@ -109,18 +106,10 @@ function checkRotateElement(checkNode1, checkNode2, styleToApply) {//Pagriež at
     }
 }
 
-
 var collObjArr = [0, 0, 0];//Masīvs, kurā atrodas visi collapsible objekti
 var collObjArrCount = 0;//skaita uz priekšu jauno objektu pozīcijas masīvā
 
 
-var rgbwArr = JSON_DATA.RgbwArr;//šajā sarakstā glabājas 4 krāsu rgbw vērtības
-
-var colorBlockObjArr = [];
-
-var funcArr = JSON_DATA.FuncArr;
-
-var funcBlockObjArr = [];
 
 blockWidthCount = 0;//skaita uz priekšu krāsu bloku kopējo platumu rindā un salīdzina ar to atrašanās bloku platumu
 
@@ -167,10 +156,7 @@ function createSubColl() {
 }
 
 
-
-var lampGroups = JSON_DATA.LampGroups//ienākošo lampu grupu datu masīvs
 var lampButton;//lampu pogas mainīgais
-
 
 var editGroupSettings;//liela ievade un tad from to ievade, nosūta ajax datus
 var newGroupSettings;//liela ievade un tad from to ievade, izveido jaunu pogu nosūta ajax datus
@@ -268,8 +254,6 @@ function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai
     editAnimButton.closeSettings();
 }
 
-
-
 function checkButtPlaceCount() {//pārbauda vai ir nepieciešams veidot nākamo elementu, lai turētu grupu pogas
     // console.log(document.getElementsByClassName('groupButtonHolder')[createButtHolder(true) - 1].childElementCount);
     if (document.getElementsByClassName('groupButtonHolder')[createButtHolder(true) - 1].childElementCount == 4) {
@@ -294,8 +278,6 @@ var createButtHolder = (function () {//mainīgais, funkcija, kas skaita uz priek
     }
 })();
 
-
-
 function createLampButts() {//izveido lampu pogas
     createButtHolder();
     lampButton = new LampBlock('All', '1-25#');//izveido pogu, kas ieslēdz visas lampas
@@ -317,7 +299,6 @@ function createLampButts() {//izveido lampu pogas
     checkButtPlaceCount();
     riseGroupButts();
 }
-
 
 function createNewLampGroup(name, value, settings = '', newButt = false) {//izveido jaunu lampu grupas pogu
     lampButton = new LampBlock(name, value, settings);
@@ -389,8 +370,6 @@ function riseGroupButts() {//iestata group pogām to garumu
 }
 
 
-
-
 function buildElementNode(type, classList = '', textToAdd = '') {//izveido un atgriež paragrāfu ar klasi
     var builtElement = document.createElement(type);
     if (classList != '') {
@@ -407,7 +386,6 @@ function buildElementNode(type, classList = '', textToAdd = '') {//izveido un at
     }
     return builtElement;
 }
-
 
 
 backCover = buildElementNode('DIV', 'documentCover');//izveido lapas aptumšojošo div elementu
