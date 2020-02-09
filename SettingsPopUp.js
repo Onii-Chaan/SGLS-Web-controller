@@ -108,7 +108,7 @@ class SettingsPopUp {//pop elementu klase
                                 )
                             );
                             createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
-                            groupCount++;
+                            groupCount++;                        
                         }
                     } else {
                         this.inputFail = true;
