@@ -1,5 +1,6 @@
 void setup() {
-  Serial.begin(115200);
+  pinMode(2, OUTPUT);
+  mySerial.begin(115200);
   startWifi();
   startEEPROM();
   startServer();
@@ -20,7 +21,7 @@ void setup() {
 
   delay(250);//lai lampas paspētu ielādēties
 //  Serial.begin(9600);
-  Serial.println("<00>");
+  mySerial.println("<00>");
   //strip.begin();
   //strip.clear();//notīra iepriekšējās krāsas no krāsu lentas
   //strip.show();//apdeito krāsu lentu, lai iepriekšējās krāsas tiktu notīrītas

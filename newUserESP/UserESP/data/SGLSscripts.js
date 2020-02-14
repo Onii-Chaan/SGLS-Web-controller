@@ -1,17 +1,18 @@
 function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
-  if (onOff){
-    onOff = false;
-    ajaxConsoleSend('turnOff');
-    sendAjaxData('turnOff', 'onoff');
+  if (buttonOn){
+    buttonOn = false;
+    ajaxConsoleSend('onoff ' + 'turnOff');
+    sendAjaxData('turnOff' + 'onoff');
   } else{
-    onOff = true;
-    ajaxConsoleSend('turnOn');
+    buttonOn = true;
+    ajaxConsoleSend('onoff ' + 'turnOn');
     sendAjaxData('turnOn', 'onoff');
   }
-  // console.log(onOff);
 }
 
-
+document.getElementById('SGLSmainName').innerText = JSON_DATA.UserWlanSsid;//Iestata lietotāja nosaukuma title
+document.getElementById('SGLSmainName').style.color = getContrast(document.getElementsByClassName("titleDiv")[0].style.background); 
+document.getElementById('onOffButton').checked = buttonOn;//iestata ieslēgšanas pogas sākuma stāvokli
 
 
 function okWhite() {//aprekina un iestata baltas krasas vertibu

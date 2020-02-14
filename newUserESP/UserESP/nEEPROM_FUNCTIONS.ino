@@ -10,7 +10,7 @@ void writeToEEPROM(String dataToWrite, int startPlace) {//Ieraksta vērtības ie
 void readEEPROM() {//Izvada EEPROM vērtības seriālī
   for (byte i = 0; i < EEPROM_SIZE; i++) {
     char readChar = EEPROM.read(i);
-    Serial.print(readChar);
+    mySerial.print(readChar);
   }
 }
 

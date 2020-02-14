@@ -1,7 +1,7 @@
 void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepieciešamās funkcijas saņemot vai nosūtot datus
   //  server.on("/", handleRoot);      //Lapas parādīšanai
   server.on("/esp32.local", HTTP_GET, [](AsyncWebServerRequest * request) {//vai mdns vajag laiku lai ielādētos?
-    Serial.println("GOT IT");
+    mySerial.println("GOT IT");
   });
   server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/index.html", "text/html");
@@ -36,7 +36,7 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
 
   server.on("/CollapsibleButton.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/CollapsibleButton.js", "text/js");
-    Serial.println("aaaaaa");
+    mySerial.println("aaaaaa");
   });
 
   server.on("/Icon.js", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -83,7 +83,7 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
 
   /*SETTINGS LAPA*/
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    Serial.println("SETTINGS SEND");
+    mySerial.println("SETTINGS SEND");
     request->send(SPIFFS, "/settings.html", "text/html");
   });
 
@@ -97,18 +97,18 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
 
   //  server.on("/check_ap_connection", HTTP_POST, [](AsyncWebServerRequest * request) {
   //    String recData = request->getParam("check_ap_connection")->value();
-  //    Serial.println(recData);
+  //    mySerial.println(recData);
   //    request->send(200, "text/plain", "Post route");
   //  });
   server.on("/setlamp", HTTP_POST, [](AsyncWebServerRequest * request) {
-    Serial.println("INCOMIIIIIIIIING");
+    mySerial.println("INCOMIIIIIIIIING");
     String keyVal;
     String recData;
 
 
     if (request->hasParam("lamp", true)) {
       keyVal = request->getParam("lamp", true)->value();
-//      Serial.print("Post data: "); Serial.println(keyVal);
+//      mySerial.print("Post data: "); mySerial.println(keyVal);
       recvWithStartEndMarkers(keyVal);
       //      test(keyVal);
       //     //Apstrādā datus un sāk datu iesūtīšanu uz lampām
@@ -118,7 +118,7 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
     }
 
     //    if (request->hasParam("data", true)) {
-    //      Serial.println(request->getParam("data", true)->value());
+    //      mySerial.println(request->getParam("data", true)->value());
     //    } else {
     //      //handle an incomplete request
     //      keyVal = "some default value";
@@ -129,7 +129,7 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
     request->send(200, "text/plain", "Post route");
   });
   //  server.on("/_set_lamp_", HTTP_ANY, [](AsyncWebServerRequest * request) {
-  //    Serial.println("dataRec");
+  //    mySerial.println("dataRec");
   //    request->send(200, "text/plain", "yey");
   //  });
 
@@ -137,5 +137,5 @@ void serverFunctions() {//Tiek ievietots setup funkcijā, izpilda visas nepiecie
 }
 
 void test(String testString) {
-  Serial.print("TestData: "); Serial.println(testString);
+  mySerial.print("TestData: "); mySerial.println(testString);
 }

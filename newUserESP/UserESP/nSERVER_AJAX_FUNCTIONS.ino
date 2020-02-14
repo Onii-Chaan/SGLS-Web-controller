@@ -16,7 +16,7 @@ void handleRoot() {//Parāda lapu
   //  String s = String(file.read()); //Read HTML contents
   //  request->send(SPIFFS, "/index.html", "text/html");
   //  file.close();
-  //  Serial.println("Handle_root");
+  //  mySerial.println("Handle_root");
 
 }
 
@@ -25,7 +25,7 @@ void responseCheck() {//atbild, ja lapa pārbauda savienojamību
 }
 void sendPlainText(String dataToSend) {//nosūta teksta rindiņu uz mājaslapu
   //  server.send(200, "text/plane", dataToSend);
-  Serial.println(dataToSend);
+  mySerial.println(dataToSend);
 }
 
 void wlanLogin() {//Saglabā ssid un pass datus un pārbauda vai tie ir saglabāti un atbilstoši nosūta vērtību

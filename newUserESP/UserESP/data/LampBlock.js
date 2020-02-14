@@ -45,12 +45,14 @@ class LampBlock {
     }
 
     updateData(name = '', value = '') {//apdeito lampBlock elementu
-        if (name != this.name && name != '' && typeof name != 'undefined') {//pārbauda vai var apdeitot vārdu
+        // if (name != this.name && name != '' && typeof name != 'undefined') {//pārbauda vai var apdeitot vārdu
+            this.name = name;
             this.colorBlock.innerHTML = name;
-        } else if (createGroupString(value[0], value[1]) != this.value && !value.includes('') && !value.includes(undefined)) {//pārbauda vai var apdeitot vērtību
+        // }
+        // if (createGroupString(value[0], value[1]) != this.value && !value.includes('') && !value.includes(undefined)) {//pārbauda vai var apdeitot vērtību
             // console.log(value[1]);
-            this.value = createGroupString(value[0], value[1]);
-        }
+            this.value = value;
+        // }
     }
 
     getData() {//atgriež šī objekta galvenos datus

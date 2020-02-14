@@ -7,6 +7,9 @@
 #include <WiFiClient.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
+
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(16, 17); // RX, TX
 //#include <SimpleTimer.h>
 
 #include "index.h"  //Web page header file

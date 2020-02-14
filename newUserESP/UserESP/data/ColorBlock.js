@@ -40,9 +40,11 @@ class ColorBlock {
     }
 
     dblclick() {
-        this.dblData = this.colorValue;//izveido atsevišķu masīvu datu nosūtīšanai
-        this.dblData.push(this.colorName);
+        this.dblData = [];//izveido atsevišķu masīvu nosūtīšanai uz funkciju
+        this.dblData = [...this.colorValue]
+        this.dblData[4] = this.colorName;
         this.options.open(this.dblData, this.colorBlock, this);
+        console.log(this.colorValue);
     }
 
     grow(plusWidth = 0) {//izveido krāsu blokam atbilstošu platumu
@@ -61,11 +63,10 @@ class ColorBlock {
     updateData(name = '', value = ''){
         if(name != this.colorName && name != '' && typeof name != 'undefined'){//pārbauda vai var apdeitot nosaukumu
             this.colorBlock.innerHTML = name;
+            this.colorName = name;
+            // this.colorValue[4] = name;
         }
-        // console.log('befvalue: ', value);
-        if(value != this.colorValue[1] && value != '' && typeof value != 'undefined' ){
-            // console.log('value: ', value);
-            // console.log('name', this.colorValue[0] + '|' + value);
+        if(value != this.colorValue[1] && value != '' && typeof value != 'undefined'){
             this.colorBlock.setAttribute('name', this.colorValue[0] + '|' + value) ;
         }
     }

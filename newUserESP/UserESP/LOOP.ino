@@ -113,7 +113,7 @@ void setRgbColors(byte arr[30 /*numLeds*/][4 /*colorCount*/], byte valueToPut[4 
 
 void setValueInArr(uint32_t arr[30 /*numLeds*/], uint32_t valueToPut) {//ievieto ievadīto vērtību atbilstošajā 1d masīvā atkarībā no esošā 2d masīva
   bool breakOut = false;
-//  Serial.println("Inside");
+  //  Serial.println("Inside");
   for (int i = 0; i < 30 /*numLeds*/; i++) {
     for (int j = 0; j < 2; j++) {
       for (int x = 0; x < 30 /*numLeds*/; x++) {
@@ -202,8 +202,15 @@ void displayAdrColors(int startEnd[2], byte colorToDisplay[4 /*colorCount*/]) { 
       }
     }
     sendOut += ">";
-    Serial.println(sendOut);
-  }
+    digitalWrite(2, HIGH);
+    delay(1000);
+    digitalWrite(2, LOW);
+    delay(1000);
+    mySerial.println(sendOut);
+    digitalWrite(2, HIGH);
+    delay(1000);
+    digitalWrite(2, LOW);
+    }
 }
 
 void solidFade(byte rgbArr[4 /*colorCount*/], int period, unsigned long time, int part) { //solid fade funkcija
@@ -214,7 +221,7 @@ void solidFade(byte rgbArr[4 /*colorCount*/], int period, unsigned long time, in
 }
 
 void recvWithStartEndMarkers(String inputString) { //datu nolasīšanas funkcija
-//  Serial.println("In recvWithStartEndMarkers");
+  //  Serial.println("In recvWithStartEndMarkers");
   int countDataSwCase;//recvWithStartEndMarkers switch operatora skaitītājs
   static boolean recvInProgress = false;
   static byte ndx = 0;
@@ -226,10 +233,10 @@ void recvWithStartEndMarkers(String inputString) { //datu nolasīšanas funkcija
   char rc;//šajā mainīgajā tiek saglabāts katrs ienākošais baits
 
 
-    for (int x = 0; x < inputString.length(); x++) {
-//      Serial.print("LoopVal: ");Serial.println(x);
-      rc = inputString[x];
-          if (recvInProgress == true) {
+  for (int x = 0; x < inputString.length(); x++) {
+    //      Serial.print("LoopVal: ");Serial.println(x);
+    rc = inputString[x];
+    if (recvInProgress == true) {
       if (rc != endMarker) {
         receivedChars[ndx] = rc;//no šiem datiem tiek piešķirtas mainīgo vērtības, kas tiek iesūtītas un no saraksta pārveidotas skaitlī
         ndx++;
@@ -241,27 +248,27 @@ void recvWithStartEndMarkers(String inputString) { //datu nolasīšanas funkcija
           case 2://tiek noteikts kuriem led pikseļiem ir jāstrādā
             ndx = 0;
             adrStartEndUpdateNum = 0;
-            
+
             do {
               x++;
-//              if (Serial.available() > 0) {
-                if (isDigit(rc)) { //ja saņemtais baits ir cipars, tad tas tiek ievietots iekš saraksta tālākai apstrādei
-                  receivedChars[ndx] = rc;
-                  ndx++;
+              //              if (Serial.available() > 0) {
+              if (isDigit(rc)) { //ja saņemtais baits ir cipars, tad tas tiek ievietots iekš saraksta tālākai apstrādei
+                receivedChars[ndx] = rc;
+                ndx++;
+              }
+              rc = inputString[x];
+              if (rc == adrLedNumDivider) {//ja saņemtais baits ir '-', tad tas nozīmē, ka tiek saņemti adresējamo diožu lentas dati
+                ledPartStartEnd[0] = atoi(receivedChars);
+                ndx = 0;
+              } else if (rc == ledPartEndMarker) {
+                ledPartStartEnd[1] = atoi(receivedChars);
+                ndx = 0;
+                for ( int i = 0; i < 3;  ++i ) { //notīra receivedChars masīvu
+                  receivedChars[i] = (char)0;
                 }
-                rc = inputString[x];
-                if (rc == adrLedNumDivider) {//ja saņemtais baits ir '-', tad tas nozīmē, ka tiek saņemti adresējamo diožu lentas dati
-                  ledPartStartEnd[0] = atoi(receivedChars);
-                  ndx = 0;
-                } else if (rc == ledPartEndMarker) {
-                  ledPartStartEnd[1] = atoi(receivedChars);
-                  ndx = 0;
-                  for ( int i = 0; i < 3;  ++i ) { //notīra receivedChars masīvu
-                    receivedChars[i] = (char)0;
-                  }
-                }
-//                x++;
-//              
+              }
+              //                x++;
+              //
             } while (rc != ledPartEndMarker);//kamēr nav saņemts # simbols
             ndx = 0;
             break;
@@ -310,8 +317,8 @@ void recvWithStartEndMarkers(String inputString) { //datu nolasīšanas funkcija
       } else {
         receivedChars[sizeof(receivedChars)] = '\0'; // terminate the string, svarīga koda rindiņa, kur iepriekš [] iekšā bija ndx. Ndx patstāvīgi mainās, tāpēc bija nepieciešams ievietot citu garuma vērtību
         recvInProgress = false;
-//        newData = true;
-//        Serial.println("SETNEWDATA");
+        //        newData = true;
+        //        Serial.println("SETNEWDATA");
         setNewData();
 
       }
@@ -319,41 +326,41 @@ void recvWithStartEndMarkers(String inputString) { //datu nolasīšanas funkcija
     } else if (rc == startMarker) {
       recvInProgress = true;
       countDataSwCase = 1;//reseto mainīgo no iepriekšējās vērtības
-    } 
     }
-  
+  }
+
 }
 
 void setNewData() { //saņemto datu apstrāde
-    for ( int i = 0; i < 3;  ++i ) { //notīra receivedChars masīvu
-      receivedChars[i] = (char)0;
-    }
-    updateAdrLedPart(ledPartStartEnd);//apdeito diožu daļu masīvu
-    if (dataType == 0) { //ja ir iestatīta krāsa, tad atbilstošajās vietās funkcijas parametrs un funkcijas numurs tiks mainīts uz nulli
-      funcNum = 1;
-      funcPar = 1;
-    }
-//    Serial.println("a");
-    setValueInArr((uint32_t*)funcNumArr, (uint32_t)funcNum);
-//    Serial.println("b");
-    setValueInArr((uint32_t*)oldTimeInt, 1);
-//    Serial.println("c");
-    setValueInArr((uint32_t*)funcParArr, (uint32_t)funcPar);
-//    Serial.println("d");
-    isFirstTime[startIn] = 1;//saglabā pirmo reizi, tikai tad, kad ir tas iestatīts
-//    Serial.println("e");
-    setValueInArr((uint32_t*)blinkOff, 1);
+  for ( int i = 0; i < 3;  ++i ) { //notīra receivedChars masīvu
+    receivedChars[i] = (char)0;
+  }
+  updateAdrLedPart(ledPartStartEnd);//apdeito diožu daļu masīvu
+  if (dataType == 0) { //ja ir iestatīta krāsa, tad atbilstošajās vietās funkcijas parametrs un funkcijas numurs tiks mainīts uz nulli
+    funcNum = 1;
+    funcPar = 1;
+  }
+  //    Serial.println("a");
+  setValueInArr((uint32_t*)funcNumArr, (uint32_t)funcNum);
+  //    Serial.println("b");
+  setValueInArr((uint32_t*)oldTimeInt, 1);
+  //    Serial.println("c");
+  setValueInArr((uint32_t*)funcParArr, (uint32_t)funcPar);
+  //    Serial.println("d");
+  isFirstTime[startIn] = 1;//saglabā pirmo reizi, tikai tad, kad ir tas iestatīts
+  //    Serial.println("e");
+  setValueInArr((uint32_t*)blinkOff, 1);
 
-    if (dataType == 0) { //tā pati funkcija, kas setValueInArr, bet paredzēta darbam ar 2d masīvu. Krāsu iestatīšana atbilstošajās šūnās
-      setRgbColors(rgb, rgbReceive);
-      displayAdrColors(ledPartStartEnd, rgbReceive);
-    } else { //ja tika iestatīta funkcijas vērtība, tad jāatbrīvo atbilstošā krāsas vienība
-      for (int i = 0; i < 4 /*colorCount*/; i++) { //jo funkcijai setRgbColors nevar padot rgvReceive no iepriekšējās vērtības, vai pointeri uz rgb[startIn]
-        rgbReceive[i] = rgb[startIn][i];
-      }
-      setRgbColors(highVal, rgbReceive);
+  if (dataType == 0) { //tā pati funkcija, kas setValueInArr, bet paredzēta darbam ar 2d masīvu. Krāsu iestatīšana atbilstošajās šūnās
+    setRgbColors(rgb, rgbReceive);
+    displayAdrColors(ledPartStartEnd, rgbReceive);
+  } else { //ja tika iestatīta funkcijas vērtība, tad jāatbrīvo atbilstošā krāsas vienība
+    for (int i = 0; i < 4 /*colorCount*/; i++) { //jo funkcijai setRgbColors nevar padot rgvReceive no iepriekšējās vērtības, vai pointeri uz rgb[startIn]
+      rgbReceive[i] = rgb[startIn][i];
     }
-//  newData = false;
+    setRgbColors(highVal, rgbReceive);
+  }
+  //  newData = false;
 }
 
 
@@ -408,7 +415,7 @@ void solidBlink(byte rgbArr[4 /*colorCount*/], int off, int part) {//blink funkc
 void funcExecute() { //iet cauri funcNum masīva vērtībām un atbilstoši izpilda katru funkciju, kas der
   for (int i = 0; i < 30 /*numLeds*/; i++) { //nepieciešams, lai dzītu uz priekšu for ciklu un tā vērtību izmantot jau kā parametru izpildāmajai funkcijai
     if (funcNumArr[i] == 0) { //izbeidz funkcijas darbību, ja funcNum masīvā tiek atrasta vērtība 0
-//      Serial.println("Found 0");
+      //      Serial.println("Found 0");
       break;
     }
     if (funcNumArr[i] != 1) {

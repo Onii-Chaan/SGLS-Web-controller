@@ -52,7 +52,6 @@ function sendValue(dataType, lampNum, colorOutput) {//parāda nosūtamos datus
     ajaxConsoleSend(sendPar);
 }
 
-
 function createGroupString(from, to) {//izveido grupas string mainīgo
     // console.log('a');
     return from + '-' + to + '#';
@@ -62,7 +61,6 @@ function ajaxConsoleSend(dataName) {//'izsūta' datus uz konsoli
     console.log('AJAX SEND: ', dataName);
 }
 
-
 function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objektiem varētu pievienot eventus
     return (function () { methodize_func.call(methodize_scope); });
 }
@@ -70,10 +68,10 @@ function methodize(methodize_func, methodize_scope) {//nepieciešams, lai objekt
 
 var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā stringa dati ir atbilstoši    
     if (inputData.length > 32 && valType == 'String') {//Pārbauda vai ievadītais strings nav garāks par 32 simboliem
-        alert('Input must be no longer than 32 characters');
+        alert('Input must be no longer than 32 characters!');
         return false;
     } else if (inputData.length == 0) {//Pārbauda vai ievadītais lauciņš nav tukšs
-        alert('Input must not be empty');
+        alert('Input must not be empty!');
         return false;
     } else if (//Pārbauda vai pirmā ievadītā vērtība nav lielāka par otro
         inputData[0] > inputData[1] &&
@@ -82,12 +80,15 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
         !isNaN(inputData[1]) &&
         inputData.constructor === Array
     ) {
-        alert('First number must be smaller than second');
+        alert('First number must be smaller or equal than second!');
         return false;
     } else if (isNaN(inputData) && valType == 'number' && !Array.isArray(inputData)) {//Pārbauda vai ievadītais skaitlis ir skaitlis nevis strings
-        alert('You must input a number');
+        alert('You must input a number!');
         return false;
-    } else {//Ja netika izpildīts neviens no iepriekšējiem nosacījumiem, tad pārbaude ir bijusi veiksmīga un netika atrastas nekādas kļūdas
+    } else if(valType == 'number' && !Array.isArray(inputData) && inputData < 0){
+        alert('Input must be bigger than 0!');
+        return false;
+    }else {//Ja netika izpildīts neviens no iepriekšējiem nosacījumiem, tad pārbaude ir bijusi veiksmīga un netika atrastas nekādas kļūdas
         return true;
     }
 }
@@ -143,7 +144,6 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
     form.reset();
 }
 
-
 function isASCII(valueToCheck) {//Funkcija, kas pārbauda vai simbols ir ASCII, vai arī nav, kā arī pārbauda atstarpes esamību
     for (var i = 0; i < valueToCheck.length; i++) {
         if (valueToCheck.charCodeAt(i) > 127 || valueToCheck.charCodeAt(i) == 32) {
@@ -155,8 +155,8 @@ function isASCII(valueToCheck) {//Funkcija, kas pārbauda vai simbols ir ASCII, 
 
 
 //Priekš divu masīvu salīdzināšanas
-if(Array.prototype.equals)
-console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+if (Array.prototype.equals)
+    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
@@ -167,26 +167,37 @@ Array.prototype.equals = function (array) {
     if (this.length != array.length)
         return false;
 
-    for (var i = 0, l=this.length; i < l; i++) {
+    for (var i = 0, l = this.length; i < l; i++) {
         // Check if we have nested arrays
         if (this[i] instanceof Array && array[i] instanceof Array) {
             // recurse into the nested arrays
             if (!this[i].equals(array[i]))
-                return false;       
-        }           
-        else if (this[i] != array[i]) { 
+                return false;
+        }
+        else if (this[i] != array[i]) {
             // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;   
-        }           
-    }       
+            return false;
+        }
+    }
     return true;
 }
 // Hide method from for-in loops
-Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+Object.defineProperty(Array.prototype, "equals", { enumerable: false });
 
 
+var findArrIndex = (arr, valueToFind) => {//atrod masīvu iekš 2d masīva un atgriež tā indeksu
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].equals(valueToFind)) {//Izdzēš esošo vērtību no masīva
+            return i;
+        }
+    }
+}
 
-
+var bringLastToFirst = (inputArr) => {//pārvieto masīva pēdējo elementu uz sākumu un atgriež jauno masīvu
+    let lastVar = inputArr[inputArr.length - 1];//Masīvs tiek pielāgots salīdzināšanai
+    inputArr.sort(function (x, y) { return x == lastVar ? -1 : y == lastVar ? 1 : 0; });
+    return inputArr;
+}
 
 
 
@@ -221,9 +232,6 @@ function showState(state, idToDisplay) {//Parāda uz lapas vai atbilstošā daļ
     }
 }
 
-
-
-
 function sendAjaxData(dataToSend = "", dataTypeToSend = "", returnData = false) {//Nosūta datus uz serveri izmantojot AJAX
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -239,10 +247,7 @@ function sendAjaxData(dataToSend = "", dataTypeToSend = "", returnData = false) 
     xhttp.send(dataToSend);
 }
 
-
-
 var startConnectionTimeout;//Gaida atbildi no servera pusotru sekundi
-
 
 function checkAPstate() {//Pārbauda savienojumu ar softAP
     startConnectionTimeout = setTimeout(function () { apConnectionState = false; showState(apConnectionState, 'softAPState') }, 1500);
@@ -253,10 +258,7 @@ function checkAPstate() {//Pārbauda savienojumu ar softAP
     }
 }
 
-
-
 // setInterval(function () { checkAPstate(); }, 5000);
-
 
 // _yourDataName_ yourData 
 function ajaxResponses(incText, payload = "") {
@@ -289,7 +291,41 @@ function requestAPLink() {//pieprasa wlan mdns linku ielādējot lapu
     sendAjaxData(" ", "wlan_link_request");
 }
 
-
 function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
     sendAjaxData(" ", "connect_to_wlan");
 }
+
+// function getSyntax(labelArr, paramArr) {
+//     let ret = [];
+//     for (var i = 0; i < paramArr.length; i++) {
+//         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+//     }
+//     return ret.join('&');
+// }
+
+// function encodeQueryData(data) {
+
+//  }
+
+
+var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
+
+    return Object.keys(params)
+        .map(k => k + '=' + params[k])
+        .join('&');
+}
+
+var createDic = (keyArr, valArr) => {//Izveido dictionary no diviem masīviem
+    var items = {};
+    for (let i = 0; i < keyArr.length; i++) {
+        items[keyArr[i]] = valArr[i];
+    }
+    return items;
+}
+
+
+// console.log("CreateDic: ", JSON.stringify(createDic(keyArr, valArr)));
+// console.log("URLQuery", urlQuery(createDic(keyArr, valArr)));
+
+
+

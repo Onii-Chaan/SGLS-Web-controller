@@ -75,16 +75,6 @@ class SettingsPopUp {//pop elementu klase
         this.inputElem = document.getElementsByClassName('settingsPopUp')[this.classIndex].getElementsByTagName('INPUT');
         this.inputFail = false;//Seko līdzi tam vai lietotājs ir pareizi ievadījis datus
 
-        // Šī daļa atbild par ievadīto datu nosūtīšanu uz serveri
-        if (this.formCount > 0) {//ja ir bijusi viesmaz viena forma
-            this.saveName = 'name=' + this.inputElem[0].value;//nolasa input datus un atbilstoši tos pārveido
-            if (this.formCount < 3) {
-                // this.saveValue = 'value=' + this.inputElem[1].value;
-            } else if (this.formCount == 3) {
-                this.saveValue = 'value=' + createGroupString(this.inputElem[1].value, this.inputElem[2].value);
-            }
-        }
-
         if (this.inputElem.length >= 2 && this.createType != 'updateAnimation') {
             this.userInputData = [parseInt(this.inputElem[1].value), parseInt(this.inputElem[2].value)];
         } else if (this.createType == 'updateAnimation') {
@@ -99,24 +89,49 @@ class SettingsPopUp {//pop elementu klase
                         checkInput(this.inputElem[1].value, 'number') &&
                         checkInput(this.userInputData, 'number') &&
                         checkInput(this.inputElem[2].value, 'number')
-
                     ) {//Izveido jaunu grupu pogu
-                        createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                        if (groupCount == savedLimit) {
+                            alert('You have already saved ' + savedLimit + ' groups');
+                        } else {
+                            ajaxConsoleSend('/addgroup/' +//nosūta datus uz konsoli
+                                urlQuery(
+                                    createDic(
+                                        [
+                                            "name",
+                                            "value"
+                                        ],
+                                        [
+                                            this.inputElem[0].value,
+                                            createGroupString(this.inputElem[1].value, this.inputElem[2].value)
+                                        ]
+                                    )
+                                )
+                            );
+                            createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                            groupCount++;                        
+                        }
                     } else {
                         this.inputFail = true;
                     }
                     break;
                 case 'color':
-                    if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
-                        alert('You have already saved ' + colorLimit + ' colors');
+                    if (colorCount == savedLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
+                        alert('You have already saved ' + savedLimit + ' colors');
                     } else if (checkInput(this.inputElem[0].value)) {
+                        ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
+                            '/addcolor/' +
+                            urlQuery(
+                                createDic(
+                                    ['name', 'r', 'g', 'b', 'w'],
+                                    [this.inputElem[0].value].concat(userRgbw)
+                                )
+                            )
+                        );
                         rgbwArr.push([this.inputElem[0].value].concat(userRgbw));//iepušo lietotāja ievadīto vērtību globālajā masīvā
-
                         this.deletedData = userRgbw;//izveido masīvu nosūtīšanai
                         this.deletedData.push(this.inputElem[0].value)
-
                         growColors(this.deletedData, false);//pievieno jauno krāsu
-
+                        colorCount++;
                     } else {
                         this.inputFail = true;
                     }
@@ -124,24 +139,54 @@ class SettingsPopUp {//pop elementu klase
                 case 'animation':
                     break;
                 case 'add':
-                    if (this.dataIn.length == 5) {//ja ir jāizveido jauns krāsu bloks
-                        if (colorCount == colorLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
-                            alert('You have already saved ' + colorLimit + ' colors');
+                    if (this.dataIn[3]) {//ja ir jāizveido jauns krāsu bloks
+                        if (colorCount == savedLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
+                            alert('You have already saved ' + savedLimit + ' colors');
                         } else {
-                            this.createColorButt = new ColorBlock(this.dataIn[4], this.dataIn.slice(0, 4), 'colorBlock', editColorButton);
-                            document.getElementById('colorBlockContent').appendChild(this.createColorButt.build());
-                            this.createColorButt.grow();
+                            ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
+                                '/addcolor/' +
+                                urlQuery(
+                                    createDic(
+                                        ['name', 'r', 'g', 'b', 'w'],
+                                        [this.dataIn[4]].concat(this.dataIn.slice(0, 4))
+                                    )
+                                )
+                            );
+                            /*Izveido jauno krāsu pogu*/
+                            rgbwArr.push([this.dataIn[4]].concat(this.dataIn.slice(0, 4)));//iepušo lietotāja ievadīto vērtību globālajā masīvā
+                            this.deletedData = this.dataIn.slice(0, 4);//izveido masīvu nosūtīšanai
+                            this.deletedData.push(this.dataIn[4])
+                            growColors(this.deletedData, false);//pievieno jauno krāsu
                             colorCount++;
                         }
                     } else {
-                        if (animCount == animLimit) {
-                            alert('You have already saved ' + animLimit + ' animations');
+                        if (animCount == savedLimit) {
+                            alert('You have already saved ' + savedLimit + ' animations');
                         } else {
                             // console.log(this.dataIn.slice(0, 2));
-                            this.createColorButt = new AnimationsBlock(this.dataIn[2], this.dataIn.slice(0, 2), 'animBlock', editAnimButton);
+                            ajaxConsoleSend(//nosūta jaunās pievienotās animāciju pogas parametrus
+                                '/addanim/' +
+                                urlQuery(
+                                    createDic(
+                                        [
+                                            "name",
+                                            "funcNum",
+                                            "param"
+                                        ],
+                                        [
+                                            this.dataIn[4],
+                                            this.dataIn[0],
+                                            this.dataIn[1]
+                                        ]
+                                    )
+                                )
+                            );
+                            this.createColorButt = new AnimationsBlock(this.dataIn[4], this.dataIn.slice(0, 2), 'animBlock', editAnimButton);
                             document.getElementById('animBlockContent').appendChild(this.createColorButt.buildAnimBlock());
+                            funcArr.push([this.dataIn[4], this.dataIn[0], this.dataIn[1]]);
                             animCount++;
                         }
+                        // else if(){} !!!!! JĀIZVEIDO ADD DAĻU PRIEKŠ GRUPU POGĀM
                     }
                     break;
                 case 'updateGroup'://apdeito grupu pogu
@@ -150,27 +195,104 @@ class SettingsPopUp {//pop elementu klase
                         checkInput(this.inputElem[1].value, 'number') &&
                         checkInput(this.inputElem[2].value, 'number') &&
                         checkInput([this.inputElem[1].value, this.inputElem[2].value], 'number')
-                    ) {//Izveido jaunu grupu pogu
-                        createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
+                    ) {//apdeito grupu pogu
+                        this.funcIdToDel = findArrIndex(//atrod grupu indeksu masīvā
+                            lampGroups,
+                            [this.thisObj.getData()[0], this.thisObj.getData()[1]]
+                        );
+                        this.thisObj.updateData(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value));
+                        ajaxConsoleSend(//apdeito krāsas datus
+                            '/updategroup/' +
+                            urlQuery(
+                                createDic(
+                                    ['name', 'value', 'index'],
+                                    [
+                                        this.thisObj.getData()[0],
+                                        this.thisObj.getData()[1],
+                                        this.funcIdToDel
+                                    ]
+                                )
+                            )
+                        );
+                        lampGroups[this.funcIdToDel] = [//iestata jaunās vērtības grupu masīvā
+                            this.thisObj.getData()[0],
+                            this.thisObj.getData()[1]
+                        ]
+                        // createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
                     } else {
                         this.inputFail = true;
                     }
                     break;
                 case 'updateColor'://apdeito krāsu pogu
                     if (checkInput(this.inputElem[0].value)) {
+                        this.changeIndex;
+                        for (var i = 0; i < rgbwArr.length; i++) {
+                            if (rgbwArr[i].indexOf(this.thisObj.getData()[0]) != - 1) {
+                                rgbwArr[i][0] = this.inputElem[0].value;
+                                this.changeIndex = i;
+                                break;
+                            }
+                        }
                         this.thisObj.updateData(this.inputElem[0].value);
+
+                        this.updateArr = [...this.thisObj.getData()[1]];//izveido un pārveido masīvu priekš datu nosūtīšanas uz serveri
+                        this.updateArr.push(this.thisObj.getData()[0]);
+                        this.updateArr = bringLastToFirst(this.updateArr);
+                        this.updateArr.push(this.changeIndex);
+
+                        ajaxConsoleSend(//apdeito krāsas datus
+                            '/editcolor/' +
+                            urlQuery(
+                                createDic(
+                                    ['name', 'r', 'g', 'b', 'w', 'index'],
+                                    this.updateArr
+                                )
+                            )
+                        );
+
+
                     } else {
                         this.inputFail = true;
                     }
                     break;
                 case 'updateAnimation'://apdeito animāciju pogu
-                    if (this.inputElem[0].value != '' && checkInput(this.inputElem[0].value)) {
+                    this.funcIdToDel = findArrIndex(//atrod animācijas indeksu masīvā
+                        funcArr,
+                        [this.thisObj.getData()[0]].concat(this.thisObj.getData()[1])
+                    );
+
+                    if (this.inputElem[0].value != '' && checkInput(this.inputElem[0].value)) {//iestata jaunās ievadītās vērtības
                         this.thisObj.updateData(this.inputElem[0].value);
                     }
-                    if (this.inputElem[1].value != '' &&
+                    if (this.inputElem[1].value != '' &&//iestata jaunās ievadītās vērtības
                         checkInput(this.inputElem[1].value, 'number')) {
                         this.thisObj.updateData('', this.inputElem[1].value);
                     }
+
+                    ajaxConsoleSend(
+                        '/editanim/' +
+                        urlQuery(
+                            createDic(
+                                [
+                                    "name",
+                                    "funcNum",
+                                    "param",
+                                    "index"
+                                ],
+                                [
+                                    this.thisObj.getData()[0],
+                                    this.thisObj.getData()[1][0],
+                                    this.thisObj.getData()[1][1],
+                                    this.funcIdToDel
+                                ]
+                            )
+                        )
+                    );
+                    funcArr[this.funcIdToDel] = [//iestata jaunās vērtības funkciju masīvā
+                        this.thisObj.getData()[0],
+                        this.thisObj.getData()[1][0],
+                        this.thisObj.getData()[1][1]
+                    ]
                     break;
             }
         }
@@ -187,22 +309,69 @@ class SettingsPopUp {//pop elementu klase
     closeSettings() {//noslēpj settings logu
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
-        // console.log('close');
     }
 
     delete() {//izdzēš atbilstošo vērtību un elementu un nosūta dzēšamos datus uz serveri
-        console.log(this.thisElement.className);
         this.thisElement.remove();//izdzēš objektu iestatot tā vērtību uz 0
         if (this.thisElement.className == 'ellipsisText lampButton lampGroup') {
-            currentLampString = '1-25#';
+            currentLampString = '1-' + lampNum + '#';
+
+            this.funcIdToDel = findArrIndex(//atrod animācijas indeksu masīvā
+                lampGroups,
+                this.thisObj.getData()
+            );
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
-            ajaxConsoleSend('_delete_group_ ' + this.thisObj.getData()[0] + ' ' + this.thisObj.getData()[1] + ' ');
+            ajaxConsoleSend('/deletegroup/' +//nosūta datus uz konsoli
+                urlQuery(
+                    createDic(
+                        [
+                            "name",
+                            "value",
+                            "index"
+                        ],
+                        [
+                            this.thisObj.getData()[0],
+                            this.thisObj.getData()[1],
+                            this.funcIdToDel
+                        ]
+                    )
+                )
+            );
+            lampGroups.splice(this.funcIdToDel, 1);//izdzēš grupu no masīva
+            groupCount--;
         } else if (this.thisElement.className == 'ellipsisText colorBlock') {
-            growColors(this.thisObj.colorValue);
-            ajaxConsoleSend('_delete_color_ ' + this.thisObj.getData()[0] + ' ' + stringColorSet(this.thisObj.getData()[1].slice(0, 4)) + ' ');
-        } else if (this.thisElement.className == 'ellipsisText animBlock') {
-            ajaxConsoleSend('_delete_anim_ ' + this.thisObj.getData()[0] + ' ' + stringFunctionSet(this.thisObj.getData()[1][0], this.thisObj.getData()[1][1]) + ' ');
+            this.growArr = [...this.thisObj.colorValue];//izveido nosūtāmo masīvu uz growColors
+            this.growArr.push(this.thisObj.colorName)
+            growColors(this.growArr);//izveido jaunos krāsu blokus
+            colorCount--;
+        } else if (this.thisElement.className == 'animBlock ellipsisText') {
+            this.funcIdToDel = findArrIndex(//atrod animācijas indeksu masīvā
+                funcArr,
+                [this.thisObj.getData()[0]].concat(this.thisObj.getData()[1])
+            );
+            console.log([this.thisObj.getData()[0]].concat(this.thisObj.getData()[1]));
+            ajaxConsoleSend(
+                '/deleteanim/' +
+                urlQuery(
+                    createDic(
+                        [
+                            "name",
+                            "funcNum",
+                            "param",
+                            "index"
+                        ],
+                        [
+                            this.thisObj.getData()[0],
+                            this.thisObj.getData()[1][0],
+                            this.thisObj.getData()[1][1],
+                            this.funcIdToDel
+                        ]
+                    )
+                )
+            );
+            funcArr.splice(this.funcIdToDel, 1);//izdzēš funkciju no masīva
+            animCount--;
         }
         backShadow(false);//iestata fona ēnu
         document.getElementsByClassName('settingsPopUp')[this.classIndex].style.display = 'none';
@@ -210,18 +379,21 @@ class SettingsPopUp {//pop elementu klase
 }
 
 function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēšanas palielina visas pārējās krāsu pogas, lai tās atbilstoši aizpildītu tukšo laukumu
-    console.log(deletedData);
-    let lastVar = deletedData[4];//Masīvs tiek pielāgots salīdzināšanai
-    deletedData.sort(function (x, y) { return x == lastVar ? -1 : y == lastVar ? 1 : 0; });
-
+    deletedData = bringLastToFirst(deletedData);//pārvieto pēdējo element (nosaukumu) uz nulto pozīciju
     if (toDelete) {
-        for (let i = 0; i < rgbwArr.length; i++) {
-            if (rgbwArr[i].equals(deletedData)) {//Izdzēš esošo vērtību no masīva
-                rgbwArr.splice(i, 1);
-            }
-        }
+        let arrIndex = findArrIndex(rgbwArr, deletedData);
+        deletedData.push(arrIndex);//izveido masīvu ar visu indeksu
+        ajaxConsoleSend(
+            '/deletecolor/' +
+            urlQuery(
+                createDic(
+                    ['name', 'r', 'g', 'b', 'w', 'index'],
+                    deletedData
+                )
+            )
+        );
+        rgbwArr.splice(arrIndex, 1);
     }
-
 
     let placeHolder = document.getElementById('colorBlockContent');//izdzēš visas krāsu pogas
     while (placeHolder.firstChild) {
@@ -241,6 +413,6 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
                 editColorButton)
         );
         addColorBlock(i, COLOR_COLLAPSIBLE_OBJ, colorBlockObjArr, arrLen, true);//!!!!!
-        colorCount++;//skaita uz priekšu cik ir krāsu pogu
     }
 }
+
