@@ -17,7 +17,6 @@ function createDynamicContent() {
 }
 
 /*ExploreArr masīvā glabājas visas explore pogu vērtības*/
-var exploreArr = JSON_DATA.ExploreArr;
 
 var colorAnimBlockObjArr = [];
 function createExploreColl(placeHolder) {//izveido explore collapsible

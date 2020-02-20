@@ -310,7 +310,7 @@ function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
 
 var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
 
-    return Object.keys(params)
+    return '?' + Object.keys(params)
         .map(k => k + '=' + params[k])
         .join('&');
 }

@@ -10,9 +10,7 @@ function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
   }
 }
 
-document.getElementById('SGLSmainName').innerText = JSON_DATA.UserWlanSsid;//Iestata lietotāja nosaukuma title
 document.getElementById('SGLSmainName').style.color = getContrast(document.getElementsByClassName("titleDiv")[0].style.background); 
-document.getElementById('onOffButton').checked = buttonOn;//iestata ieslēgšanas pogas sākuma stāvokli
 
 
 function okWhite() {//aprekina un iestata baltas krasas vertibu

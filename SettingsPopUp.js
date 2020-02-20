@@ -93,22 +93,28 @@ class SettingsPopUp {//pop elementu klase
                         if (groupCount == savedLimit) {
                             alert('You have already saved ' + savedLimit + ' groups');
                         } else {
-                            ajaxConsoleSend('/addgroup/' +//nosūta datus uz konsoli
-                                urlQuery(
-                                    createDic(
-                                        [
-                                            "name",
-                                            "value"
-                                        ],
-                                        [
-                                            this.inputElem[0].value,
-                                            createGroupString(this.inputElem[1].value, this.inputElem[2].value)
-                                        ]
-                                    )
+                            let query = urlQuery(
+                                createDic(
+                                    [
+                                        'action',
+                                        'type',
+                                        'name',
+                                        'value'
+                                    ],
+                                    [
+                                        'add',
+                                        'LampGroups',
+                                        this.inputElem[0].value,
+                                        createGroupString(this.inputElem[1].value, this.inputElem[2].value)
+                                    ]
                                 )
                             );
+
+                            ajaxConsoleSend('addgroup' + query);//nosūta datus uz konsoli
+                            sendAjaxData(query, 'setJson');
+
                             createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
-                            groupCount++;                        
+                            groupCount++;
                         }
                     } else {
                         this.inputFail = true;
@@ -118,15 +124,34 @@ class SettingsPopUp {//pop elementu klase
                     if (colorCount == savedLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                         alert('You have already saved ' + savedLimit + ' colors');
                     } else if (checkInput(this.inputElem[0].value)) {
-                        ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
-                            '/addcolor/' +
-                            urlQuery(
-                                createDic(
-                                    ['name', 'r', 'g', 'b', 'w'],
-                                    [this.inputElem[0].value].concat(userRgbw)
-                                )
+                        let query = urlQuery(
+                            createDic(
+                                [
+                                    'action',
+                                    'type',
+                                    'name',
+                                    'r',
+                                    'g',
+                                    'b',
+                                    'w'
+                                ],
+                                [
+                                    'add',
+                                    'RgbwArr',
+                                    this.inputElem[0].value,
+                                    userRgbw[0],
+                                    userRgbw[1],
+                                    userRgbw[2],
+                                    userRgbw[3]
+                                ]
                             )
                         );
+                        ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
+                            'addcolor' +
+                            query
+                        );
+                        sendAjaxData(query, 'setJson');
+
                         rgbwArr.push([this.inputElem[0].value].concat(userRgbw));//iepušo lietotāja ievadīto vērtību globālajā masīvā
                         this.deletedData = userRgbw;//izveido masīvu nosūtīšanai
                         this.deletedData.push(this.inputElem[0].value)
@@ -143,15 +168,33 @@ class SettingsPopUp {//pop elementu klase
                         if (colorCount == savedLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                             alert('You have already saved ' + savedLimit + ' colors');
                         } else {
-                            ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
-                                '/addcolor/' +
-                                urlQuery(
-                                    createDic(
-                                        ['name', 'r', 'g', 'b', 'w'],
-                                        [this.dataIn[4]].concat(this.dataIn.slice(0, 4))
-                                    )
+                            let query = urlQuery(
+                                createDic(
+                                    [
+                                        'action',
+                                        'type',
+                                        'name',
+                                        'r',
+                                        'g',
+                                        'b',
+                                        'w'
+                                    ],
+                                    [
+                                        'add',
+                                        'RgbwArr',
+                                        this.dataIn[4],
+                                        this.dataIn[0],
+                                        this.dataIn[1],
+                                        this.dataIn[2],
+                                        this.dataIn[3]
+                                    ]
                                 )
                             );
+                            ajaxConsoleSend(//nosūta jaunās izveidotās krāsas vērtību
+                                'addcolor' + query
+                            );
+                            sendAjaxData(query, 'setJson');
+
                             /*Izveido jauno krāsu pogu*/
                             rgbwArr.push([this.dataIn[4]].concat(this.dataIn.slice(0, 4)));//iepušo lietotāja ievadīto vērtību globālajā masīvā
                             this.deletedData = this.dataIn.slice(0, 4);//izveido masīvu nosūtīšanai
@@ -163,24 +206,31 @@ class SettingsPopUp {//pop elementu klase
                         if (animCount == savedLimit) {
                             alert('You have already saved ' + savedLimit + ' animations');
                         } else {
-                            // console.log(this.dataIn.slice(0, 2));
-                            ajaxConsoleSend(//nosūta jaunās pievienotās animāciju pogas parametrus
-                                '/addanim/' +
-                                urlQuery(
-                                    createDic(
-                                        [
-                                            "name",
-                                            "funcNum",
-                                            "param"
-                                        ],
-                                        [
-                                            this.dataIn[4],
-                                            this.dataIn[0],
-                                            this.dataIn[1]
-                                        ]
-                                    )
+                            let query = urlQuery(
+                                createDic(
+                                    [
+                                        'action',
+                                        'type',
+                                        'name',
+                                        'funcNum',
+                                        'param'
+                                    ],
+                                    [
+                                        'add',
+                                        'func',
+                                        this.dataIn[4],
+                                        this.dataIn[0],
+                                        this.dataIn[1],
+                                        this.dataIn[2],
+                                        this.dataIn[3]
+                                    ]
                                 )
                             );
+                            ajaxConsoleSend(//nosūta jaunās pievienotās animāciju pogas parametrus
+                                'addanim' + query
+                            );
+                            sendAjaxData(query, 'setJson');
+
                             this.createColorButt = new AnimationsBlock(this.dataIn[4], this.dataIn.slice(0, 2), 'animBlock', editAnimButton);
                             document.getElementById('animBlockContent').appendChild(this.createColorButt.buildAnimBlock());
                             funcArr.push([this.dataIn[4], this.dataIn[0], this.dataIn[1]]);
@@ -201,19 +251,27 @@ class SettingsPopUp {//pop elementu klase
                             [this.thisObj.getData()[0], this.thisObj.getData()[1]]
                         );
                         this.thisObj.updateData(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value));
-                        ajaxConsoleSend(//apdeito krāsas datus
-                            '/updategroup/' +
-                            urlQuery(
-                                createDic(
-                                    ['name', 'value', 'index'],
-                                    [
-                                        this.thisObj.getData()[0],
-                                        this.thisObj.getData()[1],
-                                        this.funcIdToDel
-                                    ]
-                                )
+                        let query = urlQuery(
+                            createDic(
+                                [
+                                    'action',
+                                    'type',
+                                    'name',
+                                    'value',
+                                    'index'
+                                ],
+                                [
+                                    'edit',
+                                    'LampGroups',
+                                    this.thisObj.getData()[0],
+                                    this.thisObj.getData()[1],
+                                    this.funcIdToDel
+                                ]
                             )
                         );
+                        ajaxConsoleSend('updategroup' + query);//apdeito krāsas datus
+                        sendAjaxData(query, 'setJson');
+
                         lampGroups[this.funcIdToDel] = [//iestata jaunās vērtības grupu masīvā
                             this.thisObj.getData()[0],
                             this.thisObj.getData()[1]
@@ -240,16 +298,33 @@ class SettingsPopUp {//pop elementu klase
                         this.updateArr = bringLastToFirst(this.updateArr);
                         this.updateArr.push(this.changeIndex);
 
-                        ajaxConsoleSend(//apdeito krāsas datus
-                            '/editcolor/' +
-                            urlQuery(
-                                createDic(
-                                    ['name', 'r', 'g', 'b', 'w', 'index'],
-                                    this.updateArr
-                                )
+                        let query = urlQuery(
+                            createDic(
+                                [
+                                    'action',
+                                    'type',
+                                    'name',
+                                    'r',
+                                    'g',
+                                    'b',
+                                    'w',
+                                    'index'
+                                ],
+                                [
+                                    'edit',
+                                    'RgbwArr',
+                                    this.updateArr[0],
+                                    this.updateArr[1],
+                                    this.updateArr[2],
+                                    this.updateArr[3],
+                                    this.updateArr[4],
+                                    this.updateArr[5]
+                                ]
                             )
                         );
 
+                        ajaxConsoleSend('editcolor' + query);//apdeito krāsas datus
+                        sendAjaxData(query, 'setJson');
 
                     } else {
                         this.inputFail = true;
@@ -269,25 +344,30 @@ class SettingsPopUp {//pop elementu klase
                         this.thisObj.updateData('', this.inputElem[1].value);
                     }
 
-                    ajaxConsoleSend(
-                        '/editanim/' +
-                        urlQuery(
-                            createDic(
-                                [
-                                    "name",
-                                    "funcNum",
-                                    "param",
-                                    "index"
-                                ],
-                                [
-                                    this.thisObj.getData()[0],
-                                    this.thisObj.getData()[1][0],
-                                    this.thisObj.getData()[1][1],
-                                    this.funcIdToDel
-                                ]
-                            )
+                    let query = urlQuery(
+                        createDic(
+                            [
+                                'action',
+                                'type',
+                                'name',
+                                'funcNum',
+                                'param',
+                                'index'
+                            ],
+                            [
+                                'edit',
+                                'func',
+                                this.thisObj.getData()[0],
+                                this.thisObj.getData()[1][0],
+                                this.thisObj.getData()[1][1],
+                                this.funcIdToDel
+                            ]
                         )
                     );
+
+                    ajaxConsoleSend('editanim' + query);
+                    sendAjaxData(query, 'setJson');
+
                     funcArr[this.funcIdToDel] = [//iestata jaunās vērtības funkciju masīvā
                         this.thisObj.getData()[0],
                         this.thisObj.getData()[1][0],
@@ -322,22 +402,30 @@ class SettingsPopUp {//pop elementu klase
             );
             checkButtHolders();//Atbilstoši pabīda pogas un saliek tās savās vietās
             riseGroupButts();  //Piešķir pārvietotajām pogām nepieciešamos izmērus
-            ajaxConsoleSend('/deletegroup/' +//nosūta datus uz konsoli
-                urlQuery(
-                    createDic(
-                        [
-                            "name",
-                            "value",
-                            "index"
-                        ],
-                        [
-                            this.thisObj.getData()[0],
-                            this.thisObj.getData()[1],
-                            this.funcIdToDel
-                        ]
-                    )
+
+            let query = urlQuery(
+                createDic(
+                    [
+                        'action',
+                        'type',
+                        'name',
+                        'value',
+                        'index'
+                    ],
+                    [
+                        'delete',
+                        'LampGroups',
+                        this.thisObj.getData()[0],
+                        this.thisObj.getData()[1],
+                        this.funcIdToDel
+                    ]
                 )
             );
+
+            ajaxConsoleSend('deletegroup' + query);
+            sendAjaxData(query, 'setJson');
+
+
             lampGroups.splice(this.funcIdToDel, 1);//izdzēš grupu no masīva
             groupCount--;
         } else if (this.thisElement.className == 'ellipsisText colorBlock') {
@@ -351,25 +439,29 @@ class SettingsPopUp {//pop elementu klase
                 [this.thisObj.getData()[0]].concat(this.thisObj.getData()[1])
             );
             console.log([this.thisObj.getData()[0]].concat(this.thisObj.getData()[1]));
-            ajaxConsoleSend(
-                '/deleteanim/' +
-                urlQuery(
-                    createDic(
-                        [
-                            "name",
-                            "funcNum",
-                            "param",
-                            "index"
-                        ],
-                        [
-                            this.thisObj.getData()[0],
-                            this.thisObj.getData()[1][0],
-                            this.thisObj.getData()[1][1],
-                            this.funcIdToDel
-                        ]
-                    )
+            let query = urlQuery(
+                createDic(
+                    [
+                        'action',
+                        'type',
+                        'name',
+                        'funcNum',
+                        'param',
+                        'index'
+                    ],
+                    [
+                        'delete',
+                        'func',
+                        this.thisObj.getData()[0],
+                        this.thisObj.getData()[1][0],
+                        this.thisObj.getData()[1][1],
+                        this.funcIdToDel
+                    ]
                 )
             );
+            ajaxConsoleSend('deleteanim' +query);
+            sendAjaxData(query, 'setJson');
+                
             funcArr.splice(this.funcIdToDel, 1);//izdzēš funkciju no masīva
             animCount--;
         }
@@ -383,15 +475,35 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
     if (toDelete) {
         let arrIndex = findArrIndex(rgbwArr, deletedData);
         deletedData.push(arrIndex);//izveido masīvu ar visu indeksu
-        ajaxConsoleSend(
-            '/deletecolor/' +
-            urlQuery(
-                createDic(
-                    ['name', 'r', 'g', 'b', 'w', 'index'],
-                    deletedData
-                )
+        
+        let query = urlQuery(
+            createDic(
+                [
+                    'action',
+                    'type',
+                    'name',
+                    'r',
+                    'g',
+                    'b',
+                    'w',
+                    'index'
+                ],
+                [
+                    'delete',
+                    'RgbwArr',
+                    deletedData[0],
+                    deletedData[1],
+                    deletedData[2],
+                    deletedData[3],
+                    deletedData[4],
+                    deletedData[5]
+                ]
             )
         );
+
+        ajaxConsoleSend('deletecolor' + query);
+        sendAjaxData(query, 'setJson');
+
         rgbwArr.splice(arrIndex, 1);
     }
 
