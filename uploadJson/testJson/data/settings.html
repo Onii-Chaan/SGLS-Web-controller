@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SGLS - settings</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel=stylesheet href=styles.css type=text/css> <meta name="theme-color" content="#515B3A" />
+</head>
+
+<body onload="createSettCols();">
+    <header class="titleDiv">
+        <a href="index.html" class="linkBlock">
+            <div class="SGLSTitleDiv">
+                <!--SGLS nosaukums-->
+                <p class="mainText ellipsisText" id="SGLSmainName">SGLS</p>
+            </div>
+        </a>
+        <!-- On/Off paziņojums
+        <label class="switch" id="onOffSwitch">
+            On/Off poga-->
+        <!-- <input type="checkbox" onclick="onOffTextChange();" id="onOffButton"> -->
+        <!--On off poga ievade-->
+        <!-- <span class="slider round"></span> -->
+        <!-- </label>  -->
+
+        <a href='settings.html'>
+            <div class="headerButton">
+                <!--Options poga-->
+                <!-- <img src="pics/settingsButtonPic.png" id="settingsButtonPic" /> -->
+                <div class='menuHolder'>
+                    <div class='menu'></div>
+                </div>
+                <!--Jāpievieno arī hrefs-->
+            </div>
+        </a>
+    </header>
+    <main class="main">
+    </main>
+    <main class="mainColor">
+        <!--Visa satura bloks-->
+        <section id="s_color_picker_id">
+            <!--Krāsu aplis-->
+            <!-- <canvas id="color_picker" width="200" height="200"></canvas> -->
+            <div class="wheel" id="colorWheelDemo"></div>
+            <div class='wheelSlider' id='colorWheelSlider'></div>
+        </section>
+    </main>
+
+    <div id="collHolder"></div>
+    <div id='lampButtHold'
+        style='margin-top: 5px; display:flex;text-align: center;width: 95%;margin-right: auto;margin-left: auto;'>
+    </div>
+</body>
+
+<script src=global.js></script>
+<script src=CollapsibleButton.js></script>
+<script src=Icon.js></script>
+<script src=data.js></script>
+<script src=Constructor.js></script>
+<script src=InputForm.js></script>
+<script src=setConstructor.js> </script>
+<script src=SGLSscripts.js></script>
+
+
+</html>
