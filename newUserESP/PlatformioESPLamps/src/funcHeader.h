@@ -1,3 +1,6 @@
+#ifndef HEADERFILE
+#define HEADERFILE
+
 #include <Arduino.h>
 // Load Wi-Fi librarySOFT
 #include <WiFi.h>
@@ -10,10 +13,6 @@
 
 #include <ArduinoJson.h>
 // #include <SoftwareSerial.h>
-
-#ifndef HEADERFILE
-#define HEADERFILE
-
 // struct Config
 // {
 //   char hostname[64];

@@ -99,7 +99,7 @@ class SettingsPopUp {//pop elementu klase
                                         'action',
                                         'type',
                                         'name',
-                                        'value',
+                                        'value'
                                     ],
                                     [
                                         'add',

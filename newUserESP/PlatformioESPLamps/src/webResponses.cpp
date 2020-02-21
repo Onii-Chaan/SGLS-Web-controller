@@ -130,7 +130,7 @@ void serverFunctions()
     //   Serial.print("Data: ");
     //   Serial.println(p->value());
     // }
-
+    Serial.print("Length: ");Serial.println(request->contentLength());
     int args = request->args();
     for (int i = 0; i < args; i++)
     {
@@ -204,20 +204,5 @@ void serverFunctions()
     request->send(200, "text/plain", "Json updated");
   });
 
-  //   server.on("/setlamp", HTTP_POST, [](AsyncWebServerRequest * request) {
-  //     Serial.println(F("INCOMIIIIIIIIING"));
-  //     String keyVal;
-  //     String recData;
 
-  //     if (request->hasParam("lamp", true)) {
-  //       keyVal = request->getParam("lamp", true)->value();
-  // //      Serial.println("Post data: "); Serial.println(keyVal);
-  //       recvWithStartEndMarkers(keyVal);
-  //       //     //Apstrada datus un sak datu iesutisanu uz lampam
-  //     } else {
-  //       //handle an incomplete request
-  //       keyVal = "some default value";
-  //     }
-  //     request->send(200, "text/plain", "Post route");
-  //   });
 }
