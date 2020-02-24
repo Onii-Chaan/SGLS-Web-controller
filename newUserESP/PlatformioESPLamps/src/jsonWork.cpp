@@ -11,7 +11,7 @@
 const char *webdata = "/configFile.txt"; // <- SD library uses 8.3 webdatas
 // Config config;                       // <- global configuration object
 
-void printFile(const char *webdata)
+void printFile(const char *webdata)//print content of file
 {
     // Open file for reading
     File file = SPIFFS.open(webdata);
@@ -42,11 +42,8 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     }
     file.close();
 
-    printFile(webdata);
+    // printFile(webdata);
     SPIFFS.remove(webdata); //ieprieksejais faila saturs tiek dzests, lai varetu ieladet jaunus JSON datus
-
-    Serial.print("TYPE: ");Serial.println(type);
-    Serial.print("Action: ");Serial.println(action);
 
     if (action == "edit") //JSON dati tiek modificeti
     {
@@ -66,15 +63,11 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     {
         JsonArray newArray = doc[type].createNestedArray(); //Tiek izveidots jauns JSON masivs
         int i = 0;
-        Serial.println("inNestedArr");
-        Serial.print("typeHere: ");Serial.println(type);
         while (i != 5 && input[i] != "") //JSON masiva tiek ieladetas jaunas padotas vertibas
         {
             newArray.add(input[i]);
-            Serial.print("inWhile");Serial.println(input[i]);
             i++;
         }
-        // doc[type].add(newArray); //Jaunizveidotais masivs tiek pievienots visiem parejiem json datiem
     }
 
     file = SPIFFS.open(webdata, FILE_WRITE); //tiek atverts fails rakstisanai
@@ -87,7 +80,7 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     {
         Serial.println(F("Failed to write to file"));
     }
-    file.close();
+    // file.close();
     Serial.println();
     printFile(webdata);
 }

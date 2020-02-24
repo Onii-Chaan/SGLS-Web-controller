@@ -32,4 +32,4 @@ var loadingScreen = {
 };
 
 loadingScreen.start();//izveido ielādē lādēšanās ekrānu
-window.addEventListener('load', loadingScreen.end, false);//aizver lādēšanās ekrānu
+// window.addEventListener('load', loadingScreen.end(), false);//aizver lādēšanās ekrānu

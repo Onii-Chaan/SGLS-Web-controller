@@ -97,9 +97,9 @@ class SettingsPopUp {//pop elementu klase
                                 createDic(
                                     [
                                         'action',
-                                        'type',
+                                        'dataType',
                                         'name',
-                                        'value',
+                                        'value'
                                     ],
                                     [
                                         'add',
@@ -110,8 +110,8 @@ class SettingsPopUp {//pop elementu klase
                                 )
                             );
 
-                            ajaxConsoleSend('addgroup' + query);//nosūta datus uz konsoli
                             sendAjaxData(query, 'setJson');
+                            ajaxConsoleSend('addgroup' + query);//nosūta datus uz konsoli
 
                             createNewLampGroup(this.inputElem[0].value, createGroupString(this.inputElem[1].value, this.inputElem[2].value), editGroupSettings, true);
                             groupCount++;
@@ -128,7 +128,7 @@ class SettingsPopUp {//pop elementu klase
                             createDic(
                                 [
                                     'action',
-                                    'type',
+                                    'dataType',
                                     'name',
                                     'r',
                                     'g',
@@ -172,7 +172,7 @@ class SettingsPopUp {//pop elementu klase
                                 createDic(
                                     [
                                         'action',
-                                        'type',
+                                        'dataType',
                                         'name',
                                         'r',
                                         'g',
@@ -210,7 +210,7 @@ class SettingsPopUp {//pop elementu klase
                                 createDic(
                                     [
                                         'action',
-                                        'type',
+                                        'dataType',
                                         'name',
                                         'funcNum',
                                         'param'
@@ -255,7 +255,7 @@ class SettingsPopUp {//pop elementu klase
                             createDic(
                                 [
                                     'action',
-                                    'type',
+                                    'dataType',
                                     'name',
                                     'value',
                                     'index'
@@ -302,7 +302,7 @@ class SettingsPopUp {//pop elementu klase
                             createDic(
                                 [
                                     'action',
-                                    'type',
+                                    'dataType',
                                     'name',
                                     'r',
                                     'g',
@@ -348,7 +348,7 @@ class SettingsPopUp {//pop elementu klase
                         createDic(
                             [
                                 'action',
-                                'type',
+                                'dataType',
                                 'name',
                                 'funcNum',
                                 'param',
@@ -407,7 +407,7 @@ class SettingsPopUp {//pop elementu klase
                 createDic(
                     [
                         'action',
-                        'type',
+                        'dataType',
                         'name',
                         'value',
                         'index'
@@ -443,7 +443,7 @@ class SettingsPopUp {//pop elementu klase
                 createDic(
                     [
                         'action',
-                        'type',
+                        'dataType',
                         'name',
                         'funcNum',
                         'param',
@@ -480,7 +480,7 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
             createDic(
                 [
                     'action',
-                    'type',
+                    'dataType',
                     'name',
                     'r',
                     'g',

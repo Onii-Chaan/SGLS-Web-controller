@@ -139,5 +139,6 @@ void wlanLogin();
 void writeToEEPROM(String dataToWrite, int startPlace);
 void printFile(const char *webdata);
 void setJsonData(String action, String type, String input[5], int index);
+int countChars(char findChar, String findString);
 
 #endif

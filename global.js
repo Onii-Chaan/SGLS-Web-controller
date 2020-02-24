@@ -21,7 +21,7 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    // console.log(json);
    // console.log("Hello!");
    // nextData = "nextDataSet";
-   console.log(JSON_DATA);
+   // console.log(JSON_DATA);
    lampNum = JSON_DATA.LampNum;
    buttonOn = JSON_DATA.OffState;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
 
@@ -36,6 +36,7 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    
    buildSettings();
    createDynamicContent();
+   loadingScreen.end()
 }
 
 

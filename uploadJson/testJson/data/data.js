@@ -232,15 +232,13 @@ function showState(state, idToDisplay) {//Parāda uz lapas vai atbilstošā daļ
     }
 }
 
-function sendAjaxData(dataToSend = "", dataTypeToSend = "", returnData = false) {//Nosūta datus uz serveri izmantojot AJAX
-    var xhttp = new XMLHttpRequest();
+
+
+function sendAjaxData(dataToSend = "", dataTypeToSend = "") {//Nosūta datus uz serveri izmantojot AJAX
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            ajaxResponses(this.responseText);
-            //if (returnData) {
-            //return this.responseText;
-            //}
         }
     };
     xhttp.open("POST", dataTypeToSend, true);
@@ -310,9 +308,9 @@ function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
 
 var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
 
-    return '?' + Object.keys(params)
+    return 'type=' + Object.keys(params)
         .map(k => k + '=' + params[k])
-        .join('&');
+        .join('|');
 }
 
 var createDic = (keyArr, valArr) => {//Izveido dictionary no diviem masīviem
