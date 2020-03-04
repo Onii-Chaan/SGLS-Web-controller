@@ -27,12 +27,9 @@ extern const char *webdata;
 
 extern AsyncWebServer server;
 
-
 // SoftwareSerial mySerial(16, 17); // RX, TX
 
-// IPAddress local_ip(192, 168, 1, 1);
-// IPAddress gateway(192, 168, 1, 1);
-// IPAddress subnet(255, 255, 255, 0);
+
 
 extern int INCREMENTER;
 // Replace with your network credentials

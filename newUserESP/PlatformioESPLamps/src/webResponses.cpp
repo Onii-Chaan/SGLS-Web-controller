@@ -3,7 +3,7 @@
 void serverFunctions()
 { //Tiek ievietots setup funkcija, izpilda visas nepieciesamas funkcijas sanemot vai nosutot datus
   //  server.on("/", handleRoot);      //Lapas paradisanai
-  server.on("/esp32.local", HTTP_GET, [](AsyncWebServerRequest *request) { //vai mdns vajag laiku lai ieladetos?
+  server.on("https://esp32.local/", HTTP_GET, [](AsyncWebServerRequest *request) { //vai mdns vajag laiku lai ieladetos?
     Serial.println("GOT IT");
   });
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -94,7 +94,7 @@ void serverFunctions()
   });
 
   server.on("/setlamp", HTTP_POST, [](AsyncWebServerRequest *request) {
-    Serial.println("INCOMIIIIIIIIING");
+    // Serial.println("INCOMIIIIIIIIING");
     String keyVal;
     String recData;
 
@@ -113,7 +113,7 @@ void serverFunctions()
   });
 
   server.on("/setJson", HTTP_POST, [](AsyncWebServerRequest *request) {
-    Serial.println(F("setJsonData"));
+    // Serial.println(F("setJsonData"));
     String action;//the action that has to be done (add, delete, edit)
     String type;//gets the query string
     String dataType;//gets the data type that has to be updated

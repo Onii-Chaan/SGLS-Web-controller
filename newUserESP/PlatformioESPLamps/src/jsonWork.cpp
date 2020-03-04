@@ -80,7 +80,7 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     {
         Serial.println(F("Failed to write to file"));
     }
-    // file.close();
+    file.close();
     Serial.println();
-    printFile(webdata);
+    // printFile(webdata);
 }

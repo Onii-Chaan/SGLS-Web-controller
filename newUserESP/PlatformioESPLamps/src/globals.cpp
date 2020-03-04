@@ -14,7 +14,7 @@ const char* WLAN_PASSWORD = "ViitaisPaaris";
 // Set web server port number to 80
 
 AsyncWebServer server(80);
-
+// DNSServer dnsServer;
 // #define EEPROM_SIZE 192//EEPROM rezerveta atmina
 // char USER_SSID[32];//saglaba lietotaja wifi nosaukumu eeproma
 // char USER_PASSWORD[32];//saglaba lietotaja paroli eeproma

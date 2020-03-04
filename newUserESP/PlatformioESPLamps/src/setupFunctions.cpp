@@ -1,10 +1,14 @@
 #include "funcHeader.h"
 
+IPAddress local_ip(192, 168, 1, 1);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
 void startWifi()
 {
     // Connect to Wi-Fi network with SSID and password
     //  Serial.println("Connecting to wifi...");
     // Remove the password parameter, if you want the AP (Access Point) to be open
+
     //  WiFi.mode(WIFI_AP);
     WiFi.begin(WLAN_SSID, WLAN_PASSWORD);
     delay(100);
@@ -37,13 +41,15 @@ void startEEPROM()
 void startMDNS() {
   /* http://esp32.local */
   MDNS.begin("esp32");
-  if (!MDNS.begin("esp32")) {
-    Serial.println(F("Error setting up MDNS responder!"));
-    while (1) {
-      delay(1000);
-    }
-  }
-  MDNS.addService("http", "tcp", 80);
+  // if (!MDNS.begin("esp32")) {
+    // Serial.println(F("Error setting up MDNS responder!"));
+    // while (1) {
+      // delay(1000);
+    // }
+  // }
+  MDNS.addService("http", "tcp", 53);
+  MDNS.setInstanceName("esp32");
+  Serial.println(MDNS.IP(0));
 }
 
 void startServer() {
