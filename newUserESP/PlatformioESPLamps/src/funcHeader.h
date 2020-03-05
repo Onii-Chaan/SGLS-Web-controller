@@ -120,7 +120,7 @@ bool set32DataInEEPROM(String dataToPut, int start, int end);
 void setNewData();
 void setRgbColors(byte arr[30 /*30*/][4 /*4*/], byte valueToPut[4 /*4*/]);
 void setup();
-void setValueInArr(uint32_t arr[30 /*30*/], uint32_t valueToPut);
+void setValueInArr(uint32_t arr[30 /*30*/], uint32_t valueToPut, bool debug);
 void softAPLogin();
 void solidBlink(byte rgbArr[4 /*4*/], int off, int part);
 void solidFade(byte rgbArr[4 /*4*/], int period, unsigned long time, int part);

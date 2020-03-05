@@ -6,11 +6,11 @@ int INCREMENTER;
 //const char* DEFAULT_WLAN_SSID = "esp32";
 //const char* DEFAULT_WLAN_PASS = "password";
 
-const char* WLAN_SSID     = "ElektronikasKlubs";
-const char* WLAN_PASSWORD = "ViitaisPaaris";
+// const char* WLAN_SSID     = "ElektronikasKlubs";
+// const char* WLAN_PASSWORD = "ViitaisPaaris";
 
-//const char* WLAN_SSID     = "MyHomeNetV2.0";
-//const char* WLAN_PASSWORD = "Rammy12345";
+const char* WLAN_SSID     = "MyHomeNetV2.0";
+const char* WLAN_PASSWORD = "Rammy12345";
 // Set web server port number to 80
 
 AsyncWebServer server(80);

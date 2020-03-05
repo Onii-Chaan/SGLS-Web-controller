@@ -25,7 +25,7 @@ void setup()
   
 
   digitalWrite(2, HIGH);  
-  delay(5000);//so lamps could turn on
+  // delay(5000);//so lamps could turn on
   Serial.println("<00>");
   digitalWrite(2, LOW);  
 }
@@ -33,5 +33,7 @@ void setup()
 void loop()
 {
   funcExecute(); //konstanti darbina lampu dinamisko krasu funkcijas
+
+  delay(500);
   // MDNS.begin("esp32");
 }
