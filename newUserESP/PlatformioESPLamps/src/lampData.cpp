@@ -442,7 +442,7 @@ void setNewData()
     funcPar = 1;
   }
   //    Serial.println("a");
-  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum, true);
+  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum);
   //    Serial.println("b");
   setValueInArr((uint32_t *)oldTimeInt, 1);
   //    Serial.println("c");
@@ -460,7 +460,7 @@ void setNewData()
   }
   else
   { //ja tika iestatita funkcijas vertiba, tad jaatbrivo atbilstosa krasas vieniba
-    Serial.println("ANIM SET");
+    // Serial.println("ANIM SET");
 
     for (int i = 0; i < 4 /*colorCount*/; i++)
     { //jo funkcijai setRgbColors nevar padot rgvReceive no ieprieksejas vertibas, vai pointeri uz rgb[startIn]
@@ -729,25 +729,25 @@ void updateAdrLedPart(int startEnd[2])
     startFreeSpace++;
   }
 
-  Serial.println("Final: ");
-  Serial.print('{');
-  for (int i = 0; i <= 30; i++)
-  {
-    for (int j = 0; j < 2; j++)
-    {
-      if (j == 0)
-      {
-        Serial.print('{');
-        Serial.print(adrStartEnd[i][j]);
-        Serial.print(',');
-      }
-      else
-      {
-        Serial.print(adrStartEnd[i][j]);
-        Serial.print('}');
-      }
-    }
-  }
-  Serial.print('}');
-  Serial.println();
+  // Serial.println("Final: ");
+  // Serial.print('{');
+  // for (int i = 0; i <= 30; i++)
+  // {
+  //   for (int j = 0; j < 2; j++)
+  //   {
+  //     if (j == 0)
+  //     {
+  //       Serial.print('{');
+  //       Serial.print(adrStartEnd[i][j]);
+  //       Serial.print(',');
+  //     }
+  //     else
+  //     {
+  //       Serial.print(adrStartEnd[i][j]);
+  //       Serial.print('}');
+  //     }
+  //   }
+  // }
+  // Serial.print('}');
+  // Serial.println();
 }
