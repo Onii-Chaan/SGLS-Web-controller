@@ -137,121 +137,127 @@ void setRgbColors(byte arr[30 /*numLeds*/][4 /*colorCount*/], byte valueToPut[4 
 
 void setValueInArr(uint32_t arr[30 /*numLeds*/], uint32_t valueToPut, bool debug = false)
 { //ievieto ievadito vertibu atbilstosaja 1d masiva atkariba no esosa 2d masiva
-
-  if (debug)
+  if (!newGroupValue)//checks if led part start end arr has changed and puts value in exact place
   {
-    Serial.println("befdef: ");
-    Serial.print('{');
-    for (int i = 0; i <= 30; i++)
-    {
-
-      Serial.print(arr[i]);
-      Serial.print(',');
-    }
-    Serial.println('}');
+    arr[startIn] = valueToPut;
   }
-
-  for (int i = 30 /*numLeds*/; i > startIn; i--)
-  { //pabida vertibas uz labo pusi lidz startIn+1, jo startIn vertibu aiztikt nevar ta iemesla del, ka tad var par vienu vienibu pabidities nepareiza vertiba ta, kas atradas ieks startIn ieprieks
-      arr[i] = arr[i - 1];
-  }
-
-  if (debug)
+  else
   {
-    Serial.println("bef: ");
-    Serial.print('{');
-    for (int i = 0; i <= 30; i++)
+    if (debug)
     {
-
-      Serial.print(arr[i]);
-      Serial.print(',');
-    }
-    Serial.println('}');
-  }
-
-  for (int i = 0; i < 30; i++) //deletes values that matches old led part array values
-  {
-    if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1] || oldAdrStartEnd[i][0] <= ledPartStartEnd[1]))
-    {
-      arr[i] = 0;
-    }
-  }
-
-  arr[startIn] = valueToPut; //ievieto jauno vertibu masiva
-
-  if (debug)
-  {
-    Serial.println("after: ");
-    Serial.print('{');
-    for (int i = 0; i <= 30; i++)
-    {
-
-      Serial.print(arr[i]);
-      Serial.print(',');
-    }
-    Serial.println('}');
-  }
-  if (divide)
-  {                                                    //ja 2d vertiba, kas ievadita 2d masiva atradas pa vidu esosai
-    for (int i = 30 /*numLeds*/; i > startIn + 1; i--) //moves values to right side to make space for divided value
-    {
-      arr[i] = arr[i - 1];
-    }
-    arr[startIn + 1] = arr[startIn - 1]; //puts divided value in array
-  }
-
-  bool breakCheck = true;  //darbina un izbeidz while ciklu
-  int countFreeSpaces = 0; //skaita brivas vietas starp startIn un visu, kas atrodas masiva labaja puse
-  int startFreeSpace = 1;  //skaita pedejo atskaites punktu, sunu, kas pedejo reizi tika aiznemta
-  while (breakCheck)
-  {
-    for (int i = startIn + startFreeSpace; i < 30 /*numLeds*/; i++)
-    {
-      if (arr[i] == 0)
+      Serial.println("befdef: ");
+      Serial.print('{');
+      for (int i = 0; i <= 30; i++)
       {
-        countFreeSpaces++;
+
+        Serial.print(arr[i]);
+        Serial.print(',');
       }
-      else if (countFreeSpaces > 0)
+      Serial.println('}');
+    }
+
+    for (int i = 30 /*numLeds*/; i > startIn; i--)
+    { //pabida vertibas uz labo pusi lidz startIn+1, jo startIn vertibu aiztikt nevar ta iemesla del, ka tad var par vienu vienibu pabidities nepareiza vertiba ta, kas atradas ieks startIn ieprieks
+      arr[i] = arr[i - 1];
+    }
+
+    if (debug)
+    {
+      Serial.println("bef: ");
+      Serial.print('{');
+      for (int i = 0; i <= 30; i++)
+      {
+
+        Serial.print(arr[i]);
+        Serial.print(',');
+      }
+      Serial.println('}');
+    }
+
+    for (int i = 0; i < 30; i++) //deletes values that matches old led part array values
+    {
+      if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1] || oldAdrStartEnd[i][0] <= ledPartStartEnd[1]))
+      {
+        arr[i] = 0;
+      }
+    }
+
+    arr[startIn] = valueToPut; //ievieto jauno vertibu masiva
+
+    if (debug)
+    {
+      Serial.println("after: ");
+      Serial.print('{');
+      for (int i = 0; i <= 30; i++)
+      {
+
+        Serial.print(arr[i]);
+        Serial.print(',');
+      }
+      Serial.println('}');
+    }
+    if (divide)
+    {                                                    //ja 2d vertiba, kas ievadita 2d masiva atradas pa vidu esosai
+      for (int i = 30 /*numLeds*/; i > startIn + 1; i--) //moves values to right side to make space for divided value
+      {
+        arr[i] = arr[i - 1];
+      }
+      arr[startIn + 1] = arr[startIn - 1]; //puts divided value in array
+    }
+
+    bool breakCheck = true;  //darbina un izbeidz while ciklu
+    int countFreeSpaces = 0; //skaita brivas vietas starp startIn un visu, kas atrodas masiva labaja puse
+    int startFreeSpace = 1;  //skaita pedejo atskaites punktu, sunu, kas pedejo reizi tika aiznemta
+    while (breakCheck)
+    {
+      for (int i = startIn + startFreeSpace; i < 30 /*numLeds*/; i++)
+      {
+        if (arr[i] == 0)
+        {
+          countFreeSpaces++;
+        }
+        else if (countFreeSpaces > 0)
+        {
+          break;
+        }
+        if (i == 30 /*numLeds*/ - 1)
+        { //ja visas veribas pec pedejas aizpilditas sunas ir nulle tad funkcija beidz savu darbibu
+          breakCheck = false;
+          break;
+        }
+      }
+      if (breakCheck == false)
       {
         break;
       }
-      if (i == 30 /*numLeds*/ - 1)
-      { //ja visas veribas pec pedejas aizpilditas sunas ir nulle tad funkcija beidz savu darbibu
-        breakCheck = false;
-        break;
+      arr[startIn + startFreeSpace] = arr[countFreeSpaces + startFreeSpace + startIn];
+      arr[countFreeSpaces + startFreeSpace + startIn] = 0;
+
+      countFreeSpaces = 0;
+      startFreeSpace++;
+    }
+
+    for (int i = 0; i < 30 /*numLeds*/; i++)
+    {
+      if (adrStartEnd[i][0] == 0)
+      {
+        arr[i] = 0;
       }
     }
-    if (breakCheck == false)
+
+    if (debug)
     {
-      break;
+      Serial.println("setVal: ");
+      Serial.print('{');
+      for (int i = 0; i <= 30; i++)
+      {
+
+        Serial.print(arr[i]);
+        Serial.print(',');
+      }
+      Serial.println('}');
+      Serial.println();
     }
-    arr[startIn + startFreeSpace] = arr[countFreeSpaces + startFreeSpace + startIn];
-    arr[countFreeSpaces + startFreeSpace + startIn] = 0;
-
-    countFreeSpaces = 0;
-    startFreeSpace++;
-  }
-
-  for (int i = 0; i < 30 /*numLeds*/; i++)
-  {
-    if (adrStartEnd[i][0] == 0)
-    {
-      arr[i] = 0;
-    }
-  }
-
-  if (debug)
-  {
-    Serial.println("setVal: ");
-    Serial.print('{');
-    for (int i = 0; i <= 30; i++)
-    {
-
-      Serial.print(arr[i]);
-      Serial.print(',');
-    }
-    Serial.println('}');
-    Serial.println();
   }
 }
 
@@ -750,4 +756,23 @@ void updateAdrLedPart(int startEnd[2])
   // }
   // Serial.print('}');
   // Serial.println();
+
+  newGroupValue = false;
+  for (byte i = 0; i < 30; i++)//checks if old start end arr has changed
+  {
+    for (byte j = 0; j < 2; j++)
+    {
+      if (oldAdrStartEnd[i][j] != adrStartEnd[i][j])
+      {
+        newGroupValue = true;
+        break;
+      }
+    }
+    if (newGroupValue)
+    {
+      break;
+    }
+  }
 }
+
+bool newGroupValue;

@@ -61,6 +61,7 @@ extern const byte numChars;
 extern bool divide;//mainigais, kas seko tam vai ieks adrStartEnd ievadita vertiba atrodas pa vidu jau esosajai vertibai
 extern bool newData;//nepieciesams, lai veiktu izmainas pie jaunu datu sanemsanas
 extern bool clearLedPartArrAllowed;
+extern bool newGroupValue;//keeps track on new value arr changes
 
 extern int blinkOff[];
 extern int isFirstTime[]; //seko lidzi atbilstosajam vertibam funkciju masiva, vai tas izpildas pirmo reizi vai ari ne
