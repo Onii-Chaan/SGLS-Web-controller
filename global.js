@@ -17,11 +17,11 @@ var currentLampString;//jau izveidots string priekš lampu numuriem
 var recData = async () => {//Fečo txt failu un izveido lapu
    const res = await fetch(fileUrl);
    const json = await res.json();
+   
    let JSON_DATA = json;
-   // console.log(json);
-   // console.log("Hello!");
-   // nextData = "nextDataSet";
-   // console.log(JSON_DATA);
+
+
+
    lampNum = JSON_DATA.LampNum;
    buttonOn = JSON_DATA.OffState;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
 

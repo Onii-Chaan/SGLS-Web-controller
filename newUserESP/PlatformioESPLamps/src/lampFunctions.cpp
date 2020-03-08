@@ -97,8 +97,8 @@ void fire(int part) {
 
 
 void solidRainbow(int part, int firstTime) { //solid rainbow funkcija, part atbild par to, lai katrai dalai atbilstosi saglabatos krasu un citas vertibas
-  for (int i = 0; i < 30 /*numLeds*/; i++) {
-  }
+  // for (int i = 0; i < 30 /*numLeds*/; i++) {
+  // }
   if (firstTime) { //funkcija sakas no sakuma, jeb tiek istatitas default vertibas
     decColor[part] = 0;
     rainbowCounter[part] = 0;
