@@ -179,5 +179,8 @@
    ],
    "LampNum":6,
    "OffState":false,
-   "UserWlanSsid":"ElektronikasKlubs"
+   "UserWlanSsid":"ElektronikasKlubs",
+   "UserWlanPass":"ViitaisPaaris",
+   "UserMDNS":"esp32",
+   "SoftAPPass": "12345678"
 }

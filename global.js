@@ -13,14 +13,22 @@ var lampGroups;//ienākošo lampu grupu datu masīvs
 var exploreArr;
 var currentLampString;//jau izveidots string priekš lampu numuriem
 
+var checkSession = () => {//checks local storage if it has already loaded txt file
+   if (sessionStorage.getItem("jsonLoaded") == null) {
+       return false;
+   }
+   return true;
+}
 
 var recData = async () => {//Fečo txt failu un izveido lapu
-   const res = await fetch(fileUrl);
-   const json = await res.json();
-   
-   let JSON_DATA = json;
+   if (!checkSession()) {//loads text file only if it haven't been loaded yet
+      const res = await fetch(fileUrl);
+      const json = await res.json();
 
+      sessionStorage.setItem("jsonLoaded", JSON.stringify(json));//saves received text file data into session storage as string      
+   }
 
+   let JSON_DATA = JSON.parse(sessionStorage.getItem("jsonLoaded"));//parses json string from session storage
 
    lampNum = JSON_DATA.LampNum;
    buttonOn = JSON_DATA.OffState;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
@@ -33,10 +41,10 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    document.getElementById('SGLSmainName').innerText = JSON_DATA.UserWlanSsid;//Iestata lietotāja nosaukuma title
    currentLampString = '1-' + lampNum + '#';//jau izveidots string priekš lampu numuriem
    document.getElementById('onOffButton').checked = buttonOn;//iestata ieslēgšanas pogas sākuma stāvokli
-   
+
    buildSettings();
    createDynamicContent();
-   loadingScreen.end()
+   loadingScreen.end();      
 }
 
 

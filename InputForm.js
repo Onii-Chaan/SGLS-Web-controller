@@ -34,7 +34,7 @@ class InputForm {
         if (this.inputCount > 0) {
             this.submitButton.onclick = methodize(this.checkData, this);
         } else {
-            this.submitButton.onclick = methodize( this.buttonSend, this)
+            this.submitButton.onclick = methodize(this.buttonSend, this)
         }
 
         this.formDiv.appendChild(this.formElement);

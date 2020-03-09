@@ -52,7 +52,7 @@ var SETT_DATA = [
 function createSettCols() {//Izveido settings lapas collapsible pogas
     for (var i = 0; i < 6; i++) {//Izveido pogas elementus      
         var collapsibleObj = new CollapsibleButton(
-            new Icon("arrow", "medIcon"), SETT_TITLES[i], document.body, new Icon("bookmark", "medIcon")
+            new Icon("arrow", "medIcon"), SETT_TITLES[i], document.body
         );
         collapsibleObj.buildCollapseButton();
     }

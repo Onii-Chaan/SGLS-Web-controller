@@ -1,3 +1,5 @@
+
+
 var loadingScreen = {
     // background: 'gray',
     start: function () {//parāda ielādēšanās elementus

@@ -1,16 +1,16 @@
-function onOffTextChange(){//seko līdzi tam, vai lampas ieslēgtas vai nē
-  if (buttonOn){
+function onOffTextChange() {//seko līdzi tam, vai lampas ieslēgtas vai nē
+  if (buttonOn) {
     buttonOn = false;
     ajaxConsoleSend('onoff ' + 'turnOff');
-    sendAjaxData('turnOff' + 'onoff');
-  } else{
+  } else {
     buttonOn = true;
     ajaxConsoleSend('onoff ' + 'turnOn');
-    sendAjaxData('turnOn', 'onoff');
   }
+  sendAjaxData('type=turnOn=' + buttonOn, 'setJson');
+
 }
 
-document.getElementById('SGLSmainName').style.color = getContrast(document.getElementsByClassName("titleDiv")[0].style.background); 
+document.getElementById('SGLSmainName').style.color = getContrast(document.getElementsByClassName("titleDiv")[0].style.background);
 
 
 function okWhite() {//aprekina un iestata baltas krasas vertibu
