@@ -7,7 +7,8 @@
 //   int userIP;
 //   int arrayData[3];
 // };
-
+const char *defaultTxt = "/default.txt";
+const char *saveTxt = "/save.txt";
 const char *webdata = "/configFile.txt"; // <- SD library uses 8.3 webdatas
 // Config config;                       // <- global configuration object
 
@@ -81,6 +82,154 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
         Serial.println(F("Failed to write to file"));
     }
     file.close();
-    Serial.println();
+    // Serial.println();
     // printFile(webdata);
+}
+
+
+void save1DData(byte type, uint32_t *array, bool writeToArr) //writes 1d array to file
+{
+  String arrName[8] = {"funcNumArr", "isFirstTime", "oldTimeInt", "funcParArr", "blinkOff", "decColor", "incColor", "rainbowCounter"}; //JSON 1d array names
+  File file = SPIFFS.open(saveTxt);
+  DynamicJsonDocument doc(14000);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+  if (!writeToArr)
+  {
+    SPIFFS.remove(saveTxt);
+    for (byte i = 0; i < 30; i++) //copies from array
+      doc[arrName[type]][i] = array[i];
+    file = SPIFFS.open(saveTxt, FILE_WRITE); //tiek atverts fails rakstisanai
+    if (!file)
+    {
+      Serial.println(F("Failed to create file"));
+      return;
+    }
+    if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
+    {
+      Serial.println(F("Failed to write to file"));
+    }
+    file.close();
+  }
+  else
+  {
+    for (byte i = 0; i < 30; i++) //copies to array
+      array[i] = doc[arrName[type]][i];
+  }
+}
+
+void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr)
+{
+  String arrName[8] = {"rgb", "highVal"}; //JSON 2d4 array names
+  File file = SPIFFS.open(saveTxt);
+  DynamicJsonDocument doc(14000);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+  if (!writeToArr)
+  {
+    for (byte i = 0; i < 30; i++) //copies array values
+    {
+      for (byte j = 0; j < 4; j++)
+        doc[arrName[type]][i][j] = (*array)[i][j];
+    }
+    SPIFFS.remove(saveTxt);
+    file = SPIFFS.open(saveTxt, FILE_WRITE); //tiek atverts fails rakstisanai
+    if (!file)
+    {
+      Serial.println(F("Failed to create file"));
+      return;
+    }
+    if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
+    {
+      Serial.println(F("Failed to write to file"));
+    }
+    file.close();
+  }
+  else
+  {
+    for (byte i = 0; i < 30; i++) //copies array values
+    {
+      for (byte j = 0; j < 4; j++)
+        (*array)[i][j] = doc[arrName[type]][i][j];
+    }
+  }
+}
+
+void save2D2Data(byte type, int (*array)[31][2], bool writeToArr)
+{
+  String arrName[8] = {"adrStartEnd", "oldAdrStartEnd"}; //JSON 2d4 array names
+  File file = SPIFFS.open(saveTxt);
+  DynamicJsonDocument doc(14000);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+
+  if (!writeToArr)
+  {
+    for (byte i = 0; i < 30; i++) //copies array values
+    {
+      for (byte j = 0; j < 2; j++)
+        doc[arrName[type]][i][j] = (*array)[i][j];
+    }
+    SPIFFS.remove(saveTxt);
+    file = SPIFFS.open(saveTxt, FILE_WRITE); //tiek atverts fails rakstisanai
+    if (!file)
+    {
+      Serial.println(F("Failed to create file"));
+      return;
+    }
+    if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
+    {
+      Serial.println(F("Failed to write to file"));
+    }
+    file.close();
+  }
+  else
+  {
+    for (byte i = 0; i < 30; i++) //copies array values
+    {
+      for (byte j = 0; j < 2; j++)
+        (*array)[i][j] = doc[arrName[type]][i][j];
+    }
+  }
+  file.close();
+}
+
+void setDefaultSave()
+{
+  SPIFFS.remove(saveTxt);
+  File saveFile = SPIFFS.open(saveTxt, FILE_WRITE);
+  File defaultFile = SPIFFS.open(defaultTxt, FILE_READ);
+  saveFile.print(defaultFile.readString());
+  saveFile.close();
+  defaultFile.close();
+}
+
+void setJsonArrData(bool actionType){
+      save1DData(0, (uint32_t *)funcNumArr, actionType);
+      save1DData(1, (uint32_t *)isFirstTime, actionType);
+      save1DData(2, (uint32_t *)oldTimeInt, actionType);
+      save1DData(3, (uint32_t *)funcParArr, actionType);
+      save1DData(4, (uint32_t *)blinkOff, actionType);
+      save1DData(5, (uint32_t *)decColor, actionType);
+      save1DData(6, (uint32_t *)incColor, actionType);
+      save1DData(7, (uint32_t *)rainbowCounter, actionType);
+      
+      int(*p_2d2)[31][2] = &adrStartEnd;
+      save2D2Data(0, p_2d2, actionType);
+      p_2d2 = &oldAdrStartEnd;
+      save2D2Data(1, p_2d2, actionType);
+
+      byte(*p_2d4)[31][4] = &rgb;
+      save2D4Data(0, p_2d4, actionType);
+      p_2d4 = &highVal;
+      save2D4Data(0, p_2d4, actionType);
 }

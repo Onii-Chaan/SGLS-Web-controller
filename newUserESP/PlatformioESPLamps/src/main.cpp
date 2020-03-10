@@ -1,8 +1,5 @@
 #include "funcHeader.h"
 
-
-
-
 void setup()
 {
   pinMode(2, OUTPUT);
@@ -14,20 +11,28 @@ void setup()
   serverFunctions();
   startSPIFFS();
 
-  adrStartEnd[0][0] = 1;
-  adrStartEnd[0][1] = numLeds;
+  // adrStartEnd[0][0] = 1;
+  // adrStartEnd[0][1] = numLeds;
 
-  funcNumArr[0] = 1;
-  funcParArr[0] = 1;
-  isFirstTime[0] = 1;
-  blinkOff[0] = 1;
-  oldTimeInt[0] = 1;
+  // funcNumArr[0] = 1;
+  // funcParArr[0] = 1;
+  // isFirstTime[0] = 1;
+  // blinkOff[0] = 1;
+  // oldTimeInt[0] = 1;
   
-
-  digitalWrite(2, HIGH);  
+  // setDefaultSave();
+  setJsonArrData(true);
+  for (int i = 0; i < 30; i++)
+  {
+    if (adrStartEnd[i][0] != 0)
+    {
+      displayAdrColors(adrStartEnd[i], rgb[i]);
+    }
+  }
+  digitalWrite(2, HIGH);
   // delay(5000);//so lamps could turn on
   Serial.println("<00>");
-  digitalWrite(2, LOW);  
+  digitalWrite(2, LOW);
 }
 
 void loop()

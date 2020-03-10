@@ -114,11 +114,14 @@ void serverFunctions()
 
   server.on("/setJson", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Serial.println(F("setJsonData"));
-    String action;//the action that has to be done (add, delete, edit)
-    String type;//gets the query string
-    String dataType;//gets the data type that has to be updated
-    String index;//gets the index of data type array to be updated
-    String valueArr[5];//stores variables
+    String action;      //the action that has to be done (add, delete, edit)
+    String type;        //gets the query string
+    String dataType;    //gets the data type that has to be updated
+    String index;       //gets the index of data type array to be updated
+    String valueArr[5]; //stores variables
+
+    String turnOnBool;
+    bool doTurnOn;
 
     // int args = request->args();
     // for (int i = 0; i < args; i++)
@@ -126,55 +129,106 @@ void serverFunctions()
     //   Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
     // }
 
-    if (request->hasParam("type", true))//Gets query parameters
+    if (request->hasParam("type", true)) //Gets query parameters
     {
       type = request->getParam("type", true)->value();
     }
     // Serial.print("REC_STRING: ");
     // Serial.println(type);
 
-    int lastParamId = 0; //For getting next parameter after we got previous param
-    String currentData;//Stores name or parameter
-    String currentDataValue;//Store parameter value
-    do//asssigns new values to variables
+    int lastParamId = 0;     //For getting next parameter after we got previous param
+    String currentData;      //Stores name or parameter
+    String currentDataValue; //Store parameter value
+    do                       //asssigns new values to variables
     {
-      currentData = type.substring(lastParamId, type.indexOf('=', lastParamId));//current parameter name
-      currentDataValue = type.substring(type.indexOf('=', lastParamId)+1, type.indexOf('|', lastParamId));//current parameter value
-      lastParamId = type.indexOf('|', lastParamId + 1)+1;
+      currentData = type.substring(lastParamId, type.indexOf('=', lastParamId));                             //current parameter name
+      currentDataValue = type.substring(type.indexOf('=', lastParamId) + 1, type.indexOf('|', lastParamId)); //current parameter value
+      lastParamId = type.indexOf('|', lastParamId + 1) + 1;
 
-      if(currentData == "action"){
+      if (currentData == "action")
+      {
         action = currentDataValue;
-      } else if(currentData == "dataType"){
+      }
+      else if (currentData == "dataType")
+      {
         dataType = currentDataValue;
-      } else if(currentData == "name"){
+      }
+      else if (currentData == "name")
+      {
         valueArr[0] = currentDataValue;
-      } else if(currentData == "value"){
+      }
+      else if (currentData == "value")
+      {
         valueArr[1] = currentDataValue;
-      } else if(currentData == "r"){
+      }
+      else if (currentData == "r")
+      {
         valueArr[1] = currentDataValue;
-      } else if(currentData == "g"){
+      }
+      else if (currentData == "g")
+      {
         valueArr[2] = currentDataValue;
-      } else if(currentData == "b"){
-        valueArr[3] = currentDataValue;        
-      } else if(currentData == "w"){
-        valueArr[4] = currentDataValue;                
-      } else if(currentData == "index"){
+      }
+      else if (currentData == "b")
+      {
+        valueArr[3] = currentDataValue;
+      }
+      else if (currentData == "w")
+      {
+        valueArr[4] = currentDataValue;
+      }
+      else if (currentData == "index")
+      {
         index = currentDataValue;
-      } else if(currentData == "funcNum"){
-        valueArr[0] = currentDataValue;                
-      } else if(currentData == "param"){
-        valueArr[1] = currentDataValue;        
+      }
+      else if (currentData == "funcNum")
+      {
+        valueArr[0] = currentDataValue;
+      }
+      else if (currentData == "param")
+      {
+        valueArr[1] = currentDataValue;
+      }
+      else if (currentData == "turnOn")
+      {
+        doTurnOn = true;
+        turnOnBool = currentDataValue;
       }
 
-    } while(lastParamId != 0);
+    } while (lastParamId != 0);
 
-    setJsonData(action, dataType, valueArr, index.toInt());//updates file
+    if (!doTurnOn)
+    {
+      setJsonData(action, dataType, valueArr, index.toInt()); //updates file
+      Serial.println("not do turn on");
+    }
+    else
+    {
+      Serial.println(" do turn on");
+
+      bool arrSaveType;
+      if (turnOnBool == "true")
+      {
+        arrSaveType = true;
+      }
+      else
+      {
+        arrSaveType = false;
+        setDefaultSave();
+      }
+      setJsonArrData(arrSaveType);
+
+      for (int i = 0; i < 30; i++)
+      {
+        if (adrStartEnd[i][0] != 0)
+        {
+          displayAdrColors(adrStartEnd[i], rgb[i]);
+        }
+      }
+    }
     request->send(200, "text/plain", "Json updated");
   });
 }
-
-
-
 
 int countChars(char findChar, String findString) //return number of occurances of given char in given String
 {
