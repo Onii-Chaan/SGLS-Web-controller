@@ -121,7 +121,7 @@ void serverFunctions()
     String valueArr[5]; //stores variables
 
     String turnOnBool;
-    bool doTurnOn;
+    bool doTurnOn = false;
 
     // int args = request->args();
     // for (int i = 0; i < args; i++)
@@ -199,6 +199,7 @@ void serverFunctions()
 
     if (!doTurnOn)
     {
+      Serial.println("hre");
       setJsonData(action, dataType, valueArr, index.toInt()); //updates file
     }
     else
