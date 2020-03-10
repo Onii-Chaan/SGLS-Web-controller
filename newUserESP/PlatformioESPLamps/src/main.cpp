@@ -19,14 +19,18 @@ void setup()
   // isFirstTime[0] = 1;
   // blinkOff[0] = 1;
   // oldTimeInt[0] = 1;
-  
+
   // setDefaultSave();
-  setJsonArrData(true);
+  setJsonArrData(true, saveTxt);
   for (int i = 0; i < 30; i++)
   {
     if (adrStartEnd[i][0] != 0)
     {
       displayAdrColors(adrStartEnd[i], rgb[i]);
+    }
+    else
+    {
+      break;
     }
   }
   digitalWrite(2, HIGH);
@@ -39,6 +43,6 @@ void loop()
 {
   funcExecute(); //konstanti darbina lampu dinamisko krasu funkcijas
 
-  delay(500);
+  // delay(500);
   // MDNS.begin("esp32");
 }

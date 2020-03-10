@@ -200,29 +200,30 @@ void serverFunctions()
     if (!doTurnOn)
     {
       setJsonData(action, dataType, valueArr, index.toInt()); //updates file
-      Serial.println("not do turn on");
     }
     else
     {
-      Serial.println(" do turn on");
-
       bool arrSaveType;
       if (turnOnBool == "true")
       {
         arrSaveType = true;
+        setJsonArrData(arrSaveType, saveTxt);
       }
       else
       {
         arrSaveType = false;
-        setDefaultSave();
+        setJsonArrData(arrSaveType, saveTxt);
+        setJsonArrData(!arrSaveType, defaultTxt);
       }
-      setJsonArrData(arrSaveType);
-
       for (int i = 0; i < 30; i++)
       {
         if (adrStartEnd[i][0] != 0)
         {
           displayAdrColors(adrStartEnd[i], rgb[i]);
+        }
+        else
+        {
+          break;
         }
       }
     }

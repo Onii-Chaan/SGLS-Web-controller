@@ -93,7 +93,8 @@ extern byte rgbReceive[4]; //saglaba ienakosas krasu vertibas
 
 extern int ledPartStartEnd[2];
 
-
+extern const char *saveTxt;
+extern const char *defaultTxt;
 
 
 
@@ -139,8 +140,8 @@ void printFile(const char *webdata);
 void setJsonData(String action, String type, String input[5], int index);
 int countChars(char findChar, String findString);
 void setDefaultSave();
-void save1DData(byte type, uint32_t *array, bool writeToArr);
-void save2D2Data(byte type, int (*array)[31][2], bool writeToArr);
-void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr);
-void setJsonArrData(bool actionType);
+void save1DData(byte type, uint32_t *array, bool writeToArr, const char * fileName);
+void save2D2Data(byte type, int (*array)[31][2], bool writeToArr, const char * fileName);
+void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr, const char * fileName);
+void setJsonArrData(bool actionType, const char * fileName);
 #endif
