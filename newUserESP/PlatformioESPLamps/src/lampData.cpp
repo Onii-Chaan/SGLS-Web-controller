@@ -176,7 +176,7 @@ void setValueInArr(uint32_t arr[30 /*numLeds*/], uint32_t valueToPut, bool debug
 
     for (int i = 0; i < 30; i++) //deletes values that matches old led part array values
     {
-      if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1] || oldAdrStartEnd[i][0] <= ledPartStartEnd[1]))
+      if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1]+1 || oldAdrStartEnd[i][0] <= ledPartStartEnd[1]+1))
       {
         arr[i] = 0;
       }
@@ -448,7 +448,7 @@ void setNewData()
     funcPar = 1;
   }
   //    Serial.println("a");
-  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum);
+  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum, true);
   //    Serial.println("b");
   setValueInArr((uint32_t *)oldTimeInt, 1);
   //    Serial.println("c");
@@ -735,27 +735,27 @@ void updateAdrLedPart(int startEnd[2])
     startFreeSpace++;
   }
 
-  // Serial.println("Final: ");
-  // Serial.print('{');
-  // for (int i = 0; i <= 30; i++)
-  // {
-  //   for (int j = 0; j < 2; j++)
-  //   {
-  //     if (j == 0)
-  //     {
-  //       Serial.print('{');
-  //       Serial.print(adrStartEnd[i][j]);
-  //       Serial.print(',');
-  //     }
-  //     else
-  //     {
-  //       Serial.print(adrStartEnd[i][j]);
-  //       Serial.print('}');
-  //     }
-  //   }
-  // }
-  // Serial.print('}');
-  // Serial.println();
+  Serial.println("Final: ");
+  Serial.print('{');
+  for (int i = 0; i <= 30; i++)
+  {
+    for (int j = 0; j < 2; j++)
+    {
+      if (j == 0)
+      {
+        Serial.print('{');
+        Serial.print(adrStartEnd[i][j]);
+        Serial.print(',');
+      }
+      else
+      {
+        Serial.print(adrStartEnd[i][j]);
+        Serial.print('}');
+      }
+    }
+  }
+  Serial.print('}');
+  Serial.println();
 
   newGroupValue = false;
   for (byte i = 0; i < 30; i++)//checks if old start end arr has changed
