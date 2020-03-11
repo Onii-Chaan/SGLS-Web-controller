@@ -102,7 +102,7 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija p
 function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
     let form = formId;
     let sendGetData = true;
-    let dataToSend;
+    let dataToSend = "";
     let doublePass = false;//seko tam, lai parole netiktu sūtīta divreiz dēļ pārbaudes 
     for (i = 0; i < form.length; i++) {//Iet cauri katram elementam iekš form un pārbauda vai tas ir derīgs
         var elementToCheck = form.elements[i];
@@ -128,18 +128,24 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
                 break;
             }
         }
+
+
+        
+
         if (elementToCheck.name == 'ssid') {
-            dataToSend = dataToSend + "ssid=" + elementToCheck.value + " ";
+            dataToSend = dataToSend + "ssid=" + elementToCheck.value + "|";
         } else if (elementToCheck.name == 'pass' && doublePass == false) {
             doublePass = true;
-            dataToSend = dataToSend + "pass=" + elementToCheck.value + " ";
+            dataToSend = dataToSend + "pass=" + elementToCheck.value + "|";
         } else if (elementToCheck.name == 'linkName') {
-            dataToSend = dataToSend + "linkName=" + elementToCheck.value + " ";
+            dataToSend = dataToSend + "linkName=" + elementToCheck.value + "|";
         }
     }
 
+    dataToSend = "type=" + dataToSend.substring(0, dataToSend.length - 1);
     if (sendGetData) {
         ajaxConsoleSend(dataToSend, formId);
+        sendAjaxData(dataToSend, 'setJson');
     }
     form.reset();
 }
@@ -307,7 +313,6 @@ function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
 
 
 var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
-
     return 'type=' + Object.keys(params)
         .map(k => k + '=' + params[k])
         .join('|');

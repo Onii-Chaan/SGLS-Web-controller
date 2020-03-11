@@ -21,6 +21,10 @@ void setup()
   // oldTimeInt[0] = 1;
 
   // setDefaultSave();
+    digitalWrite(2, HIGH);
+  // delay(5000);//so lamps could turn on
+  Serial.println("<00>");
+  digitalWrite(2, LOW);
   setJsonArrData(true, saveTxt);
   for (int i = 0; i < 30; i++)
   {
@@ -33,10 +37,7 @@ void setup()
       break;
     }
   }
-  digitalWrite(2, HIGH);
-  // delay(5000);//so lamps could turn on
-  Serial.println("<00>");
-  digitalWrite(2, LOW);
+
 }
 
 void loop()
