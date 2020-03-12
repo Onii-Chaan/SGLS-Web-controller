@@ -44,6 +44,6 @@ void loop()
 {
   funcExecute(); //konstanti darbina lampu dinamisko krasu funkcijas
 
-  delay(500);
+  // delay(500);
   // MDNS.begin("esp32");
 }
