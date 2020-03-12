@@ -7,12 +7,16 @@ void startWifi()
 {
   // WiFi.begin(WLAN_SSID, WLAN_PASSWORD);
 
+  
   WiFi.softAP("RayLight", "12345678") ? Serial.println("Ready") : Serial.println("Failed");
+
+
+  IPAddress NMask(255, 255, 255, 0);
+  IPAddress IP(192, 168, 4, 1);
+  WiFi.softAPConfig(IP, IP, NMask);
+
   delay(500);
 
-  IPAddress IP(192, 168, 4, 1);
-  IPAddress NMask(255, 255, 255, 0);
-  WiFi.softAPConfig(IP, IP, NMask);
 
   Serial.println("AP IP address: ");
   Serial.println(WiFi.softAPIP());
