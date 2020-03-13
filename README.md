@@ -60,7 +60,7 @@ Hub can work two ways - as WiFi Access Point or either connected to user local W
 
 - Receiving new lamp data:
 If server receives POST data with the name "setlamp" it sets received data in ```lamp``` parameter into arrays and variables for sending it to lamps using the same ```recvWithStartEndMarkers();``` function as lamps do, but modified a little. 
-Received data from webpage example for setting color: ```lamp=<\[dataType]\[fromLamp]\-\[toLamp]\#\[red]\[green]\[blue]\[white]>``` where:
+Received data from webpage example for setting color: ```lamp=<[dataType][fromLamp]-[toLamp]#[red][green][blue][white]>``` where:
 1. ```dataType``` is 0 or 1
   1.1. 0 - color set
   1.2. 1 - animation set
@@ -73,7 +73,7 @@ Received data from webpage example for setting color: ```lamp=<\[dataType]\[from
 8. ```blue``` three digit number from 000 to 255, sets blue color
 9. ```white``` three digit number from 000 to 255, sets white color
 
-Received data from webpage example for setting animation: ```lamp=<\[dataType]\[fromLamp]\-\[toLamp]\#\[funcNum]\[funcParam]\>``` where:
+Received data from webpage example for setting animation: ```lamp=<[dataType][fromLamp]-[toLamp]#[funcNum][funcParam]>``` where:
 1. ```dataType``` is 0 or 1
   1.1. 0 - color set
   1.2. 1 - animation set
@@ -85,10 +85,10 @@ Received data from webpage example for setting animation: ```lamp=<\[dataType]\[
 7. ```funcParam``` three digit number from 000 to 999, sets function parameter
 
 Received POST data with name ```setJson``` from webpage example for saving new user set webpage data:  
-```type=action=[actionType]|dataType=\[dataTypeValue]|name=[nameValue]``` after which can follow one of several lines:
-    - ```|r=\[red]|g=\[green]|b=\[blue]|w=\[white]```
-    - ```|num=\[funcNum]|param=\[parameter]```
-    - ```|value=\[groupValue]```
+```type=action=[actionType]|dataType=[dataTypeValue]|name=[nameValue]``` after which can follow one of several lines:
+    - ```|r=[red]|g=[green]|b=[blue]|w=[white]```
+    - ```|num=[funcNum]|param=[parameter]```
+    - ```|value=[groupValue]```
 Where:
 - ```type``` is the only POST parameter, because of difficulities with receiving POST data. The ```=``` sign that comes after is the only ```=``` sign for parameters in the received payload, other ```=``` are just values of ```type```. Because such data receiving method were used, ```|``` sign is used instead of ```&``` for dividing parameter values from each other without any further problems. Other strings like ```action=``` are just for giving values their names
 1. ```actionType``` may be one of these:
@@ -111,7 +111,6 @@ After comes one of three lines with parameters where:
   2.1. ```num``` is a 1 to 2 digits long number from 1 to 99 representing animation number
   2.2. ```param``` is a 1 to 3 digits long number from 1 to 999 representing animation parameter
 3. Group set:
-    - ```|value=\[groupValue]```
   3.1. ```groupValue``` is a string representing start and end value of lamp. Example
     3.1.1. ```1-12#``` from 1 to 12 
   
