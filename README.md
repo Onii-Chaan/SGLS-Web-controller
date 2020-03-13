@@ -11,10 +11,10 @@
 - [Saving data](https://github.com/Onii-Chaan/SGLS-Web-controller#saving-data)
 
 ## Usage
-This code was developed for RayLight RGBW light bulbs. May be used for addresable led strips with appropriste changes.
-Microcontroller used for hub - ESP32
-Microcontroller used for lamps - ATmega328PB
-Provides all the code necessary for hub, lamps, hub server, communication, web controller pages. 
+- This code was developed for RayLight RGBW light bulbs. May be used for addresable led strips with appropriste changes.
+- Microcontroller used for hub - ESP32
+- Microcontroller used for lamps - ATmega328PB
+- Provides all the code necessary for hub, lamps, hub server, communication, web controller pages. 
 
 ## Lamp code
 
