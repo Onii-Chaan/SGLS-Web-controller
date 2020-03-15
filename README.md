@@ -62,8 +62,8 @@ Hub can work two ways - as WiFi Access Point or either connected to user local W
 If server receives POST data with the name "setlamp" it sets received data in ```lamp``` parameter into arrays and variables for sending it to lamps using the same ```recvWithStartEndMarkers();``` function as lamps do, but modified a little. 
 Received data from webpage example for setting color: ```lamp=<[dataType][fromLamp]-[toLamp]#[red][green][blue][white]>``` where:
 1. ```dataType``` is 0 or 1
-  1.1. 0 - color set
-  1.2. 1 - animation set
+  - 0 - color set
+  - 1 - animation set
 2. ```fromLamp``` is one or two digit number from 1 to 30
 3. ```-``` divides start number and end number
 4. ```toLamp``` is one or two digit number from 1 to 30 that is bigger or equal to ```fromLamp```
@@ -75,8 +75,8 @@ Received data from webpage example for setting color: ```lamp=<[dataType][fromLa
 
 Received data from webpage example for setting animation: ```lamp=<[dataType][fromLamp]-[toLamp]#[funcNum][funcParam]>``` where:
 1. ```dataType``` is 0 or 1
-  1.1. 0 - color set
-  1.2. 1 - animation set
+  - 0 - color set
+  - 1 - animation set
 2. ```fromLamp``` is one or two digit number from 1 to 30
 3. ```-``` divides start number and end number
 4. ```toLamp``` is one or two digit number from 1 to 30 that is bigger or equal to ```fromLamp```
@@ -92,27 +92,27 @@ Received POST data with name ```setJson``` from webpage example for saving new u
 Where:
 - ```type``` is the only POST parameter, because of difficulities with receiving POST data. The ```=``` sign that comes after is the only ```=``` sign for parameters in the received payload, other ```=``` are just values of ```type```. Because such data receiving method were used, ```|``` sign is used instead of ```&``` for dividing parameter values from each other without any further problems. Other strings like ```action=``` are just for giving values their names
 1. ```actionType``` may be one of these:
-  1.1. ```delete``` deletes data from SPIFFS JSON file
-  1.2. ```add``` adds data to SPIFFS JSON file
-  1.3. ```edit``` edis data in SPIFFS JSON file
+  - ```delete``` deletes data from SPIFFS JSON file
+  - ```add``` adds data to SPIFFS JSON file
+  - ```edit``` edis data in SPIFFS JSON file
 2. ```dataTypeValue``` may be one of these:
-  2.1. ```LampGroups``` takes action with ```LampGroups``` SPIFFS JSON array
-  2.2. ```FuncArr``` takes action with ```FuncArr``` SPIFFS JSON array
-  2.3. ```RgbwArr``` takes action with ```RgbwArr``` SPIFFS JSON array
+  - ```LampGroups``` takes action with ```LampGroups``` SPIFFS JSON array
+  - ```FuncArr``` takes action with ```FuncArr``` SPIFFS JSON array
+  - ```RgbwArr``` takes action with ```RgbwArr``` SPIFFS JSON array
 3. ```name``` is used for assigning or making a new name for something in SPIFFS JSON array 
 
 After comes one of three lines with parameters where:
 1. Color set:
-  1.1. ```red``` is a 1 to 3 digits long number from 0 to 255 representing red color
-  1.2. ```green``` is a 1 to 3 digits long number from 0 to 255 representing green color
-  1.3. ```blue``` is a 1 to 3 digits long number from 0 to 255 representing blue color
-  1.4. ```white``` is a 1 to 3 digits long number from 0 to 255 representing white color
+  - ```red``` is a 1 to 3 digits long number from 0 to 255 representing red color
+  - ```green``` is a 1 to 3 digits long number from 0 to 255 representing green color
+  - ```blue``` is a 1 to 3 digits long number from 0 to 255 representing blue color
+  - ```white``` is a 1 to 3 digits long number from 0 to 255 representing white color
 2. Animation set:
-  2.1. ```num``` is a 1 to 2 digits long number from 1 to 99 representing animation number
-  2.2. ```param``` is a 1 to 3 digits long number from 1 to 999 representing animation parameter
+  - ```num``` is a 1 to 2 digits long number from 1 to 99 representing animation number
+  - ```param``` is a 1 to 3 digits long number from 1 to 999 representing animation parameter
 3. Group set:
-  3.1. ```groupValue``` is a string representing start and end value of lamp. Example
-    3.1.1. ```1-12#``` from 1 to 12 
+  - ```groupValue``` is a string representing start and end value of lamp. Example
+    - ```1-12#``` from 1 to 12 
   
 
 # Lamp hub code
