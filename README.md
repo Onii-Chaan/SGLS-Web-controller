@@ -1,3 +1,5 @@
+Copyright 2020, Onii-Chaan, All Rights Reserved
+
 # RayLight controllable RGBW room lights
 # Table of contents:
 - [Usage](https://github.com/Onii-Chaan/SGLS-Web-controller#usage)
@@ -148,6 +150,3 @@ In development
 Every time user creates new color, or group, or animation, or turns off lamps, or anything else, data is saved. All user changes are saved and stored in ESP32 SPIFFS file system in json format. ArduinoJSON library is used for this purpose. There are 3 main text files, that stores JSON data. configFile.txt for creating main controller page, default.txt for setting default values for variables, save.txt for last hub variable values. 
 
 
-
-
- 
