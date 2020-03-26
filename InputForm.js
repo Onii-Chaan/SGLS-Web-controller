@@ -15,7 +15,12 @@ class InputForm {
 
         this.formDiv = buildElementNode('DIV', 'formDiv');//izveido pop up divu
         this.formElement = buildElementNode('FORM', 'formElement');
-        this.formDiv.appendChild(buildElementNode('H3', 'formTitle', this.titleText));//izveido virsrakstu
+        
+        this.formElement.setAttribute("name", buttonDataSend); //for different data send
+
+        this.formDiv.appendChild(buildElementNode('P', 'formTitle', this.titleText));//izveido virsrakstu
+
+        
 
         this.inputCount = this.inputArr.length;
         for (var i = 0; i < this.inputCount; i++) {//izveido visus ievades lauciņus
@@ -30,6 +35,10 @@ class InputForm {
             this.formElement.appendChild(this.inputElement);//pievieno input elementu formai
         }
         this.submitButton = buildElementNode('BUTTON', 'submitButton');//izveido pogas divu
+        
+        this.submitButton.classList.add("btn");
+        this.submitButton.classList.add("btn-default");
+
         this.submitButton.innerHTML = this.buttText;
         if (this.inputCount > 0) {
             this.submitButton.onclick = methodize(this.checkData, this);
@@ -38,6 +47,7 @@ class InputForm {
         }
 
         this.formDiv.appendChild(this.formElement);
+        // this.formDiv.appendChild(buildElementNode("br"));
         this.formDiv.appendChild(this.submitButton);
         this.placeToBuild.appendChild(this.formDiv);//Pievieno formu ievadītajai lokācijai
     }
@@ -48,5 +58,6 @@ class InputForm {
 
     buttonSend() {
         ajaxConsoleSend(this.sendBuffer);
+        sendAjaxData(this.sendBuffer, 'setJson');
     }
 }

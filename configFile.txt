@@ -182,5 +182,7 @@
    "UserWlanSsid":"ElektronikasKlubs",
    "UserWlanPass":"ViitaisPaaris",
    "UserMDNS":"esp32",
+   "WIFIMode": "softAP",
+   "SoftAPSSID": "MySoftAP",
    "SoftAPPass": "12345678"
 }
