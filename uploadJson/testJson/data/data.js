@@ -85,10 +85,10 @@ var checkInput = (inputData, valType = 'String') => {//Pārbauda vai ievadītā 
     } else if (isNaN(inputData) && valType == 'number' && !Array.isArray(inputData)) {//Pārbauda vai ievadītais skaitlis ir skaitlis nevis strings
         alert('You must input a number!');
         return false;
-    } else if(valType == 'number' && !Array.isArray(inputData) && inputData < 0){
+    } else if (valType == 'number' && !Array.isArray(inputData) && inputData < 0) {
         alert('Input must be bigger than 0!');
         return false;
-    }else {//Ja netika izpildīts neviens no iepriekšējiem nosacījumiem, tad pārbaude ir bijusi veiksmīga un netika atrastas nekādas kļūdas
+    } else {//Ja netika izpildīts neviens no iepriekšējiem nosacījumiem, tad pārbaude ir bijusi veiksmīga un netika atrastas nekādas kļūdas
         return true;
     }
 }
@@ -100,6 +100,8 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija p
 
 
 function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
+    console.log(formId.getAttribute("name"));
+
     let form = formId;
     let sendGetData = true;
     let dataToSend = "";
@@ -128,10 +130,21 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
                 break;
             }
         }
-
-
-        
-
+        if (elementToCheck.name == 'number') {
+            if (isNaN(elementToCheck.value)) {
+                sendGetData = false;
+                alert("You must input a number");
+                break;
+            } else if (elementToCheck.value > 30) {
+                sendGetData = false;
+                alert("Max quantity of lamps connected is 30");
+                break;
+            } else if (elementToCheck.value == ''){
+                sendGetData = false;
+                alert("You must fill all fields");
+                break;
+            }
+        }
         if (elementToCheck.name == 'ssid') {
             dataToSend = dataToSend + "ssid=" + elementToCheck.value + "|";
         } else if (elementToCheck.name == 'pass' && doublePass == false) {
@@ -139,10 +152,12 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
             dataToSend = dataToSend + "pass=" + elementToCheck.value + "|";
         } else if (elementToCheck.name == 'linkName') {
             dataToSend = dataToSend + "linkName=" + elementToCheck.value + "|";
+        } else if (elementToCheck.name == 'number') {
+            dataToSend = dataToSend + "num=" + elementToCheck.value + "|";
         }
     }
 
-    dataToSend = "type=" + dataToSend.substring(0, dataToSend.length - 1);
+    dataToSend = "type=" + dataToSend + "data=" + formId.getAttribute("name");
     if (sendGetData) {
         ajaxConsoleSend(dataToSend, formId);
         sendAjaxData(dataToSend, 'setJson');
@@ -299,18 +314,6 @@ function connectToWlan() {//nosūta pieprasījumu pievienoties wlan tīklam
     sendAjaxData(" ", "connect_to_wlan");
 }
 
-// function getSyntax(labelArr, paramArr) {
-//     let ret = [];
-//     for (var i = 0; i < paramArr.length; i++) {
-//         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-//     }
-//     return ret.join('&');
-// }
-
-// function encodeQueryData(data) {
-
-//  }
-
 
 var urlQuery = (params) => {//izveido izsūtāmo datu stringu url formātā
     return 'type=' + Object.keys(params)
@@ -326,9 +329,6 @@ var createDic = (keyArr, valArr) => {//Izveido dictionary no diviem masīviem
     return items;
 }
 
-
-// console.log("CreateDic: ", JSON.stringify(createDic(keyArr, valArr)));
-// console.log("URLQuery", urlQuery(createDic(keyArr, valArr)));
 
 
 

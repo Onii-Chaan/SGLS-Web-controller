@@ -1,57 +1,131 @@
 var SETT_TITLES = [
-    'Change your network credetials',
-    'Change your mDNS link',
+    'Choose connection mode',
+    'Change your WiFi credentials',
+    'Change your Access Point credentials',
+    'Change you lamp quantity',
+    'Change your controller link',
     'Factory reset',
-    'Update',
-    'Return to SoftAP',
     'About Us'
 ];//settings lapas collapsible pogu nosaukumi
 
 var SETT_DATA = [
     [
-        'Change your network credentials: ',
+        '',
         [
-            'Input your new WLAN ssid:',
-            'Input your new WLAN password:'
+            'Input your new WiFi ssid:',
+            'Input your new WiFi password:'
         ],
         'Save',
         [
             'ssid',
             'pass'
-        ]
+        ],
+        'wlan'
     ],
     [
-        'Change your mDNS link: ',
+        '',
+        [
+            'Input your AP ssid:',
+            'Input your AP password:'
+        ],
+        'Save',
+        [
+            'ssid',
+            'pass'
+        ],
+        'softap'
+    ],
+    [
+        '',
+        ['Input how many RayLight lamps you have connected: '],
+        'Save',
+        ['number'],
+        'newLampCount'
+    ],
+    [
+        '',
         ['Input your new mDNS link:'],
         'Save',
-        ['linkName']
+        ['linkName'],
+        'newMdns'
     ],
     [
-        'Warning: If you will reset the lamps, all your saved data will be lost and you will be returned to hub AP',
+        'Warning: If you reset the lamps, all your saved data will be lost and you will be returned to hub AP',
         '',
         'Reset',
         '',
-        'factory reset'
-    ],
-    [
-        'To update lamps, you have to make sure that your router is connected to internet. An update might take a while to execute. While updating please DO NOT turn off electricity',
-        '',
-        'Update',
-        '',
-        'Update'
-    ],
-    [
-        'If you need to change the base options like',
-        '',
-        'Return',
-        '',
-        'return to softAP'
+        'type=data=factoryReset'
     ]
 ];//visi settings ievades un teksta dati
 
+
 function createSettCols() {//Izveido settings lapas collapsible pogas
-    for (var i = 0; i < 6; i++) {//Izveido pogas elementus      
-        var collapsibleObj = new CollapsibleButton(
+    //izveido pop about us sadaļu
+    var collapsibleObj = new CollapsibleButton(
+        new Icon("arrow", "medIcon"), SETT_TITLES[0], document.body
+    );
+
+    collapsibleObj.buildCollapseButton(); //creates radio input
+    let formDiv = buildElementNode('DIV', 'formDiv');
+    let aboutTitle = buildElementNode('P', 'formTitle');
+    aboutTitle.innerHTML = 'If you choose WLAN, RayLight hub will connect to your local WiFi network, if Access Point, RayLight hub will create its own WiFi network, that you will be able to connect to.';
+    formDiv.appendChild(aboutTitle);//izveido virsrakstu
+
+    // let aboutText = buildElementNode('br');
+    // formDiv.appendChild(aboutText);
+
+    aboutText = buildElementNode('INPUT', 'radioIn');
+    aboutText.setAttribute("type", "radio");
+    aboutText.setAttribute("name", "mode");
+    formDiv.appendChild(aboutText);
+
+    aboutText = buildElementNode('SPAN');
+    aboutText.innerText =  " WLAN";
+    formDiv.appendChild(aboutText);
+
+    aboutText = buildElementNode('br');
+    formDiv.appendChild(aboutText);
+
+
+    aboutText = buildElementNode('INPUT', 'radioIn');
+    aboutText.setAttribute("type", "radio");
+    aboutText.setAttribute("name", "mode");
+    formDiv.appendChild(aboutText);
+
+    aboutText = buildElementNode('SPAN');
+    aboutText.innerText =  " Access Point";
+    formDiv.appendChild(aboutText);
+
+    aboutText = buildElementNode('br');
+    formDiv.appendChild(aboutText);
+
+    
+    aboutText = buildElementNode('BUTTON', 'submitButton');
+    aboutText.innerText = "Save";
+    aboutText.classList.add("btn");
+    aboutText.classList.add("btn-default");
+
+    
+
+    aboutText.onclick = function(){ //reads radio values and sends neccessary data
+        if(document.getElementsByClassName("radioIn")[0].checked){
+            console.log("type=changeWifi=WLAN");
+            sendAjaxData("type=changeWifi=WLAN", 'setJson');
+            
+        } else if(document.getElementsByClassName("radioIn")[1].checked){
+            console.log("type=changeWifi=softAp");
+            sendAjaxData("type=changeWifi=softAp", 'setJson');
+        } else {
+            alert("You must check");
+        }
+    }
+    formDiv.appendChild(aboutText);
+    document.getElementsByClassName('elemPlaceHolder')[0].appendChild(formDiv);
+
+    
+
+    for (var i = 1; i < SETT_TITLES.length; i++) {//Izveido pogas elementus      
+        collapsibleObj = new CollapsibleButton(
             new Icon("arrow", "medIcon"), SETT_TITLES[i], document.body
         );
         collapsibleObj.buildCollapseButton();
@@ -61,30 +135,26 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
         var formObj = new InputForm(
             SETT_DATA[i][0],
             SETT_DATA[i][1],
-            document.getElementsByClassName('elemPlaceHolder')[i]
+            document.getElementsByClassName('elemPlaceHolder')[i+1],
         );
-        if(SETT_DATA[i] == 4){
-            formObj.build(SETT_DATA[i][2], SETT_DATA[i][3]);
-        } else{
-            formObj.build(SETT_DATA[i][2], SETT_DATA[i][3], SETT_DATA[i][4]);
-        }
+        formObj.build(SETT_DATA[i][2], SETT_DATA[i][3], SETT_DATA[i][4]);
     }
 
     //izveido pop about us sadaļu
-    let formDiv = buildElementNode('DIV', 'formDiv');
-    let aboutTitle = buildElementNode('H3', 'formTitle');
-    aboutTitle.innerHTML = 'RayLight Lighting Solutions Latvia';
+    formDiv = buildElementNode('DIV', 'formDiv');
+    aboutTitle = buildElementNode('H3', 'formTitle');
+    aboutTitle.innerHTML = 'Lighting Solutions Latvia, RayLight ';
     formDiv.appendChild(aboutTitle);//izveido virsrakstu
 
-    let aboutText = buildElementNode('P');
+    aboutText = buildElementNode('P');
     aboutText.innerHTML = 'We are a company of ...';
     formDiv.appendChild(aboutText);
-    
-    let aboutLink = buildElementNode('A');
+
+    aboutLink = buildElementNode('A');
     aboutLink.innerHTML = 'LINK';
-    aboutLink.href = 'https://www.youtube.com/watch?v=_S7WEVLbQ-Y&t=802s';
+    aboutLink.href = 'https://www.youtube.com/watch?v=_S7WEVLbQ-Y&t=260s';
     formDiv.appendChild(aboutLink);
-    document.getElementsByClassName('elemPlaceHolder')[SETT_DATA.length].appendChild(formDiv);
+    document.getElementsByClassName('elemPlaceHolder')[SETT_DATA.length+1].appendChild(formDiv);
 }
 
 

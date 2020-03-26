@@ -13,17 +13,11 @@ var lampGroups;//ienākošo lampu grupu datu masīvs
 var exploreArr;
 var currentLampString;//jau izveidots string priekš lampu numuriem
 
-// var checkSession = () => {//checks local storage if it has already loaded txt file
-//    if (sessionStorage.getItem("jsonLoaded") == null) {
-//        return false;
-//    }
-//    return true;
-// }
+var wifiMode;//softAP or WLAN
 
 var recData = async () => {//Fečo txt failu un izveido lapu
    const res = await fetch(fileUrl);
    const json = await res.json();
-
 
    let JSON_DATA = json;//parses json string from session storage
 
@@ -33,15 +27,33 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    lampGroups = JSON_DATA.LampGroups;//ienākošo lampu grupu datu masīvs
    funcArr = JSON_DATA.FuncArr;
    rgbwArr = JSON_DATA.RgbwArr;
-   USER_SSID = JSON_DATA.UserWlanSsid;
+
+   wifiMode = JSON_DATA.WIFIMode;
+
+   if(wifiMode == "softAP" && document.getElementsByClassName("radioIn")[0] != null){//for choose connection mode default check
+       document.getElementsByClassName("radioIn")[1].checked = true;
+   } else if(wifiMode == "WLAN" && document.getElementsByClassName("radioIn")[0] != null){
+       document.getElementsByClassName("radioIn")[0].checked = true;
+   }
+
+   if (wifiMode == "WLAN")//operating mode (WLAN or softAP)
+      USER_SSID = JSON_DATA.UserWlanSsid;
+   else
+      USER_SSID = JSON_DATA.SoftAPSSID;
+
+   // if (window.location.pathname.split("/").pop() == "softap.html") {//if user is in softAP page
+   //    document.getElementById('controllerLink').innerText = JSON_DATA.UserMDNS + ".local";
+   //    document.getElementById("controllerLink").href = JSON_DATA.UserMDNS + ".local";
+   // }
+
    exploreArr = JSON_DATA.ExploreArr;
-   document.getElementById('SGLSmainName').innerText = JSON_DATA.UserWlanSsid;//Iestata lietotāja nosaukuma title
+   document.getElementById('SGLSmainName').innerText = USER_SSID;//Iestata lietotāja nosaukuma title
    currentLampString = '1-' + lampNum + '#';//jau izveidots string priekš lampu numuriem
    document.getElementById('onOffButton').checked = buttonOn;//iestata ieslēgšanas pogas sākuma stāvokli
 
    buildSettings();
    createDynamicContent();
-   loadingScreen.end();      
+   loadingScreen.end();
 }
 
 
