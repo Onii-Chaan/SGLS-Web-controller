@@ -1,9 +1,5 @@
 #include "funcHeader.h"
 
-// IPAddress local_ip(192, 168, 1, 1);
-// IPAddress gateway(192, 168, 1, 1);
-// IPAddress subnet(255, 255, 255, 0);
-
 void startWifi()
 {
   File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
@@ -45,27 +41,39 @@ void startEEPROM()
   Serial.println("EEPROM END");
 }
 
-void startMDNS()
+void startMDNS(String mdnsName)
 {
+  MDNS.end();
 
-  /* http://esp32.local */
-  File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
-  DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
-  DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
-  if (error)
+  if (mdnsName != "")
   {
+    char mdnsChar[mdnsName.length() + 1]; //stores ssid to pass to wifi method
+    mdnsName.toCharArray(mdnsChar, mdnsName.length() + 1);
+    MDNS.begin(mdnsChar);
+
+    MDNS.addService("http", "tcp", 53);
+    MDNS.setInstanceName(mdnsName);
   }
-  file.close();
-  MDNS.begin(doc["UserMDNS"]);
-  // if (!MDNS.begin("esp32")) {
-  // Serial.println(F("Error setting up MDNS responder!"));
-  // while (1) {
-  // delay(1000);
-  // }
-  // }
-  MDNS.addService("http", "tcp", 53);
-  String instance = doc["UserMDNS"];
-  MDNS.setInstanceName(instance);
+  else
+  {
+    File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
+    DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+    DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
+    if (error)
+    {
+    }
+    file.close();
+    MDNS.begin(doc["UserMDNS"]);
+    // if (!MDNS.begin("esp32")) {
+    // Serial.println(F("Error setting up MDNS responder!"));
+    // while (1) {
+    // delay(1000);
+    // }
+    // }
+    MDNS.addService("http", "tcp", 53);
+    String instance = doc["UserMDNS"];
+    MDNS.setInstanceName(instance);
+  }
   Serial.println(MDNS.IP(0));
 }
 

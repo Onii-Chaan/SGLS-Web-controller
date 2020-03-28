@@ -119,7 +119,7 @@ void solidBlink(byte rgbArr[4 /*4*/], int off, int part);
 void solidFade(byte rgbArr[4 /*4*/], int period, unsigned long time, int part);
 void solidRainbow(int part, int firstTime = 0);
 void startEEPROM();
-void startMDNS();
+void startMDNS(String mdnsName = "");
 void startServer();
 void startSPIFFS();
 void startWifi();
