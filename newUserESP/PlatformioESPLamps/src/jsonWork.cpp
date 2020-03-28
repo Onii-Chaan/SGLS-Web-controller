@@ -61,13 +61,15 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     { //if changing saved wlan data
       doc["UserWlanSsid"] = input[0];
       doc["UserWlanPass"] = input[1];
-      resetWiFi(input[0], input[1], doc["WIFIMode"]);
+      doc["WIFIMode"] = "WLAN";
+      resetWifi(input[0], input[1], doc["WIFIMode"]);
     }
     else if (type == "softap")
     { //if changing saved softAP data
       doc["SoftAPSSID"] = input[0];
       doc["SoftAPPass"] = input[1];
-      resetWiFi(input[0], input[1], doc["WIFIMode"]);
+      doc["WIFIMode"] = "softAp";
+      resetWifi(input[0], input[1], doc["WIFIMode"]);
     }
     else if (type == "newLampCount")
     { //if setting new lamp quant
@@ -111,7 +113,8 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
   file.close();
   // Serial.println();
   // printFile(webdata);
-  printFile("/configFile.txt");
+
+  // printFile("/configFile.txt");
 }
 
 void save1DData(byte type, uint32_t *array, bool writeToArr, const char *fileName, DynamicJsonDocument &jsonRef) //writes 1d array to file
