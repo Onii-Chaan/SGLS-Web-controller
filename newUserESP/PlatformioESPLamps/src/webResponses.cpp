@@ -145,23 +145,25 @@ void serverFunctions()
       currentDataValue = type.substring(type.indexOf('=', lastParamId) + 1, type.indexOf('|', lastParamId)); //current parameter value
       lastParamId = type.indexOf('|', lastParamId + 1) + 1;
 
+      Serial.print("CurrentData: ");
+      Serial.println(currentData);
+      Serial.print("Value: ");
+      Serial.println(currentDataValue);
+
       if (currentData == "action")
       {
         action = currentDataValue;
       }
-      else if (currentData == "dataType")
+      else if (
+          currentData == "dataType" || currentData == "data" /*New network credentials*/)
       {
         dataType = currentDataValue;
       }
-      else if (currentData == "name")
+      else if (currentData == "name" || currentData == "funcNum" || currentData == "ssid" || currentData == "linkName" || currentData == "num")
       {
         valueArr[0] = currentDataValue;
       }
-      else if (currentData == "value")
-      {
-        valueArr[1] = currentDataValue;
-      }
-      else if (currentData == "r")
+      else if (currentData == "value" || currentData == "param" || currentData == "r" || currentData == "pass")
       {
         valueArr[1] = currentDataValue;
       }
@@ -181,25 +183,28 @@ void serverFunctions()
       {
         index = currentDataValue;
       }
-      else if (currentData == "funcNum")
-      {
-        valueArr[0] = currentDataValue;
-      }
-      else if (currentData == "param")
-      {
-        valueArr[1] = currentDataValue;
-      }
       else if (currentData == "turnOn")
       {
         doTurnOn = true;
         turnOnBool = currentDataValue;
+      } else if (currentData == "changeWifi"){
+        dataType = currentData;
+        valueArr[0] = currentDataValue;
       }
 
     } while (lastParamId != 0);
+    Serial.println();
 
     if (!doTurnOn)
     {
-      Serial.println("hre");
+      if(dataType == "wlan" || dataType == "softap" || dataType == "newLampCount" || dataType == "newMdns" || dataType == "changeWifi"){
+        action = "edit";
+      }
+      // Serial.print("action: ");Serial.println(action);
+      // Serial.print("dataType: ");Serial.println(dataType);
+      // Serial.print("valueArr[0]: ");Serial.println(valueArr[0]);
+      // Serial.print("valueArr[1]: ");Serial.println(valueArr[1]);
+      // Serial.println();
       setJsonData(action, dataType, valueArr, index.toInt()); //updates file
     }
     else

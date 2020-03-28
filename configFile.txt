@@ -179,10 +179,10 @@
    ],
    "LampNum":6,
    "OffState":false,
-   "UserWlanSsid":"ElektronikasKlubs",
-   "UserWlanPass":"ViitaisPaaris",
+   "UserWlanSsid":"MyHomeNetV2.0",
+   "UserWlanPass":"Rammy12345",
    "UserMDNS":"esp32",
-   "WIFIMode": "softAP",
+   "WIFIMode": "WLAN",
    "SoftAPSSID": "MySoftAP",
    "SoftAPPass": "12345678"
 }

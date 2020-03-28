@@ -12,22 +12,10 @@
 #include <SPIFFS.h>
 
 #include <ArduinoJson.h>
-// #include <SoftwareSerial.h>
-// struct Config
-// {
-//   char hostname[64];
-//   int port;
-//   int userIP;
-//   int arrayData[3];
-// };
-
-// extern Config config;
 
 extern const char *webdata;
 
 extern AsyncWebServer server;
-
-// SoftwareSerial mySerial(16, 17); // RX, TX
 
 
 
@@ -38,6 +26,9 @@ extern int INCREMENTER;
 
 extern const char* WLAN_SSID;
 extern const char* WLAN_PASSWORD;
+
+extern const char* SOFTAP_SSID;
+extern const char* SOFTAP_PASS;
 
 //const char* WLAN_SSID     = "MyHomeNetV2.0";
 //const char* WLAN_PASSWORD = "Rammy12345";
@@ -144,4 +135,5 @@ void save1DData(byte type, uint32_t *array, bool writeToArr, const char * fileNa
 void save2D2Data(byte type, int (*array)[31][2], bool writeToArr, const char * fileName, DynamicJsonDocument &jsonRef);
 void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr, const char * fileName, DynamicJsonDocument &jsonRef);
 void setJsonArrData(bool actionType, const char * fileName);
+void resetWifi(String newSsid, String newPass, String currentWifiType);
 #endif

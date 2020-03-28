@@ -1,33 +1,40 @@
 #include "funcHeader.h"
 
-IPAddress local_ip(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+// IPAddress local_ip(192, 168, 1, 1);
+// IPAddress gateway(192, 168, 1, 1);
+// IPAddress subnet(255, 255, 255, 0);
+
 void startWifi()
 {
-  // WiFi.begin(WLAN_SSID, WLAN_PASSWORD);
+  File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
+  DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+  DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
+  if (error)
+  {
+    // Serial.println(F("Failed to read file, using default configuration"));
+    // return;
+  }
+  file.close();
 
-  
-  WiFi.softAP("RayLight", "12345678") ? Serial.println("Ready") : Serial.println("Failed");
+  doc["WIFIMode"] = "WLAN";
+  // doc["WIFIMode"] = "softAP";
 
+  file = SPIFFS.open(webdata, FILE_WRITE); //Tiek atverts fails datu apstradei
+  if (!file)
+  {
+    Serial.println(F("Failed to create file"));
+    return;
+  }
+  if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
+  {
+    Serial.println(F("Failed to write to file"));
+  }
+  file.close();
 
-  IPAddress NMask(255, 255, 255, 0);
-  IPAddress IP(192, 168, 4, 1);
-  WiFi.softAPConfig(IP, IP, NMask);
-
-  delay(500);
-
-
-  Serial.println("AP IP address: ");
-  Serial.println(WiFi.softAPIP());
-
-  // while (WiFi.status() != WL_CONNECTED)
-  // {
-  //     delay(500);
-  //     Serial.println(F("Connecting to WiFi.."));
-  // }
-  // Serial.println(F("Connected to the WiFi network"));
-  // Serial.println(WiFi.localIP());
+  if (doc["WIFIMode"] == "WLAN" || doc["WIFIMode"] == "softAP") //starts working in local WLAN if it's written in JSON file
+    resetWifi(doc["UserWlanSsid"], doc["UserWlanPass"], doc["WIFIMode"]);
+  else
+    Serial.println("Error: Could not start WiFi");
 }
 
 void startEEPROM()
@@ -40,8 +47,16 @@ void startEEPROM()
 
 void startMDNS()
 {
+
   /* http://esp32.local */
-  MDNS.begin("esp32");
+  File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
+  DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+  DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
+  if (error)
+  {
+  }
+  file.close();
+  MDNS.begin(doc["UserMDNS"]);
   // if (!MDNS.begin("esp32")) {
   // Serial.println(F("Error setting up MDNS responder!"));
   // while (1) {
@@ -49,7 +64,8 @@ void startMDNS()
   // }
   // }
   MDNS.addService("http", "tcp", 53);
-  MDNS.setInstanceName("esp32");
+  String instance = doc["UserMDNS"];
+  MDNS.setInstanceName(instance);
   Serial.println(MDNS.IP(0));
 }
 

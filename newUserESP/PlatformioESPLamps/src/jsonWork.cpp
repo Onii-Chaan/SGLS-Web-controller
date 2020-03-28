@@ -48,11 +48,38 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
 
   if (action == "edit") //JSON dati tiek modificeti
   {
-    int i = 0;
-    while (i != 5 && input[i] != "")
+    if (type == "LampGroups" || type == "FuncArr" || type == "RgbwArr")
     {
-      doc[type][index][i] = input[i];
-      i++;
+      int i = 0;
+      while (i != 5 && input[i] != "")
+      {
+        doc[type][index][i] = input[i];
+        i++;
+      }
+    }
+    else if (type == "wlan")
+    { //if changing saved wlan data
+      doc["UserWlanSsid"] = input[0];
+      doc["UserWlanPass"] = input[1];
+      resetWiFi(input[0], input[1], doc["WIFIMode"]);
+    }
+    else if (type == "softap")
+    { //if changing saved softAP data
+      doc["SoftAPSSID"] = input[0];
+      doc["SoftAPPass"] = input[1];
+      resetWiFi(input[0], input[1], doc["WIFIMode"]);
+    }
+    else if (type == "newLampCount")
+    { //if setting new lamp quant
+      doc["LampNum"] = input[0].toInt();
+    }
+    else if (type == "newMdns")
+    { //if setting new mdns link
+      doc["UserMDNS"] = input[0];
+    }
+    else if (type == "changeWifi")
+    { //if user changes wifi mode
+      doc["WIFIMode"] = input[0];
     }
   }
   else if (action == "delete") //Json dati tiek dzesti
@@ -84,6 +111,7 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
   file.close();
   // Serial.println();
   // printFile(webdata);
+  printFile("/configFile.txt");
 }
 
 void save1DData(byte type, uint32_t *array, bool writeToArr, const char *fileName, DynamicJsonDocument &jsonRef) //writes 1d array to file
