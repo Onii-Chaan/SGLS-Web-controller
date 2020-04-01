@@ -62,16 +62,16 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
       doc["UserWlanSsid"] = input[0];
       doc["UserWlanPass"] = input[1];
       doc["WIFIMode"] = "WLAN";
+      // startMDNS(doc["UserMDNS"]);
       resetWifi(input[0], input[1], doc["WIFIMode"]);
-      startMDNS(doc["UserMDNS"]);
     }
     else if (type == "softap")
     { //if changing saved softAP data
       doc["SoftAPSSID"] = input[0];
       doc["SoftAPPass"] = input[1];
-      doc["WIFIMode"] = "softAp";
+      doc["WIFIMode"] = "softAP";
+      // startMDNS(doc["UserMDNS"]);
       resetWifi(input[0], input[1], doc["WIFIMode"]);
-      startMDNS(doc["UserMDNS"]);
     }
     else if (type == "newLampCount")
     { //if setting new lamp quant

@@ -11,19 +11,22 @@ void resetWifi(String newSsid, String newPass, String currentWifiType)
     Serial.println(currentWifiType);
 
     WiFi.softAPdisconnect(true);
-    delay(1000); //so both softap and wlan won't crash
-    WiFi.disconnect(true);
+    WiFi.disconnect();
     delay(1000); //so both softap and wlan won't crash
 
-    Serial.println("Check");
-    WiFi.printDiag(Serial);
+    // Serial.println("Check");
+    // WiFi.printDiag(Serial);
 
     if (currentWifiType == "WLAN") //begins working in user WLAN
     {
-        Serial.println("BBBB");
+        // Serial.println("BBBB");
+        WiFi.enableAP(false);
+        WiFi.mode(WIFI_STA);
         WiFi.begin(SSID, PASS);
-        Serial.print("WlanSsid: ");Serial.println(SSID);
-        Serial.print("WlanPass: ");Serial.println(PASS);
+        Serial.print("WlanSsid: ");
+        Serial.println(SSID);
+        Serial.print("WlanPass: ");
+        Serial.println(PASS);
         while (WiFi.status() != WL_CONNECTED)
         {
             delay(500);
@@ -31,20 +34,32 @@ void resetWifi(String newSsid, String newPass, String currentWifiType)
         }
         Serial.println(F("Connected to the WiFi network"));
         Serial.println(WiFi.localIP());
-        Serial.println("WLAN: ");
-        WiFi.printDiag(Serial);
+        // Serial.println("WLAN: ");
+        // WiFi.printDiag(Serial);
     }
-    else if (currentWifiType == "softAp") // begins softAP regime
+    else if (currentWifiType == "softAP") // begins softAP regime
     {
         IPAddress NMask(255, 255, 255, 0);
         IPAddress IP(192, 168, 4, 1);
-        WiFi.softAPConfig(IP, IP, NMask);
-        Serial.println("HERE");
+        Serial.print("Wifi Status bef: ");
+        Serial.println(WiFi.status());
+        Serial.print("AP SSID: ");
+        Serial.println(SSID);
+        Serial.print("AP PASS: ");
+        Serial.println(PASS);
+        WiFi.enableAP(true);
+        WiFi.mode(WIFI_AP);
         WiFi.softAP(SSID, PASS) ? Serial.println("Ready") : Serial.println("Failed"); //for softap
-        delay(500);
-        Serial.println("AP IP address: ");
-        Serial.println(WiFi.softAPIP());
-        Serial.println("SoftAP: ");
+        while (!(WiFi.softAPIP() == IP))
+        {
+            WiFi.softAPConfig(IP, IP, NMask);
+        }
+        Serial.print("Wifi Status aft: ");
+        Serial.println(WiFi.status());
         WiFi.printDiag(Serial);
+        // Serial.println("AP IP address: ");
+        // Serial.println(WiFi.softAPIP());
+        // Serial.println("SoftAP: ");
+        // WiFi.printDiag(Serial);
     }
 }

@@ -12,7 +12,7 @@ void startWifi()
   }
   file.close();
 
-  doc["WIFIMode"] = "WLAN";
+  // doc["WIFIMode"] = "WLAN";
   // doc["WIFIMode"] = "softAP";
 
   file = SPIFFS.open(webdata, FILE_WRITE); //Tiek atverts fails datu apstradei
@@ -27,8 +27,11 @@ void startWifi()
   }
   file.close();
 
-  if (doc["WIFIMode"] == "WLAN" || doc["WIFIMode"] == "softAP") //starts working in local WLAN if it's written in JSON file
+  Serial.println("Before resetWifi()");
+  if (doc["WIFIMode"] == "WLAN") //starts working in local WLAN if it's written in JSON file
     resetWifi(doc["UserWlanSsid"], doc["UserWlanPass"], doc["WIFIMode"]);
+  else if (doc["WIFIMode"] == "softAP")
+    resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
   else
     Serial.println("Error: Could not start WiFi");
 }
@@ -74,7 +77,7 @@ void startMDNS(String mdnsName)
     String instance = doc["UserMDNS"];
     MDNS.setInstanceName(instance);
   }
-  Serial.println(MDNS.IP(0));
+  Serial.print("MDNS IP: ");Serial.println(MDNS.IP(0));
 }
 
 void startServer()
