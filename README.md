@@ -156,7 +156,11 @@ When user opens controller page for the first time he has to set local WLAN SSID
   - After user hits the "Save" button, data gets sent hub in format: 
     - ```type=ssid=[newSSID]|pass=[newPassword]]|data=softap```, where ```[newSSID]```  is new AP ssid and ```[newPassword]``` is new AP password, all other send data remains constant
   - Hub saves new data and starts WiFi in AP mode
- 
+- Change your lamp quantity
+  - Users enters a number of connected lamps to hub
+  - After user hits the "Save" button, data gets sent hub in format: 
+    - ```type=num=[newLampQuantity]|data=newLampCount```, where ```[newLampQuantity]``` is number of currently connected lamps to hub
+  - Hub saves new data, and when user returns to main page, it gets loaded according to new changes
 # Communication
 - For communication with hub, lamps use UART Rx/Tx communication
 - Hub works in user local WLAN or directly using softAP, depends on user settings choice
