@@ -19,12 +19,8 @@ void setup()
   digitalWrite(2, LOW);
 
   setJsonArrData(true, saveTxt);
+  loopThroughStartEnd();
 
-  for (int i = 0; i < 30; i++)
-    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0 && adrStartEnd[i][2] != 0 && adrStartEnd[i][3] != 0)
-      displayAdrColors(adrStartEnd[i], rgb[i]);
-    else
-      break;
 }
 
 void loop()

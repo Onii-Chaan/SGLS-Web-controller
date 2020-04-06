@@ -145,29 +145,28 @@ void serverFunctions()
       currentDataValue = type.substring(type.indexOf('=', lastParamId) + 1, type.indexOf('|', lastParamId)); //current parameter value
       lastParamId = type.indexOf('|', lastParamId + 1) + 1;
 
-      Serial.print("CurrentData: ");
-      Serial.println(currentData);
-      Serial.print("Value: ");
-      Serial.println(currentDataValue);
+      // Serial.print("CurrentData: ");
+      // Serial.println(currentData);
+      // Serial.print("Value: ");
+      // Serial.println(currentDataValue);
 
       if (currentData == "action")
       {
         action = currentDataValue;
       }
-      else if (
-          currentData == "dataType" || currentData == "data" /*New network credentials*/)
+      else if (currentData == "dataType" || currentData == "data" /*New network credentials*/)
       {
         dataType = currentDataValue;
       }
-      else if (currentData == "name" || currentData == "funcNum" || currentData == "ssid" || currentData == "linkName" || currentData == "num")
+      else if (currentData == "name" || currentData == "ssid" || currentData == "linkName" || currentData == "num")
       {
         valueArr[0] = currentDataValue;
       }
-      else if (currentData == "value" || currentData == "param" || currentData == "r" || currentData == "pass")
+      else if (currentData == "value" || currentData == "r" || currentData == "pass" || currentData == "funcNum")
       {
         valueArr[1] = currentDataValue;
       }
-      else if (currentData == "g")
+      else if (currentData == "g" || currentData == "param")
       {
         valueArr[2] = currentDataValue;
       }
@@ -187,17 +186,22 @@ void serverFunctions()
       {
         doTurnOn = true;
         turnOnBool = currentDataValue;
-      } else if (currentData == "changeWifi"){
+        action = "edit";
+        dataType = currentData;
+        valueArr[0] = currentDataValue;
+      }
+      else if (currentData == "changeWifi")
+      {
         dataType = currentData;
         valueArr[0] = currentDataValue;
       }
 
     } while (lastParamId != 0);
-    Serial.println();
 
     if (!doTurnOn)
     {
-      if(dataType == "wlan" || dataType == "softap" || dataType == "newLampCount" || dataType == "newMdns" || dataType == "changeWifi"){
+      if (dataType == "wlan" || dataType == "softap" || dataType == "newLampCount" || dataType == "newMdns" || dataType == "changeWifi" || dataType == "data" || dataType == "factoryReset")
+      {
         action = "edit";
       }
       // Serial.print("action: ");Serial.println(action);
@@ -205,10 +209,19 @@ void serverFunctions()
       // Serial.print("valueArr[0]: ");Serial.println(valueArr[0]);
       // Serial.print("valueArr[1]: ");Serial.println(valueArr[1]);
       // Serial.println();
+
       setJsonData(action, dataType, valueArr, index.toInt()); //updates file
+
+      if (dataType == "factoryReset")
+      { //resets saved array JSON values
+        setJsonArrData(true, defaultTxt);
+        setJsonArrData(false, saveTxt);
+        loopThroughStartEnd();
+      }
     }
     else
     {
+      setJsonData(action, dataType, valueArr, index.toInt()); //updates file
       bool arrSaveType;
       if (turnOnBool == "true")
       {
@@ -221,17 +234,7 @@ void serverFunctions()
         setJsonArrData(arrSaveType, saveTxt);
         setJsonArrData(!arrSaveType, defaultTxt);
       }
-      for (int i = 0; i < 30; i++)
-      {
-        if (adrStartEnd[i][0] != 0)
-        {
-          displayAdrColors(adrStartEnd[i], rgb[i]);
-        }
-        else
-        {
-          break;
-        }
-      }
+      loopThroughStartEnd();
     }
     request->send(200, "text/plain", "Json updated");
   });
@@ -248,4 +251,13 @@ int countChars(char findChar, String findString) //return number of occurances o
     }
   }
   return appCount;
+}
+
+void loopThroughStartEnd()
+{
+  for (int i = 0; i < 30; i++)
+    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0)
+      displayAdrColors(adrStartEnd[i], rgb[i]);
+    else
+      break;
 }

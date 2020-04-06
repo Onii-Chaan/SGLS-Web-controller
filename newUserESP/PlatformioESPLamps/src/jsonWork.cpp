@@ -57,33 +57,73 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
         i++;
       }
     }
-    else if (type == "wlan")
-    { //if changing saved wlan data
+    else if (type == "wlan") //if changing saved wlan data
+    {
       doc["UserWlanSsid"] = input[0];
       doc["UserWlanPass"] = input[1];
       doc["WIFIMode"] = "WLAN";
       // startMDNS(doc["UserMDNS"]);
-      resetWifi(input[0], input[1], doc["WIFIMode"]);
+      if (!resetWifi(input[0], input[1], doc["WIFIMode"])) //resets and starts wifi in wlan mode
+        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
     }
-    else if (type == "softap")
-    { //if changing saved softAP data
+    else if (type == "softap") //if changing saved softAP data
+    {
       doc["SoftAPSSID"] = input[0];
       doc["SoftAPPass"] = input[1];
       doc["WIFIMode"] = "softAP";
       // startMDNS(doc["UserMDNS"]);
-      resetWifi(input[0], input[1], doc["WIFIMode"]);
+      resetWifi(input[0], input[1], doc["WIFIMode"]); //resets and starts wifi in softAP mode
     }
-    else if (type == "newLampCount")
-    { //if setting new lamp quant
+    else if (type == "newLampCount") //if setting new lamp quant
+    {
       doc["LampNum"] = input[0].toInt();
     }
-    else if (type == "newMdns")
-    { //if setting new mdns link
+    else if (type == "newMdns") //if setting new mdns link
+    {
       doc["UserMDNS"] = input[0];
+      startMDNS(input[0]);
     }
-    else if (type == "changeWifi")
-    { //if user changes wifi mode
-      doc["WIFIMode"] = input[0];
+    else if (type == "changeWifi") //if user changes wifi mode
+    {
+      if (input[0] == "WLAN")
+        doc["WIFIMode"] = input[0];
+      else if (input[0] == "softAp")
+        doc["WIFIMode"] = "softAP";
+
+      if (input[0] == "WLAN" && !resetWifi(doc["UserWlanSsid"], doc["UserWlanPass"], doc["WIFIMode"]))
+        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+      else if (input[0] == "softAp")
+        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+    }
+    else if (type == "factoryReset") //removes all user saved data (colors, animations, groups)
+    {
+      String types[] = {"RgbwArr", "FuncArr", "LampGroups"};
+
+      for (int i = 0; i < 3; i++)
+      {
+        int arrLen = doc[types[i]].size(); //because arrayList size (when removing) is constantly changing
+        for (int j = 0; j < arrLen; j++)
+          doc[types[i]].remove(0); //zero because it's array list
+      }
+    }
+    else if (type == "hardReset") //resets core core data using external irritation
+    {
+      doc["LampNum"] = 0;
+      doc["OffState"] = false;
+      doc["UserWlanSsid"] = "null";
+      doc["UserWlanPass"] = "null";
+      doc["UserMDNS"] = "raylight";
+      doc["WIFIMode"] = "softAP";
+      doc["SoftAPSSID"] = "raylight";
+      doc["SoftAPPass"] = "12345678";
+      resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+    }
+    else if (type == "turnOn") //saves turn on or turn off state
+    {
+      if (input[0] == "true")
+        doc["OffState"] = true;
+      else
+        doc["OffState"] = false;
     }
   }
   else if (action == "delete") //Json dati tiek dzesti
@@ -97,6 +137,11 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     int i = 0;
     while (i != 5 && input[i] != "") //JSON masiva tiek ieladetas jaunas padotas vertibas
     {
+      Serial.print("Test ");
+      Serial.print(i);
+      Serial.print(": ");
+      Serial.println(input[i]);
+
       newArray.add(input[i]);
       i++;
     }
@@ -115,6 +160,7 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
   file.close();
   // Serial.println();
   // printFile(webdata);
+  // printFile("/configFile.txt");
 
   // printFile("/configFile.txt");
 }

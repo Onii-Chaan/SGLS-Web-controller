@@ -242,7 +242,7 @@ function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai
         'Animation options',
         [
             ['Edit animation name: ', 'bigInput'],
-            ['Edit animation parameter', 'smInput']
+            ['Edit animation speed', 'sliderInput']
         ],
         3,
         'add',

@@ -27,6 +27,13 @@ class SettingsPopUp {//pop elementu klase
             if (this.inputFields[i][1] != 'double') {
                 this.popElement.appendChild(buildElementNode('P', 'settingsText', this.inputFields[i][0]));
                 this.createInput = buildElementNode('INPUT', this.inputFields[i][1]);
+
+                if (this.inputFields[i][1] == "sliderInput") {
+                    this.createInput.setAttribute("type", "range");
+                    this.createInput.max = 999;
+                    this.createInput.min = 1;
+                }
+
                 this.createInput.classList.add('popUpInput');
                 this.popElement.appendChild(this.createInput);
             } else {
@@ -80,7 +87,6 @@ class SettingsPopUp {//pop elementu klase
         } else if (this.createType == 'updateAnimation') {
             this.userInputData = [parseInt(this.inputElem[1].value)];
         }
-
         if (this.createType != '') {//ja dotajam settings logam ir jāizveido vēl kāds jauns elements
             switch (this.createType) {
                 case 'group':
@@ -164,7 +170,7 @@ class SettingsPopUp {//pop elementu klase
                 case 'animation':
                     break;
                 case 'add':
-                    if (this.dataIn[3]) {//ja ir jāizveido jauns krāsu bloks
+                    if (this.dataIn[3] != null) {//ja ir jāizveido jauns krāsu bloks
                         if (colorCount == savedLimit) {//salīdina vai jau ir sasniegts krāsu saglabāšanas limits
                             alert('You have already saved ' + savedLimit + ' colors');
                         } else {
@@ -459,9 +465,9 @@ class SettingsPopUp {//pop elementu klase
                     ]
                 )
             );
-            ajaxConsoleSend('deleteanim' +query);
+            ajaxConsoleSend('deleteanim' + query);
             sendAjaxData(query, 'setJson');
-                
+
             funcArr.splice(this.funcIdToDel, 1);//izdzēš funkciju no masīva
             animCount--;
         }
@@ -475,7 +481,7 @@ function growColors(deletedData, toDelete = true) {//pēc krāsu pogas izdzēša
     if (toDelete) {
         let arrIndex = findArrIndex(rgbwArr, deletedData);
         deletedData.push(arrIndex);//izveido masīvu ar visu indeksu
-        
+
         let query = urlQuery(
             createDic(
                 [

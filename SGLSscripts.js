@@ -7,10 +7,16 @@ function onOffTextChange() {//seko līdzi tam, vai lampas ieslēgtas vai nē
     ajaxConsoleSend('onoff ' + 'turnOn');
   }
   sendAjaxData('type=turnOn=' + buttonOn, 'setJson');
-
 }
 
 document.getElementById('SGLSmainName').style.color = getContrast(document.getElementsByClassName("titleDiv")[0].style.background);
+
+function turnOnButt(){//turns on button if color or animation data is sent
+  if (!buttonOn) {
+    document.getElementById("onOffButton").checked = true;
+    onOffTextChange();
+  }
+}
 
 
 function okWhite() {//aprekina un iestata baltas krasas vertibu

@@ -135,5 +135,6 @@ void save1DData(byte type, uint32_t *array, bool writeToArr, const char * fileNa
 void save2D2Data(byte type, int (*array)[31][2], bool writeToArr, const char * fileName, DynamicJsonDocument &jsonRef);
 void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr, const char * fileName, DynamicJsonDocument &jsonRef);
 void setJsonArrData(bool actionType, const char * fileName);
-void resetWifi(String newSsid, String newPass, String currentWifiType);
+bool resetWifi(String newSsid, String newPass, String currentWifiType);
+void loopThroughStartEnd();
 #endif

@@ -31,9 +31,11 @@ class ColorBlock {
 
     colClick(){//krāsas klikšķis        
         if (this.type == 'animBlock'){
+            turnOnButt();
             sendValue(0, currentLampString, stringFunctionSet(this.colorValue[0], this.colorValue[1]));
             sendAjaxData('lamp='+'<1' + currentLampString + stringFunctionSet(this.colorValue[0], this.colorValue[1]) + '>' + ' ', 'setlamp');            
         }else{
+            turnOnButt();
             sendValue(1, currentLampString, stringColorSet(this.colorValue));
             sendAjaxData('lamp='+'<0' + currentLampString + stringColorSet(this.colorValue) + '>' + ' ', 'setlamp');
         }
@@ -44,7 +46,7 @@ class ColorBlock {
         this.dblData = [...this.colorValue]
         this.dblData[4] = this.colorName;
         this.options.open(this.dblData, this.colorBlock, this);
-        console.log(this.colorValue);
+        console.log(this.dblData);
     }
 
     grow(plusWidth = 0) {//izveido krāsu blokam atbilstošu platumu
@@ -67,6 +69,7 @@ class ColorBlock {
             // this.colorValue[4] = name;
         }
         if(value != this.colorValue[1] && value != '' && typeof value != 'undefined'){
+            this.colorValue[1] = value;
             this.colorBlock.setAttribute('name', this.colorValue[0] + '|' + value) ;
         }
     }

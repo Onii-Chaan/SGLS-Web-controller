@@ -80,7 +80,7 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
     formDiv.appendChild(aboutText);
 
     aboutText = buildElementNode('SPAN');
-    aboutText.innerText =  " WLAN";
+    aboutText.innerText = " WLAN";
     formDiv.appendChild(aboutText);
 
     aboutText = buildElementNode('br');
@@ -93,36 +93,35 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
     formDiv.appendChild(aboutText);
 
     aboutText = buildElementNode('SPAN');
-    aboutText.innerText =  " Access Point";
+    aboutText.innerText = " Access Point";
     formDiv.appendChild(aboutText);
 
     aboutText = buildElementNode('br');
     formDiv.appendChild(aboutText);
 
-    
+
     aboutText = buildElementNode('BUTTON', 'submitButton');
     aboutText.innerText = "Save";
     aboutText.classList.add("btn");
     aboutText.classList.add("btn-default");
 
-    
 
-    aboutText.onclick = function(){ //reads radio values and sends neccessary data
-        if(document.getElementsByClassName("radioIn")[0].checked){
-            console.log("type=changeWifi=WLAN");
-            sendAjaxData("type=changeWifi=WLAN", 'setJson');
-            
-        } else if(document.getElementsByClassName("radioIn")[1].checked){
-            console.log("type=changeWifi=softAp");
-            sendAjaxData("type=changeWifi=softAp", 'setJson');
-        } else {
-            alert("You must check");
+
+    aboutText.onclick = function () { //reads radio values and sends neccessary data
+        if (confirm("Are you sure you want to make these changes?")) {
+            if (document.getElementsByClassName("radioIn")[0].checked) {
+                sendAjaxData("type=changeWifi=WLAN", 'setJson');
+            } else if (document.getElementsByClassName("radioIn")[1].checked) {
+                sendAjaxData("type=changeWifi=softAp", 'setJson');
+            } else {
+                alert("You must check");
+            }
         }
     }
     formDiv.appendChild(aboutText);
     document.getElementsByClassName('elemPlaceHolder')[0].appendChild(formDiv);
 
-    
+
 
     for (var i = 1; i < SETT_TITLES.length; i++) {//Izveido pogas elementus      
         collapsibleObj = new CollapsibleButton(
@@ -135,7 +134,7 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
         var formObj = new InputForm(
             SETT_DATA[i][0],
             SETT_DATA[i][1],
-            document.getElementsByClassName('elemPlaceHolder')[i+1],
+            document.getElementsByClassName('elemPlaceHolder')[i + 1],
         );
         formObj.build(SETT_DATA[i][2], SETT_DATA[i][3], SETT_DATA[i][4]);
     }
@@ -145,16 +144,16 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
     aboutTitle = buildElementNode('H3', 'formTitle');
     aboutTitle.innerHTML = 'Lighting Solutions Latvia, RayLight ';
     formDiv.appendChild(aboutTitle);//izveido virsrakstu
-
+    formDiv.appendChild(buildElementNode('br'));
     aboutText = buildElementNode('P');
-    aboutText.innerHTML = 'We are a company of ...';
+    aboutText.innerHTML = 'For technical support please contact us via email: martinnc@inbox.lv';
     formDiv.appendChild(aboutText);
-
+    formDiv.appendChild(buildElementNode('br'));
     aboutLink = buildElementNode('A');
-    aboutLink.innerHTML = 'LINK';
+    aboutLink.innerHTML = 'Lighting Solutions Latvia';
     aboutLink.href = 'https://www.youtube.com/watch?v=_S7WEVLbQ-Y&t=260s';
     formDiv.appendChild(aboutLink);
-    document.getElementsByClassName('elemPlaceHolder')[SETT_DATA.length+1].appendChild(formDiv);
+    document.getElementsByClassName('elemPlaceHolder')[SETT_DATA.length + 1].appendChild(formDiv);
 }
 
 

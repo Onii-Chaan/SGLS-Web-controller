@@ -1,6 +1,6 @@
 #include "funcHeader.h"
 
-void resetWifi(String newSsid, String newPass, String currentWifiType)
+bool resetWifi(String newSsid, String newPass, String currentWifiType)
 {
     char SSID[newSsid.length() + 1]; //stores ssid to pass to wifi method
     newSsid.toCharArray(SSID, newSsid.length() + 1);
@@ -17,49 +17,53 @@ void resetWifi(String newSsid, String newPass, String currentWifiType)
     // Serial.println("Check");
     // WiFi.printDiag(Serial);
 
+    unsigned long connectionTimeOut = 0;
+    int timeOut = 30000;
+
     if (currentWifiType == "WLAN") //begins working in user WLAN
     {
-        // Serial.println("BBBB");
-        WiFi.enableAP(false);
-        WiFi.mode(WIFI_STA);
-        WiFi.begin(SSID, PASS);
-        Serial.print("WlanSsid: ");
-        Serial.println(SSID);
-        Serial.print("WlanPass: ");
-        Serial.println(PASS);
-        while (WiFi.status() != WL_CONNECTED)
+
+        WiFi.enableAP(false); //turns off softAP mode
+        WiFi.mode(WIFI_STA);  //enables WIFI STA mode
+
+        // sets default IP address 192.168.0.11
+        if (!WiFi.config(IPAddress(192, 168, 0, 11), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0), IPAddress(8, 8, 8, 8)))
+            Serial.println("STA Failed to configure");
+
+        WiFi.begin(SSID, PASS); //starts wifi
+
+        connectionTimeOut = millis();
+        while (WiFi.status() != WL_CONNECTED) //waits untils hub gets connected to WLAN
         {
             delay(500);
             Serial.println(F("Connecting to WiFi.."));
+            if (millis() - connectionTimeOut >= timeOut)
+                return false;
         }
         Serial.println(F("Connected to the WiFi network"));
         Serial.println(WiFi.localIP());
-        // Serial.println("WLAN: ");
         // WiFi.printDiag(Serial);
     }
     else if (currentWifiType == "softAP") // begins softAP regime
     {
         IPAddress NMask(255, 255, 255, 0);
         IPAddress IP(192, 168, 4, 1);
-        Serial.print("Wifi Status bef: ");
-        Serial.println(WiFi.status());
-        Serial.print("AP SSID: ");
-        Serial.println(SSID);
-        Serial.print("AP PASS: ");
-        Serial.println(PASS);
-        WiFi.enableAP(true);
-        WiFi.mode(WIFI_AP);
-        WiFi.softAP(SSID, PASS) ? Serial.println("Ready") : Serial.println("Failed"); //for softap
-        while (!(WiFi.softAPIP() == IP))
+        // Serial.print("Wifi Status bef: ");
+        // Serial.println(WiFi.status());
+        // Serial.print("AP SSID: ");
+        // Serial.println(SSID);
+        // Serial.print("AP PASS: ");
+        // Serial.println(PASS);
+        WiFi.enableAP(true);                                                          //enables softAP mode
+        WiFi.mode(WIFI_AP);                                                           //enables WIFI_AP mode
+        WiFi.softAP(SSID, PASS) ? Serial.println("Ready") : Serial.println("Failed"); //starts softAP
+        while (!(WiFi.softAPIP() == IP))                                              //waits until softAP starts, this prevents crashes
         {
             WiFi.softAPConfig(IP, IP, NMask);
         }
-        Serial.print("Wifi Status aft: ");
-        Serial.println(WiFi.status());
-        WiFi.printDiag(Serial);
+        // WiFi.printDiag(Serial);
         // Serial.println("AP IP address: ");
         // Serial.println(WiFi.softAPIP());
-        // Serial.println("SoftAP: ");
-        // WiFi.printDiag(Serial);
     }
+    return true;
 }

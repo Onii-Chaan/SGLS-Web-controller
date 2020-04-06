@@ -167,7 +167,7 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
 
 function isASCII(valueToCheck) {//Funkcija, kas pārbauda vai simbols ir ASCII, vai arī nav, kā arī pārbauda atstarpes esamību
     for (var i = 0; i < valueToCheck.length; i++) {
-        if (valueToCheck.charCodeAt(i) > 127 || valueToCheck.charCodeAt(i) == 32) {
+        if (valueToCheck.charCodeAt(i) > 127 || valueToCheck.charCodeAt(i) == 32|| valueToCheck.charCodeAt(i) == 38|| valueToCheck.charCodeAt(i) == 124|| valueToCheck.charCodeAt(i) == 61) {
             return false;
         }
     }
