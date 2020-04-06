@@ -131,17 +131,36 @@ All webpage files are stored in ESP32 SPIFFS file system.
 Main webpage can work both offline and in user local WiFi net.
 Every time loading it loads JSON file that it uses for creating user webpage with all previous changes made, dynamically. 
 User can:
-    - Choose and save new colors
-    - Choose and save new animations
-    - Make new lamp groups and save them
-    - Delete all data created
-    - Turn on or turn off lamps
-    - Change some basic options in option menu
+- Choose and save new colors
+- Choose and save new animations
+- Make new lamp groups and save them
+- Delete all data created
+- Turn on or turn off lamps
+- Change some basic options in option menu
     
 
 # First time set web page
-In development
-
+When user opens controller page for the first time he has to set local WLAN SSID and password or change softAP credentials (changing softAP credentials is not obligatory if user doesn't want to connect to WLAN, but it's recomended to change default data). For changing this data user has to go to settings page from main page. There user has various options:
+- Choose connection mode
+  - User can switch hub wifi mode from WLAN to Access Point and vice versa. Hub uses saved JSON data when setting up wlan modes
+  - After user hits the "Save" button, data sends to hub in format: 
+    - ```type=changeWifi=[wifiMode]```, where ```[wifiMode]``` could be ```softAp``` or ```WLAN``` 
+  - Hub saves new data in JSON file and resets WiFi in chosen mode
+- Change your WiFi credentials
+  - User enters new local WLAN credentials
+  - After user hits the "Save" button, data sends to hub in format:
+    - ```type=ssid=[newSsid]|pass=[newPassword]|data=wlan```, where ```[newSsid]``` is new WLAN ssid and ```[newPassword]``` is new WLAN password, all other sent data remains constant
+  - Hub saves new data and starts WiFi in WLAN mode
+- Change your Access Point credentials
+  - User enters new Access Point credentials
+  - After user hits the "Save" button, data gets sent hub in format: 
+    - ```type=ssid=[newSSID]|pass=[newPassword]]|data=softap```, where ```[newSSID]```  is new AP ssid and ```[newPassword]``` is new AP password, all other send data remains constant
+  - Hub saves new data and starts WiFi in AP mode
+- Change your lamp quantity
+  - Users enters a number of connected lamps to hub
+  - After user hits the "Save" button, data gets sent hub in format: 
+    - ```type=num=[newLampQuantity]|data=newLampCount```, where ```[newLampQuantity]``` is number of currently connected lamps to hub
+  - Hub saves new data, and when user returns to main page, it gets loaded according to new changes
 # Communication
 - For communication with hub, lamps use UART Rx/Tx communication
 - Hub works in user local WLAN or directly using softAP, depends on user settings choice
