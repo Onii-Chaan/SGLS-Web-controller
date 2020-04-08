@@ -41,12 +41,15 @@ void setup() {
   digitalWrite(redPin, LOW);
   digitalWrite(greenPin, LOW);
   digitalWrite(bluePin, LOW);
+
+  Serial.println("Lamp started");
 }
+
 
 void loop() {
   recvWithStartEndMarkers(); //funkcija kas saņem datus no seriāļa
   //  setNewData(); //funkcija kas nolasa datus no seriāļa
-  lightOn();
+  
 
 }
 
@@ -57,6 +60,7 @@ void lightOn() { //iededzina lampu
   analogWrite(redPin, rgbw[0]);
 }
 
+int incDataCount = 0;
 void recvWithStartEndMarkers() { //datu nolasīšanas funkcija
   static boolean recvInProgress = false;
   static byte ndx = 0;
@@ -70,8 +74,14 @@ void recvWithStartEndMarkers() { //datu nolasīšanas funkcija
       if (rc != endMarker) {
         receivedChars[ndx] = rc;//no šiem datiem tiek piešķirtas mainīgo vērtības, kas tiek iesūtītas
         ndx++;
-        sprintf(buffer, "%s%c", sendOut, rc);
-        sendOut = buffer;
+        
+        if (rc >= 48 && rc <= 57 || rc == 60 || rc == 62) { //so no corrputed chars are sent
+          sprintf(buffer, "%s%c", sendOut, rc);
+          sendOut = buffer;
+          incDataCount++;
+        }
+
+
         switch (countDataSwCase) {
           case 2:
             if (numLed > 0) {
@@ -119,7 +129,7 @@ void recvWithStartEndMarkers() { //datu nolasīšanas funkcija
         recvInProgress = false;
         ndx = 0;
         setNewData();
-        break;
+        lightOn();
       }
       countDataSwCase ++;//datu sadalīšanas koda skaitītājs
     } else if (rc == startMarker) {
@@ -131,6 +141,7 @@ void recvWithStartEndMarkers() { //datu nolasīšanas funkcija
 }
 
 void setNewData() {
+  Serial.print("SerAvAf: ");Serial.println(Serial.available());
   for ( int i = 0; i < 32;  ++i ) { //notīra receivedChars masīvu
     receivedChars[i] = (char)0;
   }
@@ -138,7 +149,11 @@ void setNewData() {
     char buffer[24];
     sprintf(buffer, "%c%s%c", '<', sendOut, '>');
     sendOut = buffer;
-    Serial.println(sendOut);
+    Serial.print("CDSWC: ");Serial.println(incDataCount);
+    incDataCount = 0;
+    if (strlen(sendOut) == 16) {//so corrput strings won't be sent
+      Serial.println(sendOut);
+    }
   } else if (currentLamp == 0 && lampCounting) {
     lampCounting = false;
     sendOut = "<";
@@ -150,9 +165,12 @@ void setNewData() {
     }
     sprintf(sendOut, "%s%c", sendOut, '>');
     Serial.println(sendOut);
+
+
   }
   currentLamp = 0;
   sendOut = "";
+  Serial.print("SerAvBef: ");Serial.println(Serial.available());
   //    newData = false;//šim jāatrodās pašās beigās
 
 }
