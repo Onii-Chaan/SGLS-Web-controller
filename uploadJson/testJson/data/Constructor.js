@@ -279,7 +279,7 @@ var createButtHolder = (function () {//mainīgais, funkcija, kas skaita uz priek
 
 function createLampButts() {//izveido lampu pogas
     createButtHolder();
-    lampButton = new LampBlock('All', '1-25#');//izveido pogu, kas ieslēdz visas lampas
+    lampButton = new LampBlock('All', '1-' + lampNum + '#');//izveido pogu, kas ieslēdz visas lampas
     lampButton.build(document.getElementsByClassName('groupButtonHolder').length - 1);
     checkButtPlaceCount();
 

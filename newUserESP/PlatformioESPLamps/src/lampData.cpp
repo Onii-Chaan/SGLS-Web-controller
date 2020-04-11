@@ -298,7 +298,8 @@ void displayAdrColors(int startEnd[2], byte colorToDisplay[4 /*colorCount*/])
     // delay(1000);
     // digitalWrite(2, LOW);
     // delay(1000);
-    Serial.println(sendOut);
+    if(turnOn)
+      Serial.println(sendOut);
     // digitalWrite(2, HIGH);
     // delay(1000);
     // digitalWrite(2, LOW);
@@ -437,7 +438,7 @@ void recvWithStartEndMarkers(String inputString)
 
 void setNewData()
 { //sanemto datu apstrade
-  Serial.println();
+  // Serial.println();
   for (int i = 0; i < 3; ++i)
   { //notira receivedChars masivu
     receivedChars[i] = (char)0;
@@ -778,3 +779,12 @@ void updateAdrLedPart(int startEnd[2])
 
 bool newGroupValue;
 
+void loopThroughStartEnd()
+{
+  for (int i = 0; i < 30; i++)
+    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0){
+      displayAdrColors(adrStartEnd[i], rgb[i]);
+    }
+    else
+      break;
+}

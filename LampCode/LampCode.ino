@@ -2,7 +2,7 @@
 #define bluePin 9
 #define greenPin 5
 #define redPin 6
-#include <MemoryFree.h>
+//#include <MemoryFree.h>
 /*
   GREEN PCB LAMPS:
   3 - white

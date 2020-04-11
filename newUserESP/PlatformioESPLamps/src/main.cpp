@@ -13,14 +13,19 @@ void setup()
 
   // setDefaultSave();
 
-  digitalWrite(2, HIGH);
   // delay(5000);//so lamps could turn on
   Serial.println("<00>");
-  digitalWrite(2, LOW);
 
-  setJsonArrData(true, saveTxt);
+  
+
+  if(jsonTurnOn()) //turns on or off lamps based on their last saved state in json file
+    setJsonArrData(true, saveTxt);
+  else
+    setJsonArrData(true, defaultTxt);
+
+  turnOn = true;
   loopThroughStartEnd();
-
+  turnOn = jsonTurnOn();
 }
 
 void loop()
@@ -28,3 +33,4 @@ void loop()
   funcExecute(); //konstanti darbina lampu dinamisko krasu funkcijas
   // MDNS.begin("esp32");
 }
+

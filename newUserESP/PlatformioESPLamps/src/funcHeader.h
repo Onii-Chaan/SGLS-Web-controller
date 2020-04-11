@@ -88,7 +88,7 @@ extern const char *saveTxt;
 extern const char *defaultTxt;
 
 
-
+extern bool turnOn; //to stop sending data when lamps are turned off 
 
 
 bool checkSavedData(int startCheck, String stringToCheck);
@@ -137,4 +137,5 @@ void save2D4Data(byte type, byte (*array)[31][4], bool writeToArr, const char * 
 void setJsonArrData(bool actionType, const char * fileName);
 bool resetWifi(String newSsid, String newPass, String currentWifiType);
 void loopThroughStartEnd();
+bool jsonTurnOn(); //returns true or false depending on last turned on or off state
 #endif

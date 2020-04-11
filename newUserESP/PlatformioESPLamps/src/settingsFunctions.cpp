@@ -8,7 +8,7 @@ bool resetWifi(String newSsid, String newPass, String currentWifiType)
     char PASS[newPass.length() + 1]; //stores password to pass to wifi method
     newPass.toCharArray(PASS, newPass.length() + 1);
 
-    Serial.println(currentWifiType);
+    // Serial.println(currentWifiType);
 
     WiFi.softAPdisconnect(true);
     WiFi.disconnect();

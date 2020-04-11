@@ -95,7 +95,6 @@ void fire(int part) {
   }
 }
 
-
 void solidRainbow(int part, int firstTime) { //solid rainbow funkcija, part atbild par to, lai katrai dalai atbilstosi saglabatos krasu un citas vertibas
   // for (int i = 0; i < 30 /*numLeds*/; i++) {
   // }
@@ -144,8 +143,6 @@ void solidBlink(byte rgbArr[4 /*colorCount*/], int off, int part) {//blink funkc
   }
   displayAdrColors(adrStartEnd[part], rgb[part]);
 }
-
-
 
 void solidFade(byte rgbArr[4 /*colorCount*/], int period, unsigned long time, int part) { //solid fade funkcija
   for (int i = 0; i < 4 /*colorCount*/; i++) { //tiek aprekinatas 3 krasu vertibas atbilstosi cos() funkcijai

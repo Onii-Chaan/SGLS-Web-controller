@@ -26,7 +26,7 @@ void printFile(const char *webdata) //print content of file
   {
     Serial.print((char)file.read());
   }
-  Serial.println();
+  // Serial.println();
   // Close the file
   file.close();
 }
@@ -34,7 +34,7 @@ void printFile(const char *webdata) //print content of file
 void setJsonData(String action, String type, String input[5], int index = -1) //Manipule ar saglabatajiem JSON datiem ieks FS
 {
   File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
-  DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+  DynamicJsonDocument doc(14000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
   DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
   if (error)
   {
@@ -165,6 +165,20 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
   // printFile("/configFile.txt");
 }
 
+bool jsonTurnOn() //returns true or false depending on last turned on or off state
+{
+  File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
+  DynamicJsonDocument doc(14000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+  DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
+  if (error)
+  {
+    // Serial.println(F("Failed to read file, using default configuration"));
+    // return;
+  }
+  file.close();
+  return doc["OffState"];
+}
+
 void save1DData(byte type, uint32_t *array, bool writeToArr, const char *fileName, DynamicJsonDocument &jsonRef) //writes 1d array to file
 {
   String arrName[8] = {"funcNumArr", "isFirstTime", "oldTimeInt", "funcParArr", "blinkOff", "decColor", "incColor", "rainbowCounter"}; //JSON 1d array names
@@ -273,14 +287,9 @@ void setJsonArrData(bool actionType, const char *fileName)
 
   file = SPIFFS.open(fileName, FILE_WRITE); //tiek atverts fails rakstisanai
   if (!file)
-  {
     Serial.println(F("Failed to create file"));
-    return;
-  }
   if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
-  {
     Serial.println(F("Failed to write to file"));
-  }
   file.close();
   // Serial.print("Time: ");Serial.println(millis());
   // printFile(fileName);

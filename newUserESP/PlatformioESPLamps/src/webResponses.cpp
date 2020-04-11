@@ -234,7 +234,12 @@ void serverFunctions()
         setJsonArrData(arrSaveType, saveTxt);
         setJsonArrData(!arrSaveType, defaultTxt);
       }
+      turnOn = true;
       loopThroughStartEnd();
+      if (turnOnBool == "true") //sets turnOn bool on needed value without need of using json
+        turnOn = true;
+      else
+        turnOn = false;
     }
     request->send(200, "text/plain", "Json updated");
   });
@@ -244,20 +249,8 @@ int countChars(char findChar, String findString) //return number of occurances o
 {
   int appCount;
   for (int i = 0; i < findString.length(); i++)
-  {
     if (findString[i] == findChar)
-    {
       appCount++;
-    }
-  }
-  return appCount;
-}
 
-void loopThroughStartEnd()
-{
-  for (int i = 0; i < 30; i++)
-    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0)
-      displayAdrColors(adrStartEnd[i], rgb[i]);
-    else
-      break;
+  return appCount;
 }
