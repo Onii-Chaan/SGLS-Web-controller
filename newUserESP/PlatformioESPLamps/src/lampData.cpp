@@ -438,7 +438,7 @@ void recvWithStartEndMarkers(String inputString)
 
 void setNewData()
 { //sanemto datu apstrade
-  // Serial.println();
+  Serial.println();//!!!!!!!!!!!!
   for (int i = 0; i < 3; ++i)
   { //notira receivedChars masivu
     receivedChars[i] = (char)0;

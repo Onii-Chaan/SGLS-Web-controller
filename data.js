@@ -100,8 +100,7 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija p
 
 
 function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
-    console.log(formId.getAttribute("name"));
-
+    console.log(formId);
     let form = formId;
     let sendGetData = true;
     let dataToSend = "";
