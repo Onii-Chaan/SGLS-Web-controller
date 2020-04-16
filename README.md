@@ -169,3 +169,4 @@ When user opens controller page for the first time he has to set local WLAN SSID
 Every time user creates new color, or group, or animation, or turns off lamps, or anything else, data is saved. All user changes are saved and stored in ESP32 SPIFFS file system in json format. ArduinoJSON library is used for this purpose. There are 3 main text files, that stores JSON data. configFile.txt for creating main controller page, default.txt for setting default values for variables, save.txt for last hub variable values. 
 
 
+![Image RayLight in action](https://i.ibb.co/HKQ7qVj/IMG-2892.jpg)
