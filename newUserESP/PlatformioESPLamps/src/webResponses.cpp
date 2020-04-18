@@ -109,7 +109,20 @@ void serverFunctions()
       //handle an incomplete request
       keyVal = "some default value";
     }
-    request->send(200, "text/plain", "Post route");
+
+    int headers = request->headers();
+    int i;
+    for (i = 0; i < headers; i++)
+    {
+      AsyncWebHeader *h = request->getHeader(i);
+      Serial.printf("HEADER[%s]: %s\n", h->name().c_str(), h->value().c_str());
+    }
+    
+    // request->send(200, "text/plain", "post route");
+
+    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Post route");
+    response->addHeader("Set-Cookie", "id=espTestCookie; expires=Sat, 19 Apr 2020 12:00:00 UTC");//Secure; HttpOnly
+    request->send(response);
   });
 
   server.on("/setJson", HTTP_POST, [](AsyncWebServerRequest *request) {

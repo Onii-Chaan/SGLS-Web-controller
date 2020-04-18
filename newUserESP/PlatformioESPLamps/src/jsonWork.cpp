@@ -109,7 +109,7 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     else if (type == "hardReset") //resets core core data using external irritation
     {
       doc["LampNum"] = 0;
-      doc["OffState"] = false;
+      doc["OffState"] = true;
       doc["UserWlanSsid"] = "null";
       doc["UserWlanPass"] = "null";
       doc["UserMDNS"] = "raylight";
