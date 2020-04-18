@@ -29,6 +29,7 @@ void printFile(const char *webdata) //print content of file
   // Serial.println();
   // Close the file
   file.close();
+  Serial.println();
 }
 
 void setJsonData(String action, String type, String input[5], int index = -1) //Manipule ar saglabatajiem JSON datiem ieks FS
@@ -293,4 +294,43 @@ void setJsonArrData(bool actionType, const char *fileName)
   file.close();
   // Serial.print("Time: ");Serial.println(millis());
   // printFile(fileName);
+}
+
+void saveJsonPassword(String type, String data)
+{
+  const char *fileName = "/secure.txt";
+  File file = SPIFFS.open(fileName);
+  DynamicJsonDocument doc(500);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+  SPIFFS.remove(fileName);
+
+  if (type == "sessions" && doc[type].size() == 12) //so no more than 12 passwords and session ids can be added
+    doc[type].remove(0);
+
+  if (type == "sessions") //saves session ID
+  {
+    unsigned long sessionId = data.toInt();
+    doc[type].add(sessionId);
+  }
+  else //saves passwords
+  {
+    doc[type] = data;
+  }
+
+  file = SPIFFS.open(fileName, FILE_WRITE); //tiek atverts fails rakstisanai
+  if (!file)
+  {
+    Serial.println(F("Failed to create file"));
+    return;
+  }
+  if (serializeJson(doc, file) == 0) //Jaunie json dati tiek ierakstiti jaunaja faila
+  {
+    Serial.println(F("Failed to write to file"));
+  }
+  file.close();
+  printFile(fileName);
 }

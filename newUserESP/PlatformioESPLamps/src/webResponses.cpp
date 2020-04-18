@@ -93,6 +93,18 @@ void serverFunctions()
     request->send(SPIFFS, "/configFile.txt", "text/txt");
   });
 
+  server.on("/signUp.html", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/signUp.html", "text/html");
+  });
+
+  server.on("/signIn.html", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/signIn.html", "text/html");
+  });
+
+  server.on("/loginStyle.css", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/loginStyle.css", "text/css");
+  });
+
   server.on("/setlamp", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Serial.println("INCOMIIIIIIIIING");
     String keyVal;
@@ -117,16 +129,18 @@ void serverFunctions()
       AsyncWebHeader *h = request->getHeader(i);
       Serial.printf("HEADER[%s]: %s\n", h->name().c_str(), h->value().c_str());
     }
-    
-    // request->send(200, "text/plain", "post route");
 
-    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Post route");
-    response->addHeader("Set-Cookie", "id=espTestCookie; expires=Sat, 19 Apr 2020 12:00:00 UTC");//Secure; HttpOnly
-    request->send(response);
+    request->send(200, "text/plain", "post route");
+
+    // AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Post route");
+    // response->addHeader("Set-Cookie", "id=espTestCookie; expires=Sat, 19 Apr 2020 12:00:00 UTC"); //Secure; HttpOnly
+    // request->send(response);
   });
 
   server.on("/setJson", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Serial.println(F("setJsonData"));
+    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Json updated");
+
     String action;      //the action that has to be done (add, delete, edit)
     String type;        //gets the query string
     String dataType;    //gets the data type that has to be updated
@@ -135,7 +149,7 @@ void serverFunctions()
 
     String turnOnBool;
     bool doTurnOn = false;
-
+    bool sign = false;
     // int args = request->args();
     // for (int i = 0; i < args; i++)
     // {
@@ -170,6 +184,8 @@ void serverFunctions()
       else if (currentData == "dataType" || currentData == "data" /*New network credentials*/)
       {
         dataType = currentDataValue;
+        if (dataType == "signupdata" || dataType == "signindata")
+          sign = true;
       }
       else if (currentData == "name" || currentData == "ssid" || currentData == "linkName" || currentData == "num")
       {
@@ -211,7 +227,7 @@ void serverFunctions()
 
     } while (lastParamId != 0);
 
-    if (!doTurnOn)
+    if (!doTurnOn && !sign)
     {
       if (dataType == "wlan" || dataType == "softap" || dataType == "newLampCount" || dataType == "newMdns" || dataType == "changeWifi" || dataType == "data" || dataType == "factoryReset")
       {
@@ -232,7 +248,7 @@ void serverFunctions()
         loopThroughStartEnd();
       }
     }
-    else
+    else if (doTurnOn)
     {
       setJsonData(action, dataType, valueArr, index.toInt()); //updates file
       bool arrSaveType;
@@ -254,7 +270,26 @@ void serverFunctions()
       else
         turnOn = false;
     }
-    request->send(200, "text/plain", "Json updated");
+    else if (sign) //if sign in or sign up data has been received
+    {
+      Serial.print("DataType: ");
+      Serial.println(dataType);
+      Serial.print("Pass: ");
+      Serial.println(valueArr[1]);
+
+      if (dataType == "signupdata")//if user signs ups
+      {
+        saveJsonPassword("userPass", valueArr[1]);//saves password
+        request->redirect("/signIn.html");
+      }
+      else if (dataType == "signindata")
+      {
+        unsigned long randomId = random(0, 2000000000);//creates sessionID and saves it
+        saveJsonPassword("sessions", String(randomId)); 
+        response->addHeader("Set-Cookie", "SESSID=" + String(randomId) + "; expires=Sat, 18 Apr 2020 15:23:00 UTC"); //gets ready cookie for sendout
+      }
+    }
+    request->send(response);
   });
 }
 

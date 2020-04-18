@@ -138,4 +138,5 @@ void setJsonArrData(bool actionType, const char * fileName);
 bool resetWifi(String newSsid, String newPass, String currentWifiType);
 void loopThroughStartEnd();
 bool jsonTurnOn(); //returns true or false depending on last turned on or off state
+void saveJsonPassword(String type, String data);//saves passwords and other sensitive data
 #endif
