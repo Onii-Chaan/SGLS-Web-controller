@@ -334,3 +334,34 @@ void saveJsonPassword(String type, String data)
   file.close();
   printFile(fileName);
 }
+
+String getJsonPass(String jsonKey){ // getter function to get passwords from password document
+  const char *fileName = "/secure.txt";
+  File file = SPIFFS.open(fileName);
+  DynamicJsonDocument doc(500);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+  
+  return doc[jsonKey];
+}
+
+bool checkJsonSessId(String findSessId){//searches through saved session ids to find if parsed sessid exists
+  const char *fileName = "/secure.txt";
+  File file = SPIFFS.open(fileName);
+  DynamicJsonDocument doc(500);
+  DeserializationError error = deserializeJson(doc, file); //copies file contents to doc
+  if (error)
+  {
+  }
+  file.close();
+  
+  unsigned long sessId = findSessId.toInt();//parses sessid string to sessid unsigned long
+  for(int i = 0 ; i<doc["sessions"].size(); i++)
+    if(doc["sessions"][i] == sessId)
+      return true;
+
+  return false;
+}

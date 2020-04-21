@@ -267,13 +267,18 @@ function sendAjaxData(dataToSend = "", dataTypeToSend = "") {//Nosūta datus uz 
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            if (this.responseURL.substring(this.responseURL.lastIndexOf('/') + 1) == "signIn.html") {//if redirects to sign in
+            // console.log(this.responseText);
+            if (this.responseURL.substring(this.responseURL.lastIndexOf('.') + 1) ==
+                "html") {//if redirects to sign in
                 window.location.href = this.responseURL;
             }
         }
     };
     xhttp.open("POST", dataTypeToSend, true);
+
+    if (document.cookie)
+        xhttp.setRequestHeader("SESSID", document.cookie);
+
     xhttp.send(dataToSend);
 }
 

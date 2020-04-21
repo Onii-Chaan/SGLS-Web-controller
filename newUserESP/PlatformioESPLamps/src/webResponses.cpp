@@ -122,13 +122,7 @@ void serverFunctions()
       keyVal = "some default value";
     }
 
-    int headers = request->headers();
-    int i;
-    for (i = 0; i < headers; i++)
-    {
-      AsyncWebHeader *h = request->getHeader(i);
-      Serial.printf("HEADER[%s]: %s\n", h->name().c_str(), h->value().c_str());
-    }
+    
 
     request->send(200, "text/plain", "post route");
 
@@ -277,21 +271,74 @@ void serverFunctions()
       Serial.print("Pass: ");
       Serial.println(valueArr[1]);
 
-      if (dataType == "signupdata")//if user signs ups
+      if (dataType == "signupdata") //if user signs ups
       {
-        saveJsonPassword("userPass", valueArr[1]);//saves password
+        saveJsonPassword("userPass", valueArr[1]); //saves password
+        response = request->beginResponse(200, "text/plain", "redirect");
         request->redirect("/signIn.html");
       }
       else if (dataType == "signindata")
       {
-        unsigned long randomId = random(0, 2000000000);//creates sessionID and saves it
-        saveJsonPassword("sessions", String(randomId)); 
-        response->addHeader("Set-Cookie", "SESSID=" + String(randomId) + "; expires=Sat, 18 Apr 2020 15:23:00 UTC"); //gets ready cookie for sendout
+
+
+
+
+
+
+        AsyncWebHeader *h;
+        if (request->hasHeader("SESSID")) //tiek pārbaudīts vai nepieciešamais headeris vispār eksistē
+        {
+          h = request->getHeader("SESSID");
+          if (checkJsonSessId(h->value()))
+          {
+            Serial.println("REDIRECT TO CONTROLLER SESSID");
+            response = request->beginResponse(200, "text/plain", "redirect");            
+            request->redirect("/index.html");
+          }
+          else if (valueArr[1] == getJsonPass("userPass"))
+          {
+            sessIdAns(response);
+            Serial.println("REDIRECT TO CONTROLLER NEW PASS BUT DELETE OLD COOKIE");
+            response = request->beginResponse(200, "text/plain", "redirect");
+            request->redirect("/index.html");
+          } else 
+          {
+            Serial.println("INCORRECT PASS");
+          }
+        }
+        else if (valueArr[1] == getJsonPass("userPass"))//redirect to controller
+        {
+          sessIdAns(response);
+          response = request->beginResponse(200, "text/plain", "redirect");
+          request->redirect("/index.html");
+          Serial.println("REDIRECT TO CONTROLLER NEW PASS");
+        }
+        else
+        {
+          response = request->beginResponse(200, "text/plain", "Incorrect password");
+          Serial.println("INCORRECT PASS");
+        }
+
+
+
       }
     }
     request->send(response);
   });
 }
+
+void sessIdAns(AsyncWebServerResponse *reponseRef)//creates and saves cookie, creates header
+{
+  unsigned long randomId = random(0, 2000000000); //creates sessionID and saves it
+  saveJsonPassword("sessions", String(randomId));
+  reponseRef->addHeader("Set-Cookie", String(randomId) + ";"); //gets ready cookie for sendout
+}
+
+
+
+
+
+
 
 int countChars(char findChar, String findString) //return number of occurances of given char in given String
 {
