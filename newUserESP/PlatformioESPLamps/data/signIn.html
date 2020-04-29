@@ -23,10 +23,12 @@
             </div>
 
             <!-- Login Form -->
-            <form class = "signForm" name = "signindata">
+            <form class="signForm" name="signindata">
                 <!-- <input type="text" id="login" class="fadeIn second" name="ssid" placeholder="login"> -->
-                <input type="password" id="password" class="fadeIn third" name="pass" placeholder="password">
-                <input class="fadeIn fourth submitButt" value="Log In"  onclick = "checkForm(document.getElementsByClassName('signForm')[0]);">
+                <input id="passIn" type="password" id="password" class="fadeIn third" name="pass"
+                    placeholder="password">
+                <input class="fadeIn fourth submitButt" value="Log In"
+                    onclick="checkForm(document.getElementsByClassName('signForm')[0], 4);">
             </form>
 
             <!-- Remind Passowrd -->
@@ -36,7 +38,13 @@
 
         </div>
     </div>
-<script src=data.js></script>
+    <script src=data.js></script>
+    <script>
+        document.getElementById('passIn').value = '0';
+        checkForm(document.getElementsByClassName('signForm')[0], 1);
+        document.getElementById('passIn').value = '';
+    </script>
+
 </body>
 
 </html>

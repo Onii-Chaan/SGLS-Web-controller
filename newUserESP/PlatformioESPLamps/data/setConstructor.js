@@ -4,6 +4,7 @@ var SETT_TITLES = [
     'Change your Access Point credentials',
     'Change you lamp quantity',
     'Change your controller link',
+    'Change password',
     'Factory reset',
     'About Us'
 ];//settings lapas collapsible pogu nosaukumi
@@ -48,6 +49,13 @@ var SETT_DATA = [
         'Save',
         ['linkName'],
         'newMdns'
+    ],
+    [
+        'You will be redirected to sign up page to change password',
+        '',
+        'Change password',
+        '',
+        'type=data=resetPassword'
     ],
     [
         'Warning: If you reset the lamps, all your saved data will be lost and you will be returned to hub AP',
@@ -104,7 +112,6 @@ function createSettCols() {//Izveido settings lapas collapsible pogas
     aboutText.innerText = "Save";
     aboutText.classList.add("btn");
     aboutText.classList.add("btn-default");
-
 
 
     aboutText.onclick = function () { //reads radio values and sends neccessary data

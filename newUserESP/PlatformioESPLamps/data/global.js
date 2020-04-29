@@ -22,7 +22,7 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    let JSON_DATA = json;//parses json string from session storage
 
    lampNum = JSON_DATA.LampNum;
-   buttonOn = JSON_DATA.OffState;//norada vai lietotajs darbojas ap vienu lampu vai ap visam kopa, tiek izmantots, lai nevaretu ieslegt funkcijas kad darbojas ap vienu lampu
+   buttonOn = JSON_DATA.OffState;//if buttons were turned on or off
 
    lampGroups = JSON_DATA.LampGroups;//ienākošo lampu grupu datu masīvs
    funcArr = JSON_DATA.FuncArr;
@@ -49,6 +49,7 @@ var recData = async () => {//Fečo txt failu un izveido lapu
    exploreArr = JSON_DATA.ExploreArr;
    document.getElementById('SGLSmainName').innerText = USER_SSID;//Iestata lietotāja nosaukuma title
    currentLampString = '1-' + lampNum + '#';//jau izveidots string priekš lampu numuriem
+   console.log(buttonOn);
    document.getElementById('onOffButton').checked = buttonOn;//iestata ieslēgšanas pogas sākuma stāvokli
 
    buildSettings();

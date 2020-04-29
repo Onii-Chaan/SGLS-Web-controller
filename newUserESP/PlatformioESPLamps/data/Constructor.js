@@ -14,7 +14,7 @@ function createDynamicContent() {
         document.getElementsByClassName('elemPlaceHolder')[i].style.width =
             Math.ceil(document.getElementsByClassName('elemPlaceHolder')[i].clientWidth) + 'px';
     }
-}
+} 
 
 /*ExploreArr masīvā glabājas visas explore pogu vērtības*/
 
@@ -242,7 +242,7 @@ function buildSettings() {//izveido visus settings objektus, lai tie būtu tikai
         'Animation options',
         [
             ['Edit animation name: ', 'bigInput'],
-            ['Edit animation speed', 'sliderInput']
+            ['Edit animation speed: ', 'sliderInput']
         ],
         3,
         'add',

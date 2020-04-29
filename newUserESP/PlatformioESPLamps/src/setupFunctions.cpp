@@ -3,7 +3,7 @@
 void startWifi()
 {
   File file = SPIFFS.open(webdata);                        //Tiek atverts fails datu apstradei
-  DynamicJsonDocument doc(10000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
+  DynamicJsonDocument doc(14000);                          /*!!!NEPIECIEsAMS PALIELINaT HEAP VAI STACK LIELUMU!!!!*/
   DeserializationError error = deserializeJson(doc, file); //dati no faila tiek nolasiti un deserializeti sagatavojot tos JSON apstradei
   if (error)
   {
@@ -27,8 +27,8 @@ void startWifi()
   }
   file.close();
 
-  if (doc["WIFIMode"] == "WLAN" && !resetWifi(doc["UserWlanSsid"], doc["UserWlanPass"], doc["WIFIMode"]) || doc["WIFIMode"] == "softAP") //starts working in local WLAN if it's written in JSON file
-    resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+  if (doc["WIFIMode"] == "WLAN" && !resetWifi(doc["UserWlanSsid"], getJsonPass("UserWlanPass"), doc["WIFIMode"]) || doc["WIFIMode"] == "softAP") //starts working in local WLAN if it's written in JSON file
+    resetWifi(doc["SoftAPSSID"], getJsonPass("SoftAPPass"), doc["WIFIMode"]);
   else
     Serial.println("Error: Could not start WiFi");
 }

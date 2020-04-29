@@ -101,15 +101,14 @@ function scaleToRange(number, fromMin, fromHigh, toMin, toHigh) {//Si funkcija p
 
 function checkPassEq(formId) { //for double password inputs both passwords should be checked for equality
     if (formId.elements[0].value == formId.elements[1].value)
-        checkForm(formId)
+        checkForm(formId, 4)
     else {
         alert("Not equal passwords");
         formId.reset();
     }
 }
 
-function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
-    console.log(formId);
+function checkForm(formId, passLength = 8) {//Pārbauda katru ievadīto form vērtību
     let form = formId;
     let sendGetData = true;
     let dataToSend = "";
@@ -132,9 +131,9 @@ function checkForm(formId) {//Pārbauda katru ievadīto form vērtību
             }
         }
         if (elementToCheck.name == 'pass') {//Pārbauda vai paroles garums ir lielāks par 8 simboliem
-            if (elementToCheck.value.length < 8) {
+            if (elementToCheck.value.length < passLength) {
                 sendGetData = false;
-                alert("Your password must be longer than 8 symbols");
+                alert("Your password must be longer than " + passLength + " symbols");
                 break;
             }
         }
@@ -247,7 +246,7 @@ var bringLastToFirst = (inputArr) => {//pārvieto masīva pēdējo elementu uz s
 
 var apConnectionState;//Seko tam vai ir savienojums ar softAP serveri
 
-sendAjaxData("connData", "check_ap_connection");
+// sendAjaxData("connData", "check_ap_connection");
 
 // showState(false, 'wlanState');
 //Jādarbojas balstoties uz AJAX saņemtajiem datiem
@@ -261,9 +260,13 @@ function showState(state, idToDisplay) {//Parāda uz lapas vai atbilstošā daļ
     }
 }
 
-
+//ja signin un nav cookie tad nosūta papildus vērtību
 
 function sendAjaxData(dataToSend = "", dataTypeToSend = "") {//Nosūta datus uz serveri izmantojot AJAX
+    if (document.cookie == "") //gets time and sends it until sessid is optained in cookie
+        dataToSend += ("|param=" + buildCookieTime());
+
+
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -271,6 +274,10 @@ function sendAjaxData(dataToSend = "", dataTypeToSend = "") {//Nosūta datus uz 
             if (this.responseURL.substring(this.responseURL.lastIndexOf('.') + 1) ==
                 "html") {//if redirects to sign in
                 window.location.href = this.responseURL;
+            } else if (this.getResponseHeader("ReqRedirect") != null) {
+                window.location.href = window.location.href
+                    .substring(0, window.location.href.lastIndexOf('/')) +
+                    this.getResponseHeader("ReqRedirect");
             }
         }
     };
@@ -291,6 +298,14 @@ function checkAPstate() {//Pārbauda savienojumu ar softAP
     if (document.getElementById("controllerLink").text == "") {//pārbauda un iegūst wlan linku
         requestAPLink();///////////////Vai tas varēs nosūtīties kopā ar check ap connection??///////////////////
     }
+}
+
+function buildCookieTime() {//builds time for cookie expiration date
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 36000;
+    now.setTime(expireTime);
+    return now.toGMTString();
 }
 
 // setInterval(function () { checkAPstate(); }, 5000);

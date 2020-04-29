@@ -889,8 +889,9 @@ div.arrow:after {
 
 
 .sliderInput {
+
   -webkit-appearance: none;
-  width: 100%;
+  width: 64%;
   height: 15px;
   border-radius: 5px;
   background: #d3d3d3;

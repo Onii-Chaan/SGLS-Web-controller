@@ -7,11 +7,11 @@ void serverFunctions()
     Serial.println("GOT IT");
   });
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.html", "text/html");
+    request->send(SPIFFS, sendPage(request, "/index.html"), "text/html");
   });
 
   server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.html", "text/html");
+    request->send(SPIFFS, sendPage(request, "/index.html"), "text/html");
   });
 
   server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -82,7 +82,7 @@ void serverFunctions()
   /*SETTINGS LAPA*/
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     Serial.println("SETTINGS SEND");
-    request->send(SPIFFS, "/settings.html", "text/html");
+    request->send(SPIFFS, sendPage(request, "/settings.html"), "text/html");
   });
 
   server.on("/setConstructor.js", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -94,11 +94,11 @@ void serverFunctions()
   });
 
   server.on("/signUp.html", HTTP_ANY, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/signUp.html", "text/html");
+    request->send(SPIFFS, sendPage(request, "/signUp.html"), "text/html");
   });
 
   server.on("/signIn.html", HTTP_ANY, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/signIn.html", "text/html");
+    request->send(SPIFFS, sendPage(request,"/signIn.html"), "text/html");
   });
 
   server.on("/loginStyle.css", HTTP_ANY, [](AsyncWebServerRequest *request) {
@@ -121,8 +121,6 @@ void serverFunctions()
       //handle an incomplete request
       keyVal = "some default value";
     }
-
-    
 
     request->send(200, "text/plain", "post route");
 
@@ -241,6 +239,12 @@ void serverFunctions()
         setJsonArrData(false, saveTxt);
         loopThroughStartEnd();
       }
+      else if (dataType == "resetPassword")
+      {
+        saveJsonPassword("userPass", "");
+        saveJsonPassword("sessions", "null");
+        request->redirect("/signUp.html");
+      }
     }
     else if (doTurnOn)
     {
@@ -274,16 +278,11 @@ void serverFunctions()
       if (dataType == "signupdata") //if user signs ups
       {
         saveJsonPassword("userPass", valueArr[1]); //saves password
-        response = request->beginResponse(200, "text/plain", "redirect");
+        // response = request->beginResponse(200, "text/plain", "redirect");
         request->redirect("/signIn.html");
       }
       else if (dataType == "signindata")
       {
-
-
-
-
-
 
         AsyncWebHeader *h;
         if (request->hasHeader("SESSID")) //tiek pārbaudīts vai nepieciešamais headeris vispār eksistē
@@ -292,60 +291,77 @@ void serverFunctions()
           if (checkJsonSessId(h->value()))
           {
             Serial.println("REDIRECT TO CONTROLLER SESSID");
-            response = request->beginResponse(200, "text/plain", "redirect");            
             request->redirect("/index.html");
           }
           else if (valueArr[1] == getJsonPass("userPass"))
           {
-            sessIdAns(response);
+            sessIdAns(response, valueArr[2]); //valueArr[2] tiek glabāts cookie expiration date
+            response->addHeader("ReqRedirect", "/index.html");
+            request->send(response);
+
             Serial.println("REDIRECT TO CONTROLLER NEW PASS BUT DELETE OLD COOKIE");
-            response = request->beginResponse(200, "text/plain", "redirect");
-            request->redirect("/index.html");
-          } else 
+          }
+          else
           {
             Serial.println("INCORRECT PASS");
           }
         }
-        else if (valueArr[1] == getJsonPass("userPass"))//redirect to controller
+        else if (valueArr[1] == getJsonPass("userPass")) //redirect to controller
         {
-          sessIdAns(response);
-          response = request->beginResponse(200, "text/plain", "redirect");
-          request->redirect("/index.html");
+          sessIdAns(response, valueArr[2]); //valueArr[2] tiek glabāts cookie expiration date
+          response->addHeader("ReqRedirect", "/index.html");
+          request->send(response);
           Serial.println("REDIRECT TO CONTROLLER NEW PASS");
         }
         else
         {
-          response = request->beginResponse(200, "text/plain", "Incorrect password");
           Serial.println("INCORRECT PASS");
         }
-
-
-
       }
     }
     request->send(response);
   });
 }
 
-void sessIdAns(AsyncWebServerResponse *reponseRef)//creates and saves cookie, creates header
+void sessIdAns(AsyncWebServerResponse *reponseRef, String expTime) //creates and saves cookie, creates header
 {
   unsigned long randomId = random(0, 2000000000); //creates sessionID and saves it
   saveJsonPassword("sessions", String(randomId));
-  reponseRef->addHeader("Set-Cookie", String(randomId) + ";"); //gets ready cookie for sendout
+  reponseRef->addHeader("Set-Cookie", String(randomId) + "; Expires=" + expTime); //gets ready cookie for sendout
+  Serial.println(expTime);
 }
-
-
-
-
-
-
 
 int countChars(char findChar, String findString) //return number of occurances of given char in given String
 {
-  int appCount;
+  int appCount = 0;
   for (int i = 0; i < findString.length(); i++)
     if (findString[i] == findChar)
       appCount++;
 
   return appCount;
+}
+
+String sendPage(AsyncWebServerRequest *requestRef, String defPage) //checks if cookie value matches with saved sessids
+{
+  if (getJsonPass("userPass") == "") //if password is not saved yet
+  {
+    return "/signUp.html";
+  }
+  else if (defPage == "/signUp.html") //if password is saved and user tries to sign in
+  {
+    return "/signIn.html";
+  }
+  else
+  {
+    AsyncWebHeader *h;                   // for storing header object
+    if (requestRef->hasHeader("Cookie")) //tiek pārbaudīts vai nepieciešamais headeris vispār eksistē
+    {
+      h = requestRef->getHeader("Cookie"); //for getting cookie from header
+      if (!checkJsonSessId(h->value()))
+        return "/signIn.html"; //redirects to sign in page if there are no cookie value requested
+      else
+        return defPage;
+    }
+  }
+  return "/signIn.html";
 }

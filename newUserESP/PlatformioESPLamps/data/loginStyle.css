@@ -124,6 +124,10 @@ input[type=button], .submitButt, input[type=reset]  {
     cursor: pointer;
 }
 
+.submitButt{
+  width: 85%;
+}
+
 input[type=button]:hover, .submitButt:hover, input[type=reset]:hover  {
   background-color: var(--colorPrimaryPressed);
 }

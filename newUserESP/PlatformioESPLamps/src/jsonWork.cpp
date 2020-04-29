@@ -61,16 +61,16 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     else if (type == "wlan") //if changing saved wlan data
     {
       doc["UserWlanSsid"] = input[0];
-      doc["UserWlanPass"] = input[1];
+      saveJsonPassword("UserWlanPass", input[1]);
       doc["WIFIMode"] = "WLAN";
       // startMDNS(doc["UserMDNS"]);
       if (!resetWifi(input[0], input[1], doc["WIFIMode"])) //resets and starts wifi in wlan mode
-        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+        resetWifi(doc["SoftAPSSID"], getJsonPass("SoftAPPass"), doc["WIFIMode"]);
     }
     else if (type == "softap") //if changing saved softAP data
     {
       doc["SoftAPSSID"] = input[0];
-      doc["SoftAPPass"] = input[1];
+      saveJsonPassword("SoftAPPass", input[1]);
       doc["WIFIMode"] = "softAP";
       // startMDNS(doc["UserMDNS"]);
       resetWifi(input[0], input[1], doc["WIFIMode"]); //resets and starts wifi in softAP mode
@@ -91,15 +91,13 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
       else if (input[0] == "softAp")
         doc["WIFIMode"] = "softAP";
 
-      if (input[0] == "WLAN" && !resetWifi(doc["UserWlanSsid"], doc["UserWlanPass"], doc["WIFIMode"]))
-        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
-      else if (input[0] == "softAp")
-        resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+      if (input[0] == "WLAN" && !resetWifi(doc["UserWlanSsid"], getJsonPass("UserWlanPass"), doc["WIFIMode"]) || input[0] == "softAp")
+        resetWifi(doc["SoftAPSSID"], getJsonPass("SoftAPPass"), doc["WIFIMode"]);
     }
     else if (type == "factoryReset") //removes all user saved data (colors, animations, groups)
     {
+      doc["OffState"] = false;
       String types[] = {"RgbwArr", "FuncArr", "LampGroups"};
-
       for (int i = 0; i < 3; i++)
       {
         int arrLen = doc[types[i]].size(); //because arrayList size (when removing) is constantly changing
@@ -111,13 +109,16 @@ void setJsonData(String action, String type, String input[5], int index = -1) //
     {
       doc["LampNum"] = 0;
       doc["OffState"] = true;
-      doc["UserWlanSsid"] = "null";
+      doc["UserWlanSsid"] = "";
+      saveJsonPassword("UserWlanPass", "");
       doc["UserWlanPass"] = "null";
       doc["UserMDNS"] = "raylight";
       doc["WIFIMode"] = "softAP";
       doc["SoftAPSSID"] = "raylight";
-      doc["SoftAPPass"] = "12345678";
-      resetWifi(doc["SoftAPSSID"], doc["SoftAPPass"], doc["WIFIMode"]);
+      saveJsonPassword("SoftAPPass", "");
+      saveJsonPassword("userPass", "");
+      saveJsonPassword("sessions", "null");
+      resetWifi(doc["SoftAPSSID"], getJsonPass("SoftAPPass"), doc["WIFIMode"]);
     }
     else if (type == "turnOn") //saves turn on or turn off state
     {
@@ -296,7 +297,7 @@ void setJsonArrData(bool actionType, const char *fileName)
   // printFile(fileName);
 }
 
-void saveJsonPassword(String type, String data)
+void saveJsonPassword(String type, String data) //saves password in txt file
 {
   const char *fileName = "/secure.txt";
   File file = SPIFFS.open(fileName);
@@ -311,10 +312,15 @@ void saveJsonPassword(String type, String data)
   if (type == "sessions" && doc[type].size() == 12) //so no more than 12 passwords and session ids can be added
     doc[type].remove(0);
 
-  if (type == "sessions") //saves session ID
+  if (type == "sessions" && data != "null") //saves session ID
   {
     unsigned long sessionId = data.toInt();
     doc[type].add(sessionId);
+  }
+  else if (type == "sessions" && data == "null") //deletes all session IDs
+  {
+    for (int i = 0; i < doc.size(); i++)
+      doc[type].remove(0);
   }
   else //saves passwords
   {
@@ -335,7 +341,8 @@ void saveJsonPassword(String type, String data)
   printFile(fileName);
 }
 
-String getJsonPass(String jsonKey){ // getter function to get passwords from password document
+String getJsonPass(String jsonKey) // getter function to get passwords from password document
+{
   const char *fileName = "/secure.txt";
   File file = SPIFFS.open(fileName);
   DynamicJsonDocument doc(500);
@@ -344,11 +351,11 @@ String getJsonPass(String jsonKey){ // getter function to get passwords from pas
   {
   }
   file.close();
-  
   return doc[jsonKey];
 }
 
-bool checkJsonSessId(String findSessId){//searches through saved session ids to find if parsed sessid exists
+bool checkJsonSessId(String findSessId) //searches through saved session ids to find if parsed sessid exists
+{
   const char *fileName = "/secure.txt";
   File file = SPIFFS.open(fileName);
   DynamicJsonDocument doc(500);
@@ -357,11 +364,12 @@ bool checkJsonSessId(String findSessId){//searches through saved session ids to 
   {
   }
   file.close();
-  
-  unsigned long sessId = findSessId.toInt();//parses sessid string to sessid unsigned long
-  for(int i = 0 ; i<doc["sessions"].size(); i++)
-    if(doc["sessions"][i] == sessId)
+
+  unsigned long sessId = findSessId.toInt(); //parses sessid string to sessid unsigned long
+  for (int i = 0; i < doc["sessions"].size(); i++)
+    if (doc["sessions"][i] == sessId)
       return true;
 
   return false;
 }
+
