@@ -23,7 +23,7 @@ class AnimationsBlock extends ColorBlock {//animāciju bloks ir tāds pats kā C
         if (!buttonOn)
             turnOnButt();
         this.findMatch = this.colorBlock.getAttribute('name').match(/\d+/g);//atrod iekš name esošos parametrus funkcijai
-        sendValue(1, currentLampString, stringFunctionSet(this.findMatch[0], this.findMatch[1]));
-        sendAjaxData('lamp=' + '<1' + currentLampString + stringFunctionSet(this.findMatch[0], this.findMatch[1]) + '>' + ' ', 'setlamp');
+        sendValue(1, currentLampString, stringFunctionSet(this.findMatch[0], expoPar(scaleToRange(this.findMatch[1], 1, 999, 999, 1))));
+        sendAjaxData('lamp=' + '<1' + currentLampString + stringFunctionSet(this.findMatch[0], expoPar(scaleToRange(this.findMatch[1], 1, 999, 999, 1))) + '>' + ' ', 'setlamp');
     }
 }

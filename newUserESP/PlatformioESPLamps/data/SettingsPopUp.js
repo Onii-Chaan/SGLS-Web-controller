@@ -382,7 +382,7 @@ class SettingsPopUp {//pop elementu klase
                                 'FuncArr',
                                 this.thisObj.getData()[0],
                                 this.thisObj.getData()[1][0],
-                                scaleToRange(this.thisObj.getData()[1][1], 1, 999, 999, 1),
+                                this.thisObj.getData()[1][1],
                                 this.funcIdToDel
                             ]
                         )

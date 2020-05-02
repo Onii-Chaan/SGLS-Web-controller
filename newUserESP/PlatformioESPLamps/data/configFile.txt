@@ -143,27 +143,27 @@
     [
       "solid rainbow",
       2,
-      10
+      990
     ],
     [
       "solid fade",
       3,
-      13
+      987
     ],
     [
       "blink",
       4,
-      540
+      460
     ],
     [
       "fire",
       5,
-      10
+      990
     ],
     [
       "adr rainbow",
       6,
-      11
+      989
     ]
   ],
   "RgbwArr": [
@@ -228,27 +228,27 @@
     [
       "solid rainbow",
       2,
-      200
+      800
     ],
     [
       "solid fade",
       3,
-      13
+      987
     ],
     [
       "blink",
       4,
-      540
+      460
     ],
     [
       "fire",
       5,
-      10
+      990
     ],
     [
       "adr rainbow",
       6,
-      11
+      989
     ]
   ],
   "LampGroups": [
@@ -265,7 +265,7 @@
       "6-7#"
     ]
   ],
-  "LampNum": 6,
+  "LampNum": 4,
   "OffState": false,
   "UserWlanSsid": "MyHomeNetV2.0",
   "UserWlanPass": "Rammy12345",

@@ -294,16 +294,16 @@ void displayAdrColors(int startEnd[2], byte colorToDisplay[4 /*colorCount*/])
       }
     }
     sendOut += ">";
-    // digitalWrite(2, HIGH);
-    // delay(1000);
-    // digitalWrite(2, LOW);
-    // delay(1000);
-    if(turnOn)
+
+    if(turnOn && !quitTrans){
       Serial.println(sendOut);
-    // digitalWrite(2, HIGH);
-    // delay(1000);
-    // digitalWrite(2, LOW);
+    }
+    else if(quitTrans){
+      break;
+    }
   }
+  
+
 }
 
 void recvWithStartEndMarkers(String inputString)
@@ -481,6 +481,16 @@ void setNewData()
 
 void funcExecute()
 { //iet cauri funcNum masiva vertibam un atbilstosi izpilda katru funkciju, kas der
+  
+  /*Time multipliers for functions*/
+  int solRainMult = 10;
+  int solFadeMult = 1000;
+  int solBlinkMult = 50;
+  int rainMult = 10;
+  int fireMult = 10;
+  int lightMusicMult = 10;
+  
+  
   for (int i = 0; i < 30 /*numLeds*/; i++)
   { //nepieciesams, lai dzitu uz prieksu for ciklu un ta vertibu izmantot jau ka parametru izpildamajai funkcijai
     if (funcNumArr[i] == 0)
@@ -499,7 +509,7 @@ void funcExecute()
           solidRainbow(i, 1);
           isFirstTime[i] = 0;
         }
-        else if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        else if (millis() - oldTimeInt[i] >= funcParArr[i] * solRainMult || millis() < oldTimeInt[i])
         {
           oldTimeInt[i] = millis();
           solidRainbow(i);
@@ -514,10 +524,10 @@ void funcExecute()
           }
           isFirstTime[i] = 0;
         }
-        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= 1 || millis() < oldTimeInt[i])
         {
           oldTimeInt[i] = millis();
-          solidFade(highVal[i], funcParArr[i] * 100, millis(), i);
+          solidFade(highVal[i], millis(), i, funcParArr[i] * solFadeMult);
         }
         break;
       case 4: //blink
@@ -529,7 +539,7 @@ void funcExecute()
           }
         }
         isFirstTime[i] = 0;
-        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * solBlinkMult|| millis() < oldTimeInt[i])
         {
           if (blinkOff[i] == true)
           { //sis globalais buls seko lidzi tam vai gaisma tiek ieslegta vai izslegta
@@ -544,21 +554,21 @@ void funcExecute()
         }
         break;
       case 5: //fire
-        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * fireMult|| millis() < oldTimeInt[i])
         {
           fire(i);
           oldTimeInt[i] = millis();
         }
         break;
       case 6: //adr rainbow
-        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * rainMult|| millis() < oldTimeInt[i])
         {
           rainbow(i);
           oldTimeInt[i] = millis();
         }
         break;
       case 7:
-        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * lightMusicMult|| millis() < oldTimeInt[i])
         {
           lightMusic(i);
         }

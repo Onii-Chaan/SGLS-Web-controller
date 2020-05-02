@@ -144,7 +144,7 @@ void solidBlink(byte rgbArr[4 /*colorCount*/], int off, int part) {//blink funkc
   displayAdrColors(adrStartEnd[part], rgb[part]);
 }
 
-void solidFade(byte rgbArr[4 /*colorCount*/], int period, unsigned long time, int part) { //solid fade funkcija
+void solidFade(byte rgbArr[4 /*colorCount*/], unsigned long time, int part, int period) { //solid fade funkcija
   for (int i = 0; i < 4 /*colorCount*/; i++) { //tiek aprekinatas 3 krasu vertibas atbilstosi cos() funkcijai
     rgb[part][i] = (rgbArr[i] / 2) + (rgbArr[i] / 2) * cos(2 * PI / period * time);
   }

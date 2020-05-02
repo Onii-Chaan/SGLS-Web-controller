@@ -15,6 +15,7 @@ void setup()
 
   // delay(5000);//so lamps could turn on
   Serial.println("<00>");
+  
 
   
 
@@ -31,6 +32,6 @@ void setup()
 void loop()
 {
   funcExecute(); //konstanti darbina lampu dinamisko krasu funkcijas
-  // MDNS.begin("esp32");
+  quitTrans = false;//allows data transmit
 }
 

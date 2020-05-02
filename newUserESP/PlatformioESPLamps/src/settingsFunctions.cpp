@@ -27,8 +27,8 @@ bool resetWifi(String newSsid, String newPass, String currentWifiType)
         WiFi.mode(WIFI_STA);  //enables WIFI STA mode
 
         // sets default IP address 192.168.0.11
-        if (!WiFi.config(IPAddress(192, 168, 0, 11), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0), IPAddress(8, 8, 8, 8)))
-            Serial.println("STA Failed to configure");
+        // if (!WiFi.config(IPAddress(192, 168, 0, 11), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0), IPAddress(8, 8, 8, 8)))
+            // Serial.println("STA Failed to configure");
 
         WiFi.begin(SSID, PASS); //starts wifi
 

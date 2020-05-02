@@ -89,7 +89,7 @@ extern const char *defaultTxt;
 
 
 extern bool turnOn; //to stop sending data when lamps are turned off 
-
+extern bool quitTrans; //to stop sending data one cycle after receiving new data
 
 bool checkSavedData(int startCheck, String stringToCheck);
 void clearEEPROM(int startOfCount, int endOfCount);
@@ -116,7 +116,7 @@ void setup();
 void setValueInArr(uint32_t arr[30 /*30*/], uint32_t valueToPut, bool debug);
 void softAPLogin();
 void solidBlink(byte rgbArr[4 /*4*/], int off, int part);
-void solidFade(byte rgbArr[4 /*4*/], int period, unsigned long time, int part);
+void solidFade(byte rgbArr[4 /*4*/], unsigned long time, int part, int period);
 void solidRainbow(int part, int firstTime = 0);
 void startEEPROM();
 void startMDNS(String mdnsName = "");

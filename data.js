@@ -361,5 +361,10 @@ var createDic = (keyArr, valArr) => {//Izveido dictionary no diviem masīviem
 }
 
 
-
+var expoPar = (x) => { //calculates exponent value for animation parameters use https://www.desmos.com/calculator/3fisjexbvp for calculations
+    let a = 0.93;
+    let b = 1.007
+    let c = 0.1;
+    return Math.round(a * Math.pow(b, x) + c);
+}
 

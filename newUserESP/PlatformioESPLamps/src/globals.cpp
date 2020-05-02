@@ -79,3 +79,5 @@ byte rgbReceive[colorCount]; //saglaba ienakosas krasu vertibas
 int ledPartStartEnd[2];
 
 bool turnOn;
+
+bool quitTrans = false; //stops transmitting data
