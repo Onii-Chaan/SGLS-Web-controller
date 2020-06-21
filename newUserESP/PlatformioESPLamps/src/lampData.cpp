@@ -493,6 +493,7 @@ void funcExecute()
   
   for (int i = 0; i < 30 /*numLeds*/; i++)
   { //nepieciesams, lai dzitu uz prieksu for ciklu un ta vertibu izmantot jau ka parametru izpildamajai funkcijai
+    Serial.print(i);
     if (funcNumArr[i] == 0)
     { //izbeidz funkcijas darbibu, ja funcNum masiva tiek atrasta vertiba 0
       //      Serial.println("Found 0");
