@@ -113,7 +113,7 @@ void serverFunctions()
     if (request->hasParam("lamp", true))
     {
       keyVal = request->getParam("lamp", true)->value();
-
+      
       recvWithStartEndMarkers(keyVal);
       //     //Apstrada datus un sak datu iesutisanu uz lampam
       quitTrans = true; //stops data transmit for one cycle

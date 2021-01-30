@@ -33,7 +33,7 @@ int dataType;
 char sendOut[17];
 
 void setup() {
-  Serial.begin(115200);//19200 pagaidām ir augstākais strādājošais baud rate
+  Serial.begin(74880);//19200 pagaidām ir augstākais strādājošais baud rate
   pinMode(whitePin, OUTPUT);
   pinMode(bluePin, OUTPUT);
   pinMode(greenPin, OUTPUT);

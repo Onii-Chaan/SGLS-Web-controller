@@ -1,3 +1,4 @@
+var animSlider;
 class SettingsPopUp {//pop elementu klase
     constructor(title, inputFields, buttonCount, type, classIndex, createType = '') {
         this.title = title;//popapa virsraksts
@@ -5,7 +6,7 @@ class SettingsPopUp {//pop elementu klase
         this.buttonCount = buttonCount;//Pogu daudzums
 
         this.popUp;//PopUp elementa galvenais div
-        this.data;//saglabā lietotāja ievadītos input datus
+        this.data;//saglabā lietotāja ievadītos input datus 
 
         this.type = type;//nosaka vai šī ir grupas, animācijas, vai krāsu poga, STĀV NEIZMANTOTS
 
@@ -15,6 +16,10 @@ class SettingsPopUp {//pop elementu klase
         this.dataIn;//klases globālais mainīgais, lai varētu apstrādāt ienākošos datus
         this.thisElement;//tiek padots objekta HTML elements, caur kuru arī atvēra settings 
         this.thisObj;//tiek saglabāts esošais objekts, caur kuru tika atvērts settings
+    }
+
+    setSlider(slidValue){ //sets slider input value to chosen animation parameter value 
+        animSlider.value = slidValue;
     }
 
     build() {
@@ -28,10 +33,22 @@ class SettingsPopUp {//pop elementu klase
                 this.popElement.appendChild(buildElementNode('P', 'settingsText', this.inputFields[i][0]));
                 this.createInput = buildElementNode('INPUT', this.inputFields[i][1]);
 
-                if (this.inputFields[i][1] == "sliderInput") {
+                if (this.inputFields[i][1] == "sliderInput") { //builds slider input and its text
+                    this.createInput = buildElementNode('SPAN');
+                    this.createInput.innerText = "slow ";
+                    this.popElement.appendChild(this.createInput);
+
+                    this.createInput = buildElementNode('INPUT', this.inputFields[i][1]);                    
                     this.createInput.setAttribute("type", "range");
                     this.createInput.max = 999;
                     this.createInput.min = 1;
+                    animSlider = this.createInput;
+                    this.popElement.appendChild(this.createInput);
+
+
+                    this.createInput = buildElementNode('SPAN');
+                    this.createInput.innerText = " fast";
+
                 }
 
                 this.createInput.classList.add('popUpInput');
@@ -384,12 +401,10 @@ class SettingsPopUp {//pop elementu klase
         }
         if (!this.inputFail) {
             ajaxConsoleSend(this.saveName + ' ' + this.saveValue);//nosūta datus uz serveri
-        } else {
-            // debugger;
-            document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu        
-            // this.save();
-        }
-        document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu        
+        } 
+        document.getElementsByClassName('popUpForm')[this.classIndex].reset();//reseto formu   
+        
+        this.setSlider(this.thisObj.getData()[1][1]);     //pēc formas resetošanas atstāj slideri vietā
     }
 
     closeSettings() {//noslēpj settings logu

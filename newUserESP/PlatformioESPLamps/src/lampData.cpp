@@ -136,8 +136,8 @@ void setRgbColors(byte arr[30 /*numLeds*/][4 /*colorCount*/], byte valueToPut[4 
 }
 
 void setValueInArr(uint32_t arr[30 /*numLeds*/], uint32_t valueToPut, bool debug = false)
-{ //ievieto ievadito vertibu atbilstosaja 1d masiva atkariba no esosa 2d masiva
-  if (!newGroupValue)//checks if led part start end arr has changed and puts value in exact place
+{                     //ievieto ievadito vertibu atbilstosaja 1d masiva atkariba no esosa 2d masiva
+  if (!newGroupValue) //checks if led part start end arr has changed and puts value in exact place
   {
     arr[startIn] = valueToPut;
   }
@@ -176,7 +176,7 @@ void setValueInArr(uint32_t arr[30 /*numLeds*/], uint32_t valueToPut, bool debug
 
     for (int i = 0; i < 30; i++) //deletes values that matches old led part array values
     {
-      if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1]+1 || oldAdrStartEnd[i][0] <= ledPartStartEnd[1]+1))
+      if (oldAdrStartEnd[i][0] >= ledPartStartEnd[0] && (oldAdrStartEnd[i][1] <= ledPartStartEnd[1] + 1 || oldAdrStartEnd[i][0] <= ledPartStartEnd[1] + 1))
       {
         arr[i] = 0;
       }
@@ -295,21 +295,21 @@ void displayAdrColors(int startEnd[2], byte colorToDisplay[4 /*colorCount*/])
     }
     sendOut += ">";
 
-    if(turnOn && !quitTrans){
+    if (turnOn && !quitTrans)
+    {
       Serial.println(sendOut);
     }
-    else if(quitTrans){
+    else if (quitTrans)
+    {
       break;
     }
   }
-  
-
 }
 
 void recvWithStartEndMarkers(String inputString)
 { //datu nolasisanas funkcija
   //  Serial.println("In recvWithStartEndMarkers");
-  int countDataSwCase; //recvWithStartEndMarkers switch operatora skaititajs
+  int countDataSwCase = 0; //recvWithStartEndMarkers switch operatora skaititajs
   static boolean recvInProgress = false;
   static byte ndx = 0;
   char startMarker = '<';
@@ -437,8 +437,8 @@ void recvWithStartEndMarkers(String inputString)
 }
 
 void setNewData()
-{ //sanemto datu apstrade
-  Serial.println();//!!!!!!!!!!!!
+{                   //sanemto datu apstrade
+  Serial.println(); //!!!!!!!!!!!!
   for (int i = 0; i < 3; ++i)
   { //notira receivedChars masivu
     receivedChars[i] = (char)0;
@@ -450,21 +450,22 @@ void setNewData()
     funcPar = 1;
   }
   //    Serial.println("a");
-  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum);
+  setValueInArr((uint32_t *)funcNumArr, (uint32_t)funcNum, true);
   //    Serial.println("b");
-  setValueInArr((uint32_t *)oldTimeInt, 1);
+  setValueInArr((uint32_t *)oldTimeInt, 1, true);
   //    Serial.println("c");
-  setValueInArr((uint32_t *)funcParArr, (uint32_t)funcPar);
+  setValueInArr((uint32_t *)funcParArr, (uint32_t)funcPar, true);
   //    Serial.println("d");
   isFirstTime[startIn] = 1; //saglaba pirmo reizi, tikai tad, kad ir tas iestatits
   //    Serial.println("e");
-  setValueInArr((uint32_t *)blinkOff, 1);
+  setValueInArr((uint32_t *)blinkOff, 1, true);
 
   if (dataType == 0)
   { //ta pati funkcija, kas setValueInArr, bet paredzeta darbam ar 2d masivu. Krasu iestatisana atbilstosajas sunas
     // Serial.println("COLOR SET");
     setRgbColors(rgb, rgbReceive);
     displayAdrColors(ledPartStartEnd, rgbReceive);
+    isFirstTime[startIn] = 0;
   }
   else
   { //ja tika iestatita funkcijas vertiba, tad jaatbrivo atbilstosa krasas vieniba
@@ -481,7 +482,7 @@ void setNewData()
 
 void funcExecute()
 { //iet cauri funcNum masiva vertibam un atbilstosi izpilda katru funkciju, kas der
-  
+
   /*Time multipliers for functions*/
   int solRainMult = 10;
   int solFadeMult = 1000;
@@ -489,11 +490,9 @@ void funcExecute()
   int rainMult = 10;
   int fireMult = 10;
   int lightMusicMult = 10;
-  
-  
+
   for (int i = 0; i < 30 /*numLeds*/; i++)
   { //nepieciesams, lai dzitu uz prieksu for ciklu un ta vertibu izmantot jau ka parametru izpildamajai funkcijai
-    Serial.print(i);
     if (funcNumArr[i] == 0)
     { //izbeidz funkcijas darbibu, ja funcNum masiva tiek atrasta vertiba 0
       //      Serial.println("Found 0");
@@ -507,7 +506,7 @@ void funcExecute()
         if (isFirstTime[i])
         { //ja funkcija notiek pirmo reizi, tad tiek iestatitas sakuma vertibas
           oldTimeInt[i] = millis();
-          solidRainbow(i, 1);
+          solidRainbow(i, isFirstTime[i]);
           isFirstTime[i] = 0;
         }
         else if (millis() - oldTimeInt[i] >= funcParArr[i] * solRainMult || millis() < oldTimeInt[i])
@@ -525,7 +524,7 @@ void funcExecute()
           }
           isFirstTime[i] = 0;
         }
-        if (millis() - oldTimeInt[i] >= 1 || millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] || millis() < oldTimeInt[i])
         {
           oldTimeInt[i] = millis();
           solidFade(highVal[i], millis(), i, funcParArr[i] * solFadeMult);
@@ -538,9 +537,9 @@ void funcExecute()
           {
             highVal[i][x] = rgb[i][x];
           }
+          isFirstTime[i] = 0;
         }
-        isFirstTime[i] = 0;
-        if (millis() - oldTimeInt[i] >= funcParArr[i] * solBlinkMult|| millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * solBlinkMult || millis() < oldTimeInt[i])
         {
           if (blinkOff[i] == true)
           { //sis globalais buls seko lidzi tam vai gaisma tiek ieslegta vai izslegta
@@ -555,24 +554,29 @@ void funcExecute()
         }
         break;
       case 5: //fire
-        if (millis() - oldTimeInt[i] >= funcParArr[i] * fireMult|| millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * fireMult || millis() < oldTimeInt[i])
         {
           fire(i);
           oldTimeInt[i] = millis();
+          isFirstTime[i] = 0;
         }
         break;
       case 6: //adr rainbow
-        if (millis() - oldTimeInt[i] >= funcParArr[i] * rainMult|| millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * rainMult || millis() < oldTimeInt[i])
         {
           rainbow(i);
           oldTimeInt[i] = millis();
+          isFirstTime[i] = 0;
         }
         break;
       case 7:
-        if (millis() - oldTimeInt[i] >= funcParArr[i] * lightMusicMult|| millis() < oldTimeInt[i])
+        if (millis() - oldTimeInt[i] >= funcParArr[i] * lightMusicMult || millis() < oldTimeInt[i])
         {
           lightMusic(i);
+          isFirstTime[i] = 0;
         }
+        break;
+      default:
         break;
       }
     }
@@ -771,7 +775,7 @@ void updateAdrLedPart(int startEnd[2])
   // Serial.println();
 
   newGroupValue = false;
-  for (byte i = 0; i < 30; i++)//checks if old start end arr has changed
+  for (byte i = 0; i < 30; i++) //checks if old start end arr has changed
   {
     for (byte j = 0; j < 2; j++)
     {
@@ -793,7 +797,8 @@ bool newGroupValue;
 void loopThroughStartEnd()
 {
   for (int i = 0; i < 30; i++)
-    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0){
+    if (adrStartEnd[i][0] != 0 && adrStartEnd[i][1] != 0)
+    {
       displayAdrColors(adrStartEnd[i], rgb[i]);
     }
     else

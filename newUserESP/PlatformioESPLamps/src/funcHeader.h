@@ -91,6 +91,7 @@ extern const char *defaultTxt;
 extern bool turnOn; //to stop sending data when lamps are turned off 
 extern bool quitTrans; //to stop sending data one cycle after receiving new data
 
+
 bool checkSavedData(int startCheck, String stringToCheck);
 void clearEEPROM(int startOfCount, int endOfCount);
 void displayAdrColors(int startEnd[2], byte colorToDisplay[4 /*4*/]);

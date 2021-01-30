@@ -1,7 +1,7 @@
 iro.use(iroTransparencyPlugin);
 
 var COLOR_WHEEL_DIAMETER;
-if(document.body.clientWidth<310){
+if (document.body.clientWidth < 310) {
     COLOR_WHEEL_DIAMETER = 220;
 } else {
     COLOR_WHEEL_DIAMETER = 300;
@@ -11,7 +11,7 @@ var colorWheel = iro.ColorPicker("#colorWheelDemo", {
     transparency: true,
     width: COLOR_WHEEL_DIAMETER,
     height: COLOR_WHEEL_DIAMETER,
-    color: {r: 255, g: 100, b: 100, a: 1},
+    color: { r: 255, g: 100, b: 100, a: 1 },
     // color: '#fff',
     padding: 6,
     borderWidth: 0,
@@ -34,10 +34,11 @@ var colorWheel = iro.ColorPicker("#colorWheelDemo", {
 colorWheel.on('input:end', function (color) {
     userRgbw = [];
     //Ievieto 4 vērtības masīvā
-    whiteColor = scaleToRange(colorWheel.color.rgba.a , 1 , 0 , 0 , 255);
+    whiteColor = scaleToRange(colorWheel.color.rgba.a, 1, 0, 0, 255);
     userRgbw = [...userRgbw, color.rgb.r, color.rgb.g, color.rgb.b, whiteColor]
-    turnOnButt();
-    sendAjaxData('lamp='+'<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ', 'setlamp');
+    if (!buttonOn)
+        turnOnButt();
+    sendAjaxData('lamp=' + '<0' + currentLampString + stringColorSet(userRgbw) + '>' + ' ', 'setlamp');
     ajaxConsoleSend('<0' + currentLampString + stringColorSet(userRgbw) + '>');
 });
 

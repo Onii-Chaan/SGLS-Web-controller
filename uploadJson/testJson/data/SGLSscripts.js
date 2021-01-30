@@ -14,8 +14,11 @@ document.getElementById('SGLSmainName').style.color = getContrast(document.getEl
 function turnOnButt(){//turns on button if color or animation data is sent
   if (!buttonOn) {
     document.getElementById("onOffButton").checked = true;
-    onOffTextChange();
+  } else {
+    document.getElementById("onOffButton").checked = false;
   }
+  onOffTextChange();
+
 }
 
 

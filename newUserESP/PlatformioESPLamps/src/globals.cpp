@@ -81,3 +81,4 @@ int ledPartStartEnd[2];
 bool turnOn;
 
 bool quitTrans = false; //stops transmitting data
+

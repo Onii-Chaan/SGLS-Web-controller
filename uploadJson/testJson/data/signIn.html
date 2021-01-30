@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=stylesheet href=loginStyle.css type=text/css>
+    <meta name="theme-color" content="##727272" />
+    <title>RayLight - Sign in</title>
+</head>
+
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <h2 class="active"> Sign In </h2>
+            <!-- <a href="/signUp.html">
+                <h2 class="inactive underlineHover">Sign Up </h2>
+            </a> -->
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
+            </div>
+
+            <!-- Login Form -->
+            <form class="signForm" name="signindata">
+                <!-- <input type="text" id="login" class="fadeIn second" name="ssid" placeholder="login"> -->
+                <input id="passIn" type="password" id="password" class="fadeIn third" name="pass"
+                    placeholder="password">
+                <input class="fadeIn fourth submitButt" value="Log In"
+                    onclick="checkForm(document.getElementsByClassName('signForm')[0], 4);">
+            </form>
+
+            <!-- Remind Passowrd -->
+            <!-- <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+          </div> -->
+
+        </div>
+    </div>
+    <script src=data.js></script>
+    <script>
+        document.getElementById('passIn').value = '0';
+        checkForm(document.getElementsByClassName('signForm')[0], 1);
+        document.getElementById('passIn').value = '';
+    </script>
+
+</body>
+
+</html>
